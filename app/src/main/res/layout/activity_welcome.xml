@@ -7,18 +7,51 @@
     tools:context="edu.gatech.juniordesign.juniordesignpart2.WelcomeActivity">
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="352dp"
-        android:layout_height="87dp"
+        android:id="@+id/LoginButton"
+        android:layout_width="353dp"
+        android:layout_height="110dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Log In "
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="113dp" />
+        android:onClick="goToLoginActivity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.114" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="352dp"
-        android:layout_height="87dp"
+        android:id="@+id/RegisterButton"
+        android:layout_width="354dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Register"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="221dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.457" />
+
+    <Button
+        android:id="@+id/guestButton"
+        android:layout_width="344dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="continue as guest"
+        android:onClick="goToMainActivity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.982" />
+
 </android.support.constraint.ConstraintLayout>
