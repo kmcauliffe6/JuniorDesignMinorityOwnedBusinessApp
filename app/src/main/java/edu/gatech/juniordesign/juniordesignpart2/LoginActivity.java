@@ -34,6 +34,8 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
+//NOTE: this is currently just the standard Login Activity, I (Paige) will revise and clean up this code
+
 /**
  * A login screen that offers login via email/password.
  */
