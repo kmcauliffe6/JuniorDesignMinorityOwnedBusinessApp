@@ -15,5 +15,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="continue_as_guest">Continue as guest</string>
+    <string name="continue_as_guest_button">Continue as guest</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
 </resources>
