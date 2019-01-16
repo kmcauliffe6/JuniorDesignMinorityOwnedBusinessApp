@@ -23,6 +23,14 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** goes to Registration Activity
+     * @param view the current view
+     */
+    public void goToRegistrationActivity (View view) {
+        Intent intent = new Intent (this, RegistrationActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * goes to MainActivity when user selects continue as guest
      * @param view the current view
