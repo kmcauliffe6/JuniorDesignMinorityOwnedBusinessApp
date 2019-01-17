@@ -4,11 +4,14 @@ DECLARE
 	my_init_rating 	  numeric;
 	my_num_of_ratings numeric;
 BEGIN
-	SELECT avg_rating INTO my_init_rating,
-		   num_ratings INTO my_num_of_ratings
+	SELECT avg_rating INTO my_init_rating
 	  FROM tb_rating
 	 WHERE business = curr_business;
 
+	SELECT num_ratings INTO my_num_of_ratings
+	  FROM tb_rating
+	 WHERE business = curr_business;
+	 
 	UPDATE tb_rating
 	   SET avg_rating = my_init_rating * my_num_of_ratings + rating,
 	       num_ratings = my_num_of_ratings + 1;
