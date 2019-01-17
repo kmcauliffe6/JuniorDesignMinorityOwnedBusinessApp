@@ -1,5 +1,4 @@
---description: update mlx line item tracking
-
+--description: Insert state data
 CREATE TEMP TABLE tt_state_importer
 (
     uppercase_state       VARCHAR,
