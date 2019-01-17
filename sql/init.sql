@@ -68,6 +68,7 @@ CREATE SEQUENCE IF NOT EXISTS sq_rating INCREMENT BY 1 START WITH 1;
 CREATE TABLE IF NOT EXISTS tb_rating
 (
     rating          integer DEFAULT nextval('sq_rating') NOT NULL PRIMARY KEY,
-    avg_rating      numeric,
-    num_ratings     integer
+    avg_rating      numeric NOT NULL DEFAULT 0,
+    num_ratings     integer NOT NULL DEFAULT 0,
+    business        integer REFERENCES tb_business UNIQUE
 );
