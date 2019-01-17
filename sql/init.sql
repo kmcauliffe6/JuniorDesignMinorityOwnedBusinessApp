@@ -1,4 +1,4 @@
-CREATE SEQUENCE IF NOT EXISTS sq_entity INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_entity INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_entity
 (
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS tb_entity
     email               varchar UNIQUE
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_state INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_state INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_state
 (
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS tb_state
     description varchar UNIQUE
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_business INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_business INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_business
 (
@@ -31,22 +31,22 @@ CREATE TABLE IF NOT EXISTS tb_business
     address_line_three  varchar,
     zip_code            varchar NOT NULL,
     city                varchar NOT NULL,
-    state               integer NOT NULL REFERENCES tb_state
+    state               integer NOT NULL REFERENCES tb_state,
 
-    UNIQUE( name, owner ); 
+    UNIQUE( name, owner )
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_review INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_review INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_review
 (
     review          integer DEFAULT nextval('sq_review') NOT NULL PRIMARY KEY,
     entity          integer REFERENCES tb_entity NOT NULL,
     business        integer REFERENCES tb_business NOT NULL,
-    description     varchar NOT NULL,
+    description     varchar NOT NULL
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_catagory INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_catagory INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_catagory
 (
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS tb_catagory
     description     varchar NOT NULL
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_business_catagory INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_business_catagory INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_business_catagory
 (
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS tb_business_catagory
     catagory                integer REFERENCES tb_catagory NOT NULL
 );
 
-CREATE SEQUENCE IF NOT EXISTS sq_rating INCREMENT BY 1 START WITH 0;
+CREATE SEQUENCE IF NOT EXISTS sq_rating INCREMENT BY 1 START WITH 1;
 
 CREATE TABLE IF NOT EXISTS tb_rating
 (

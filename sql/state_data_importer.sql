@@ -7,8 +7,8 @@ CREATE TEMP TABLE tt_state_importer
     iso 				  VARCHAR
 );
 
-\copy tt_line_item_tracking from 'us_states.csv' delimiter ',' csv header;
+\copy tt_state_importer from '~/Desktop/junior_design/sql/us_states.csv' delimiter ',' csv;
 
-INSERT INTO tb_state ( description, iso )
+INSERT INTO tb_state ( description, iso_code )
 SELECT lowercase_state, iso
 FROM tt_state_importer;
