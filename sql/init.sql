@@ -3,9 +3,9 @@ CREATE SEQUENCE IF NOT EXISTS sq_entity INCREMENT BY 1 START WITH 1;
 CREATE TABLE IF NOT EXISTS tb_entity
 (
     entity              integer DEFAULT nextval('sq_entity') NOT NULL PRIMARY KEY,
-    first_name          varchar,
-    last_name           varchar,
-    email               varchar UNIQUE
+    first_name          varchar NOT NULL,
+    last_name           varchar NOT NULL,
+    email               varchar NOT NULL UNIQUE
 );
 
 CREATE SEQUENCE IF NOT EXISTS sq_state INCREMENT BY 1 START WITH 1;
@@ -13,8 +13,8 @@ CREATE SEQUENCE IF NOT EXISTS sq_state INCREMENT BY 1 START WITH 1;
 CREATE TABLE IF NOT EXISTS tb_state
 (
     state       integer DEFAULT nextval('sq_state') NOT NULL PRIMARY KEY,
-    iso_code    varchar(2) UNIQUE,
-    description varchar UNIQUE
+    iso_code    varchar(2) NOT NULL UNIQUE,
+    description varchar NOT NULL UNIQUE
 );
 
 CREATE SEQUENCE IF NOT EXISTS sq_business INCREMENT BY 1 START WITH 1;
@@ -70,5 +70,5 @@ CREATE TABLE IF NOT EXISTS tb_rating
     rating          integer DEFAULT nextval('sq_rating') NOT NULL PRIMARY KEY,
     avg_rating      numeric NOT NULL DEFAULT 0,
     num_ratings     integer NOT NULL DEFAULT 0,
-    business        integer REFERENCES tb_business UNIQUE
+    business        integer REFERENCES tb_business NOT NULL UNIQUE
 );
