@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Black Business App</string>
+    <string name="settings_button_name">Settings</string>
 </resources>
