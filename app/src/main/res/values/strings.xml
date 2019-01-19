@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Black Business App</string>
     <string name="settings_button_name">Settings</string>
+    <string name="terms_of_service_button_name">Terms of Service</string>
     <string name="title_activity_login">"Login "</string>
 
     <!-- Strings related to login -->

@@ -32,28 +32,31 @@
         app:srcCompat="@android:drawable/ic_menu_manage" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/TermsOfServiceButton"
         android:layout_width="149dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="344dp"
         android:layout_marginEnd="8dp"
-        android:text="Terms of Service"
+        android:layout_marginBottom="8dp"
+        android:onClick="goToTermsActivity"
+        android:text="@string/terms_of_service_button_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="182dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="404dp"
+        android:layout_marginTop="408dp"
         android:layout_marginEnd="8dp"
         android:text="Delete Account"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
