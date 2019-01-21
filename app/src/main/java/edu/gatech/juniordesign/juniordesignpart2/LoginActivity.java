@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid Credentials. Please Try Again.";
+                CharSequence text = "Invalid Credentials. \n  Please Try Again.";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);

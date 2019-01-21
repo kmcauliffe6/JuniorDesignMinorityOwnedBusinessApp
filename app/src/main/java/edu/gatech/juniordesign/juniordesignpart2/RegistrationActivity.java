@@ -107,7 +107,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 Context context = getApplicationContext();
-                CharSequence text = "Error Occurred. Please Try Again.";
+                CharSequence text = "  Error Occurred.\n Please Try Again.";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
