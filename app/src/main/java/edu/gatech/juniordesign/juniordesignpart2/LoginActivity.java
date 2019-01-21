@@ -1,5 +1,6 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A login screen that offers login via email/password.
@@ -105,7 +107,12 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent (this,MainActivity.class);
                 startActivity(intent);
             } else {
-                // TODO(Paige): add pop up if login fails
+                Context context = getApplicationContext();
+                CharSequence text = "Invalid Credentials. Please Try Again.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         }
     }

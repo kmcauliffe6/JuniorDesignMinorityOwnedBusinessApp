@@ -1,5 +1,6 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -99,10 +101,20 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            registerUser(name, email, password);
-            //after registration the user is taken to the home page
-            Intent intent = new Intent (this,MainActivity.class);
-            startActivity(intent);
+            if (registerUser(name, email, password)) {
+                //after registration the user is taken to the home page
+                Intent intent = new Intent (this,MainActivity.class);
+                startActivity(intent);
+            } else {
+                Context context = getApplicationContext();
+                CharSequence text = "Error Occurred. Please Try Again.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
+
         }
     }
 
