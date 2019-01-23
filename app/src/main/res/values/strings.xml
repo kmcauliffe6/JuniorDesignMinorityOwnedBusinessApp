@@ -20,4 +20,6 @@
     <string name="continue_as_guest_button">Continue as guest</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
+    <string name="logout_button">Logout</string>
+    <string name="delete_account_button">Delete Account</string>
 </resources>

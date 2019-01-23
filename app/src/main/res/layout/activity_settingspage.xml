@@ -6,58 +6,42 @@
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.SettingsPageActivity">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="284dp"
-        android:layout_marginEnd="148dp"
-        android:text="Logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="161dp"
-        android:layout_height="139dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_manage" />
-
-    <Button
-        android:id="@+id/TermsOfServiceButton"
-        android:layout_width="149dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="goToTermsActivity"
-        android:text="@string/terms_of_service_button_name"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="182dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="408dp"
-        android:layout_marginEnd="8dp"
-        android:text="Delete Account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            app:srcCompat="@android:drawable/ic_menu_manage" />
 
+        <Button
+            android:id="@+id/LogoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout_button" />
+
+        <Button
+            android:id="@+id/TermsOfServiceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToTermsActivity"
+            android:text="@string/terms_of_service_button_name" />
+
+        <Button
+            android:id="@+id/DeleteAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_account_button" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
