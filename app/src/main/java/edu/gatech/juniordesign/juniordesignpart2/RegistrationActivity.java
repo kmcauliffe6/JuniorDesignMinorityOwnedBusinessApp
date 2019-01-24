@@ -2,9 +2,12 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,8 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 public class RegistrationActivity extends AppCompatActivity {
 
+    @Nullable
+    private static UserRegistrationTask mAuthTask = null;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -101,19 +108,30 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            if (registerUser(name, email, password)) {
-                //after registration the user is taken to the home page
-                Intent intent = new Intent (this,MainActivity.class);
-                startActivity(intent);
-            } else {
-                Context context = getApplicationContext();
-                CharSequence text = "  Error Occurred.\n Please Try Again.";
-                int duration = Toast.LENGTH_SHORT;
+            //TODO:please seperate name to first and last name
+            String firstName = name;
+            String lastName = NULL;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+            mAuthTask = new UserRegistrationTask(email, password, firstName, lastName, false);
+            try {
+                boolean success = mAuthTask.execute((Void) null).get();
+                if (success) {
+                    Log.i("RegistrationActivity", "onPostExecute Success");
+                    //after registration the user is taken to the home page
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "  Error Occurred.\n Please Try Again.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+            } catch (Exception e) {
+                Log.e("attemptRegistration", e.getMessage(), e);
             }
-
 
         }
     }
@@ -128,16 +146,56 @@ public class RegistrationActivity extends AppCompatActivity {
         return password.length() > 4;
     }
 
-    /**
-     *
-     * TODO: (Ben) connect to database here
-     *
-     * @param email entered on login screen
-     * @param password entered on login screen
-     * @return true if successfully adds user to database
-     */
-    private boolean registerUser(String name, String email, String password) {
-        return false;
+    private static class UserRegistrationTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+        private final String mFirstName;
+        private final String mLastName;
+        private final boolean mAdmin;
+
+
+        UserRegistrationTask(String email, String password, String firstName, String lastName,
+                             boolean isAdmin) {
+            mEmail = email;
+            mPassword = password;
+            mFirstName = firstName;
+            mLastName = lastName;
+            mAdmin = isAdmin;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+
+            int regCode = model.registerUser(mEmail, mPassword, mFirstName, mLastName, mAdmin);
+
+            switch (regCode) {
+                case 0:
+                    // successful registration
+                    model.setCurrentUser(new User(mEmail, mFirstName, mLastName, mAdmin));
+                    return true;
+                case 1:
+                    // Username taken
+                    return false;
+                case 2:
+                    // SQL error
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 }
 

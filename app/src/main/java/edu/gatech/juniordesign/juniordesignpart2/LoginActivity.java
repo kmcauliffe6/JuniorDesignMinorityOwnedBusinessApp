@@ -2,9 +2,12 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +18,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
+    /**
+     * Keep track of the login task to ensure we can cancel it if requested.
+     */
+    @Nullable
+    private static UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -102,41 +110,68 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            if (loginUser(email, password)) {
-                //got to main activity if login succeeds
-                Intent intent = new Intent (this,MainActivity.class);
-                startActivity(intent);
-            } else {
-                Context context = getApplicationContext();
-                CharSequence text = "Invalid Credentials. \n  Please Try Again.";
-                int duration = Toast.LENGTH_SHORT;
+            mAuthTask = new UserLoginTask(email, password);
+            try {
+                boolean success = mAuthTask.execute((Void) null).get();
+                if (success) {
+                    Log.i("LoginActivity", "onPostExecute Success");
+                    //got to main activity if login succeeds
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Invalid Credentials. \n  Please Try Again.";
+                    int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+            } catch (Exception ignored) {
+                Log.e("LoginActivity", "error line 117");
             }
         }
     }
 
-    private boolean isEmailValid(String email) {
+    private boolean isEmailValid (String email){
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid (String password){
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
     /**
-     *
-     * TODO: (Ben) connect to database here
-     *
-     * @param email entered on login screen
-     * @param password entered on login screen
-     * @return true if credential match existing account info
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
      */
-    private boolean loginUser(String email, String password) {
-        return false;
+    private static class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+
+        UserLoginTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.login(mEmail, mPassword);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 }
-
