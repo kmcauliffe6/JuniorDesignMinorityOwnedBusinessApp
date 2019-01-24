@@ -26,7 +26,8 @@ public class RegistrationActivity extends AppCompatActivity {
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private EditText mNameView;
+    private EditText mFirstNameView;
+    private EditText mLastNameView;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -36,7 +37,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         // Set up the login form.
 
-        mNameView = (EditText) findViewById(R.id.name);
+        mFirstNameView = (EditText) findViewById(R.id.first_name);
+        mLastNameView = (EditText) findViewById(R.id.last_name);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -76,7 +78,8 @@ public class RegistrationActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String name = mNameView.getText().toString();
+        String firstName1 = mFirstNameView.getText().toString();
+        String lastName1 = mLastNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
@@ -109,8 +112,8 @@ public class RegistrationActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             //TODO:please seperate name to first and last name
-            String firstName = name;
-            String lastName = NULL;
+            String firstName = firstName1;
+            String lastName = lastName1;
 
             mAuthTask = new UserRegistrationTask(email, password, firstName, lastName, false);
             try {
