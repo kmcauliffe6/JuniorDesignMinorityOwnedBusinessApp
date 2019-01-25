@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/JDBC/JDBC.iml" filepath="$PROJECT_DIR$/JDBC/JDBC.iml" />
       <module fileurl="file://$PROJECT_DIR$/JuniorDesignPart2.iml" filepath="$PROJECT_DIR$/JuniorDesignPart2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/junior_design.iml" filepath="$PROJECT_DIR$/junior_design.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/junior_design.iml" filepath="$PROJECT_DIR$/.idea/junior_design.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junior_design.iml" filepath="$PROJECT_DIR$/junior_design.iml" />
     </modules>
   </component>
 </project>
