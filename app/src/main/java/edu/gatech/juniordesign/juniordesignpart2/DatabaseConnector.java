@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 
 public class DatabaseConnector
@@ -54,6 +55,15 @@ public class DatabaseConnector
          */
         public ResultSet query(PreparedStatement statement) throws SQLException{
             return statement.executeQuery();
+        }
+        /**
+         * This method allows you to query a table in the database.
+         * @param query The query to be executed.
+         * @return A ResultSet of the results of the query.
+         * @throws SQLException An SQLException is thrown if an invalid query is passed in.
+         */
+        public ResultSet query(String query) throws SQLException{
+            return  dbConnection.createStatement().executeQuery( query );
         }
 
         /**

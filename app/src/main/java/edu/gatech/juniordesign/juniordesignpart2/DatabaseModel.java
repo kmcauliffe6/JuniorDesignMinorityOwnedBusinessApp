@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 final class DatabaseModel {
     private DatabaseConnector db;
@@ -176,6 +177,23 @@ final class DatabaseModel {
             Log.e("Register User", e.getMessage());
             return 2;
 
+        }
+    }
+
+    ArrayList<String> getCatagories () {
+        DatabaseModel.checkInitialization();
+        ArrayList<String> catagories = new ArrayList<String>();
+        try {
+            ResultSet checkResults = db.query("SELECT description FROM tb_catagory");
+            while ( checkResults.next() )
+            {
+                catagories.add(checkResults.getString(1));
+            }
+            Log.i("getCatagories", "catagories retrieved: "+ catagories);
+            return catagories;
+        } catch(SQLException e) {
+            Log.e("getCatagories", e.getMessage());
+            return null;
         }
     }
 
