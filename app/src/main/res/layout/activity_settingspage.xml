@@ -23,13 +23,15 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="190dp"
+            android:contentDescription="@string/settings_image_content_description"
             app:srcCompat="@android:drawable/ic_menu_manage" />
 
         <Button
             android:id="@+id/LogoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/logout_button" />
+            android:text="@string/logout_button"
+            android:onClick="goToWelcomeActivity" />
 
         <Button
             android:id="@+id/TermsOfServiceButton"
