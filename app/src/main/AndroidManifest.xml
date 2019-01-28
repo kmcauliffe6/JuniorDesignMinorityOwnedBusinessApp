@@ -28,6 +28,7 @@
         <activity android:name=".SettingsPageActivity"></activity>
         <activity android:name=".TermsActivity"></activity>
         <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".AreYouSureActivity"></activity>
     </application>
 
 </manifest>

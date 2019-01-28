@@ -19,8 +19,13 @@ public class SettingsPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToWelcomeActivity (View view) {
+    public void goToLogoutActivity (View view) {
         Intent intent = new Intent (this, WelcomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToAreYouSureActivity (View view) {
+        Intent intent = new Intent (this, AreYouSureActivity.class);
         startActivity(intent);
     }
 
