@@ -31,7 +31,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private BusinessDetailPageActivity.SectionsPagerAdapter mSectionsPagerAdapter;
+    //private BusinessDetailPageActivity.SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -43,6 +43,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_detail_page);
 
+        //set up tabs section for reviews, photos, and about the owner pages
         TabHost tabhost = (TabHost) findViewById(android.R.id.tabhost);
         tabhost.setup();
         TabHost.TabSpec ts = tabhost.newTabSpec("Reviews");
@@ -58,14 +59,6 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         ts.setContent(R.id.tab3);
         ts.setIndicator("About The Owner");
         tabhost.addTab(ts);
-
-        /** Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new BusinessDetailPageActivity.SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter); **/
     }
     /** info needed:
      * business name
@@ -76,42 +69,6 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
      * photos
      * about the owners
      */
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-                case 0:
-                    ReviewTab rt = new ReviewTab();
-                    return rt;
-                case 1:
-                    BusinessPhotosTab bpt = new BusinessPhotosTab();
-                    return bpt;
-                case 2:
-                    AboutTheOwnerTab ao = new AboutTheOwnerTab();
-                    return ao;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            //bc we have 3 tabs
-            return 3;
-        }
-    }
-
 }
 
 
