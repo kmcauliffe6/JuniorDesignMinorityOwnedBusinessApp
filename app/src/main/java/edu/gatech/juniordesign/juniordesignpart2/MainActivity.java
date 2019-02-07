@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent (this, SettingsPageActivity.class);
         startActivity(intent);
     }
+
+    public void goToBusinessDetailPageActivity (View view){
+        Intent intent = new Intent (this, BusinessDetailPageActivity.class);
+        startActivity(intent);
+    }
 }

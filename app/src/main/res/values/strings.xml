@@ -25,4 +25,10 @@
     <string name="delete_account_button">Delete Account</string>
     <string name="latin_filler_text">Lorem ipsum dolor sit amet, graeco offendit no per. Mel mutat oratio alterum ne, nam et modus facete senserit. Cu modus delectus duo, nusquam argumentum conclusionemque qui ex, ne aliquip nostrud labores his. Veri recusabo pri an, an per autem ipsum, laudem aperiri oblique at eam. Ne novum labore platonem nam, vel eu numquam nusquam consectetuer. Nibh repudiandae delicatissimi ne qui, perfecto efficiantur eum te, id mel sale dolores. Sea elitr decore ceteros et, nec ut scripta dolorum constituam. His similique conclusionemque in, eum id iriure dignissim. Offendit sadipscing ad eum. Dicam appareat cotidieque ea eos. Nec ne nisl comprehensam, paulo melius insolens cum ea, nec cu eleifend corrumpit. Mea in numquam noluisse, nec cu iisque impedit, tota repudiandae ne sed. Clita disputationi voluptatibus ut eos, posse tempor sententiae pro ne. Qui timeam platonem et, sit dolore perpetua ad, ut oratio essent molestie eum. No cum probatus mediocritatem, eu possit virtute appareat sea. Mel an option recteque neglegentur. Sed id aliquid apeirian comprehensam. Vel ad ferri disputationi. Id his commodo definiebas interpretaris, percipit adversarium et per. Ex animal option vix, eius copiosae indoctum mel in. Legere aperiri ex eum, illum facilisi duo an, ut ancillae disputando has.</string>
     <string name="settings_image_content_description">This is a wrench for the settings page.</string>
+    <string name="sample_business_avatar">sample business avatar</string>
+    <string name="review">Review</string>
+    <string name="favorite">Favorite</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
