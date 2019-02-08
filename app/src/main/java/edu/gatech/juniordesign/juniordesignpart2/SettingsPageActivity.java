@@ -21,18 +21,8 @@ public class SettingsPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToLogoutActivity (View view) {
-        Intent intent = new Intent (this, WelcomeActivity.class);
-        startActivity(intent);
-    }
-
     public void goToWelcomeActivity (View view) {
         Intent intent = new Intent (this, WelcomeActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToSettingsPageActivity (View view) {
-        Intent intent = new Intent (this, SettingsPageActivity.class);
         startActivity(intent);
     }
 
@@ -46,6 +36,7 @@ public class SettingsPageActivity extends AppCompatActivity {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
+                //TODO Ben: connect to the database here to delete the current user's account
                 goToWelcomeActivity(view);
                 dialog.dismiss();
             }
@@ -53,7 +44,6 @@ public class SettingsPageActivity extends AppCompatActivity {
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 // Do nothing
                 dialog.dismiss();
             }

@@ -28,8 +28,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private EditText mFirstNameView;
     private EditText mLastNameView;
-    private View mProgressView;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +58,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 attemptRegister();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
 

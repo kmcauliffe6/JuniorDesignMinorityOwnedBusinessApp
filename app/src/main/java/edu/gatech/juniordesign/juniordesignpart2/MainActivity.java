@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    // TODO delete this buttons once the home page is finished
     public void goToSettingsPageActivity (View view){
         Intent intent = new Intent (this, SettingsPageActivity.class);
         startActivity(intent);
