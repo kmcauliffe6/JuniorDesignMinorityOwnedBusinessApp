@@ -1,5 +1,7 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -24,9 +26,41 @@ public class SettingsPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToAreYouSureActivity (View view) {
-        Intent intent = new Intent (this, AreYouSureActivity.class);
+    public void goToWelcomeActivity (View view) {
+        Intent intent = new Intent (this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    public void goToSettingsPageActivity (View view) {
+        Intent intent = new Intent (this, SettingsPageActivity.class);
+        startActivity(intent);
+    }
+
+    public void confirmLogout(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm Account Deletion");
+        builder.setMessage("Are you sure you want to delete your account? Your account cannot be recovered after deletion");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                goToWelcomeActivity(view);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

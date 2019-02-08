@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/delete_account_button"
-            android:onClick="goToAreYouSureActivity"/>
+            android:onClick="confirmLogout"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
