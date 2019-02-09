@@ -15,4 +15,11 @@ public class User
         this.isAdmin = isAdmin;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
 }

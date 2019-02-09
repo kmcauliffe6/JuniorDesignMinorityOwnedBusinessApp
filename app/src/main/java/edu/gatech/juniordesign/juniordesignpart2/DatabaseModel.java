@@ -93,7 +93,7 @@ final class DatabaseModel {
      */
     boolean login(String email, String password) {
         DatabaseModel.checkInitialization();
-        String getUsersText = "SELECT * FROM tb_entity WHERE email=?";
+        String getUsersText = "SELECT * FROM tb_entity WHERE email=? AND is_inactive is NULL";
         ResultSet results;
         boolean loginStatus;
         try {
@@ -194,6 +194,21 @@ final class DatabaseModel {
         } catch(SQLException e) {
             Log.e("getCatagories", e.getMessage());
             return null;
+        }
+    }
+
+    boolean removeUser(String email) {
+        DatabaseModel.checkInitialization();
+        try {
+            PreparedStatement checkStatement = db.getStatement(
+                    "UPDATE tb_entity SET is_inactive = now() where email = ?");
+            Log.e("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
+            checkStatement.setString(1, email);
+            db.update(checkStatement);
+            return true;
+        } catch (SQLException e) {
+            Log.e("removeUser", e.getMessage());
+            return false;
         }
     }
 
