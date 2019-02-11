@@ -15,21 +15,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void goToSettingsPageActivity (View view){
         Intent intent = new Intent (this, SettingsPageActivity.class);
         startActivity(intent);
     }
-
-    // TODO delete these buttons once the home page is finished
-    public void goToBusinessListActivity (View view){
-        Intent intent = new Intent (this, BusinessListActivity.class);
+    
+    public void goToProfilePageActivity (View view) {
+        Intent intent = new Intent (this, ProfilePageActivity.class);
         startActivity(intent);
     }
 
+    // TODO delete this buttons once the home page is finished
     public void goToBusinessDetailPageActivity (View view){
         Intent intent = new Intent (this, BusinessDetailPageActivity.class);
         startActivity(intent);
     }
-
-
 }
