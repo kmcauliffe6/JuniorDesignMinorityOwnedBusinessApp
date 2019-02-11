@@ -10,7 +10,7 @@
         android:id="@+id/SettingsButton"
         android:layout_width="96dp"
         android:layout_height="49dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:text="@string/settings_button_name"
         android:onClick="goToSettingsPageActivity"
@@ -20,7 +20,7 @@
     <ScrollView
         android:id="@+id/scroller"
         android:layout_width="395dp"
-        android:layout_height="658dp"
+        android:layout_height="648dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
@@ -39,10 +39,12 @@
                 android:id="@+id/Category1"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
-                android:onClick="goToBusinessListActivity"
                 android:background="@drawable/bookshelves"
+                android:onClick="goToBusinessListActivity"
                 android:text="@string/Category1"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Category2"
@@ -106,6 +108,34 @@
                 android:layout_height="125dp"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Category10" />
+
+            <Button
+                android:id="@+id/Category11"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category11" />
+
+            <Button
+                android:id="@+id/Category12"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category12" />
+
+            <Button
+                android:id="@+id/Category13"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category13" />
+
+            <Button
+                android:id="@+id/Category14"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category14" />
         </LinearLayout>
     </ScrollView>
 

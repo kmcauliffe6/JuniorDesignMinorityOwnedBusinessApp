@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent (this, BusinessListActivity.class);
         startActivity(intent);
     }
-
+/**
     public void goToBusinessDetailPageActivity (View view){
         Intent intent = new Intent (this, BusinessDetailPageActivity.class);
         startActivity(intent);
     }
-
+**/
 
 }
