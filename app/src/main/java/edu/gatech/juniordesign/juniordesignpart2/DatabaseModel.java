@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.security.SecureRandom;
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,9 @@ final class DatabaseModel {
     private static DatabaseModel model;
     private static final int SALT_SIZE = 32;
     private PasswordHasher hasher;
+    private static String selectedCategory;
+    private static ArrayList<BusinessListItem> businessList;
+    private static int selectedBusiness;
 
     private DatabaseModel() {
         try {
@@ -129,6 +133,26 @@ final class DatabaseModel {
         }
     }
 
+    void setSelectedCategory(String category)
+    {
+        this.selectedCategory = category;
+    }
+
+    String getSelectedCategory()
+    {
+        return this.selectedCategory;
+    }
+
+    void setSelectedBusiness(int businessPK)
+    {
+        this.selectedBusiness = businessPK;
+    }
+
+    int getSelectedBusiness()
+    {
+        return this.selectedBusiness;
+    }
+
     /**
      * This method registers a user in the database. After registration they will instantly be able
      * to log in to the system.
@@ -210,6 +234,11 @@ final class DatabaseModel {
             Log.e("removeUser", e.getMessage());
             return false;
         }
+    }
+
+    ArrayList<BusinessListItem> getBusinessList(String category)
+    {
+        return new ArrayList<BusinessListItem>();
     }
 
     /**
