@@ -27,6 +27,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/SeeBusinessListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToBusinessListActivity"
+        android:text="See Business List Page"
+        android:paddingTop="50dp"/>
+    
+    <Button
         android:id="@+id/SeeBusinessDetailPageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,5 +42,7 @@
         android:onClick="goToBusinessDetailPageActivity"
         tools:layout_editor_absoluteX="189dp"
         tools:layout_editor_absoluteY="57dp" />
+
+
 
 </android.support.constraint.ConstraintLayout>
