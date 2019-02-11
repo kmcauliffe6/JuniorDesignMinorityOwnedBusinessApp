@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="home page here"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/SettingsButton"
         android:layout_width="96dp"
@@ -26,23 +17,97 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/SeeBusinessListButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="goToBusinessListActivity"
-        android:text="See Business List Page"
-        android:paddingTop="50dp"/>
-    
-    <Button
-        android:id="@+id/SeeBusinessDetailPageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See Business Detail Page"
-        android:onClick="goToBusinessDetailPageActivity"
-        tools:layout_editor_absoluteX="189dp"
-        tools:layout_editor_absoluteY="57dp" />
+    <ScrollView
+        android:id="@+id/scroller"
+        android:layout_width="395dp"
+        android:layout_height="658dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SettingsButton">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/Category1"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:background="@drawable/bookshelves"
+                android:text="@string/Category1"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/Category2"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category2" />
+
+            <Button
+                android:id="@+id/Category3"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category3" />
+
+            <Button
+                android:id="@+id/Category4"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category4" />
+
+            <Button
+                android:id="@+id/Category5"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category5" />
+
+            <Button
+                android:id="@+id/Category6"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category6" />
+
+            <Button
+                android:id="@+id/Category7"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category7" />
+
+            <Button
+                android:id="@+id/Category8"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category8" />
+
+            <Button
+                android:id="@+id/Category9"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category9" />
+
+            <Button
+                android:id="@+id/Category10"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:onClick="goToBusinessListActivity"
+                android:text="@string/Category10" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
