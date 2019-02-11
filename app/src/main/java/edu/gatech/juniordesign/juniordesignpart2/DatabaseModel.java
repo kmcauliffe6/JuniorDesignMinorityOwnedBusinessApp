@@ -236,9 +236,10 @@ final class DatabaseModel {
         }
     }
 
-    ArrayList<BusinessListItem> getBusinessList(String category)
+    boolean getBusinessList(String category)
     {
-        return new ArrayList<BusinessListItem>();
+        businessList = new ArrayList<BusinessListItem>();
+        return true;
     }
 
     /**
