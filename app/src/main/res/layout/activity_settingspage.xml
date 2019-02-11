@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/logout_button"
-            android:onClick="goToLogoutActivity" />
+            android:onClick="goToWelcomeActivity" />
 
         <Button
             android:id="@+id/TermsOfServiceButton"
