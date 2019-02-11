@@ -42,7 +42,6 @@ public class SettingsPageActivity extends AppCompatActivity {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
-                //TODO Ben: connect to the database here to delete the current user's account
                 DatabaseModel.checkInitialization();
                 model = DatabaseModel.getInstance();
                 mAuthTask = new UserDeleteTask(model.getCurrentUser());
