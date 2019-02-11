@@ -14,13 +14,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    // TODO delete these buttons once the home page is finished
 
     public void goToSettingsPageActivity (View view){
         Intent intent = new Intent (this, SettingsPageActivity.class);
         startActivity(intent);
     }
-    // TODO delete this buttons once the home page is finished
+
+    // TODO delete these buttons once the home page is finished
     public void goToBusinessListActivity (View view){
         Intent intent = new Intent (this, BusinessListActivity.class);
         startActivity(intent);
