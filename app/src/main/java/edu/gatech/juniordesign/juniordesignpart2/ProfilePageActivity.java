@@ -3,6 +3,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class ProfilePageActivity extends AppCompatActivity {
 
@@ -22,5 +23,20 @@ public class ProfilePageActivity extends AppCompatActivity {
         ts.setContent(R.id.tab2);
         ts.setIndicator("Reviews");
         tabhost.addTab(ts);
+
+        TextView name = findViewById(R.id.user_first_name);
+        //TODO: get the current users first and last name
+        String firstName = "John";
+        String lastName = "Doe";
+        name.setText(firstName + " " + lastName);
+
+        TextView numFavorites = findViewById(R.id.user_num_favorites);
+        int num = 32;   //TODO: get the current users number of favorites
+        numFavorites.setText(Integer.toString(num) + " Favorites");
+
+        TextView numReviews = findViewById(R.id.user_num_reviews);
+        num = 6; //TODO: get the current users number of favorites
+        numReviews.setText(Integer.toString(num) + " Reviews");
+
     }
 }

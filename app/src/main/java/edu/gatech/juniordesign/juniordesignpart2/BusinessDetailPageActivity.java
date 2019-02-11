@@ -44,7 +44,6 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
     public void favoriteButtonPressed(View view) {
         //TODO connect to database here to add this business to favorites
 
-
     }
 
 }
