@@ -21,11 +21,9 @@ public class SettingsPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settingspage);
-        
+
         //disable logout and delete account buttons if guest is checked in
-        DatabaseModel.checkInitialization();
-        model = DatabaseModel.getInstance();
-        if (model.getCurrentUser() == null) {
+        if (Guest.isGuestUser()) {
             Button logout = findViewById(R.id.LogoutButton);
             logout.setEnabled(false);
             Button deleteAccount = findViewById(R.id.DeleteAccountButton);

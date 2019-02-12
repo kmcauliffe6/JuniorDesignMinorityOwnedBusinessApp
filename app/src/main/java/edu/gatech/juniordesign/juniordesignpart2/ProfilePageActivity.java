@@ -24,16 +24,18 @@ public class ProfilePageActivity extends AppCompatActivity {
         ts.setIndicator("Reviews");
         tabhost.addTab(ts);
 
-        DatabaseModel.checkInitialization();
-        DatabaseModel model = DatabaseModel.getInstance();
+
         TextView name = findViewById(R.id.user_first_name);
-        if (model.getCurrentUser() == null) {
+
+        if (Guest.isGuestUser()) {
             name.setText("Welcome Guest");
             TextView numFavorites = findViewById(R.id.user_num_favorites);
             numFavorites.setText("0 Favorites");
             TextView numReviews = findViewById(R.id.user_num_reviews);
             numReviews.setText("0 Reviews");
         } else {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
             User current = model.getCurrentUser();
             String firstName = current.getFirstName();
             String lastName = current.getLastName();

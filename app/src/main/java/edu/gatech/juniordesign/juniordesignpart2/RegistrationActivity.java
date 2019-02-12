@@ -173,6 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 case 0:
                     // successful registration
                     model.setCurrentUser(new User(mEmail, mFirstName, mLastName, mAdmin));
+                    Guest.setGuestUser(false);
                     return true;
                 case 1:
                     // Username taken
