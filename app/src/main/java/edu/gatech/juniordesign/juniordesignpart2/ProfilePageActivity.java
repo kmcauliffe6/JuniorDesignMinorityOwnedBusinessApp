@@ -26,20 +26,29 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         DatabaseModel.checkInitialization();
         DatabaseModel model = DatabaseModel.getInstance();
-
         TextView name = findViewById(R.id.user_first_name);
-        User current = model.getCurrentUser();
-        String firstName = current.getFirstName();
-        String lastName = current.getLastName();
-        name.setText(firstName + " " + lastName);
+        if (model.getCurrentUser() == null) {
+            name.setText("Welcome Guest");
+            TextView numFavorites = findViewById(R.id.user_num_favorites);
+            numFavorites.setText("0 Favorites");
+            TextView numReviews = findViewById(R.id.user_num_reviews);
+            numReviews.setText("0 Reviews");
+        } else {
+            User current = model.getCurrentUser();
+            String firstName = current.getFirstName();
+            String lastName = current.getLastName();
+            name.setText(firstName + " " + lastName);
 
-        TextView numFavorites = findViewById(R.id.user_num_favorites);
-        int num = 32;   //TODO: get the current users number of favorites
-        numFavorites.setText(Integer.toString(num) + " Favorites");
+            TextView numFavorites = findViewById(R.id.user_num_favorites);
+            int num = 32;   //TODO: get the current users number of favorites
+            numFavorites.setText(Integer.toString(num) + " Favorites");
 
-        TextView numReviews = findViewById(R.id.user_num_reviews);
-        num = 6; //TODO: get the current users number of reviews
-        numReviews.setText(Integer.toString(num) + " Reviews");
+            TextView numReviews = findViewById(R.id.user_num_reviews);
+            num = 6; //TODO: get the current users number of reviews
+            numReviews.setText(Integer.toString(num) + " Reviews");
+        }
+
+
 
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class SettingsPageActivity extends AppCompatActivity {
@@ -20,6 +21,16 @@ public class SettingsPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settingspage);
+        
+        //disable logout and delete account buttons if guest is checked in
+        DatabaseModel.checkInitialization();
+        model = DatabaseModel.getInstance();
+        if (model.getCurrentUser() == null) {
+            Button logout = findViewById(R.id.LogoutButton);
+            logout.setEnabled(false);
+            Button deleteAccount = findViewById(R.id.DeleteAccountButton);
+            deleteAccount.setEnabled(false);
+        }
     }
 
     public void goToTermsActivity (View view){
@@ -32,7 +43,15 @@ public class SettingsPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void confirmLogout(View view) {
+    public void logoutUser(View view) {
+        DatabaseModel.checkInitialization();
+        model = DatabaseModel.getInstance();
+        model.clearCurrentUser();
+        Intent intent = new Intent (this, WelcomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void confirmDeleteAccount(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Confirm Account Deletion");

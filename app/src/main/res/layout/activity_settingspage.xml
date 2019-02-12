@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/logout_button"
-            android:onClick="goToWelcomeActivity" />
+            android:onClick="logoutUser" />
 
         <Button
             android:id="@+id/TermsOfServiceButton"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/delete_account_button"
-            android:onClick="confirmLogout"/>
+            android:onClick="confirmDeleteAccount"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
