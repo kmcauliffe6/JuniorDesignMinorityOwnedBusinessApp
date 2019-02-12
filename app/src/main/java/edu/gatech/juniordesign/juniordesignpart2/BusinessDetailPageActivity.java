@@ -2,6 +2,9 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TabHost;
 
 
@@ -37,6 +40,11 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
      * photos
      * about the owners
      */
+
+    public void favoriteButtonPressed(View view) {
+        //TODO connect to database here to add this business to favorites
+
+    }
 
 }
 

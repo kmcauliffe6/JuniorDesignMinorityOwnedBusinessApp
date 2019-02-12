@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (success) {
                     Log.i("LoginActivity", "onPostExecute Success");
                     //got to main activity if login succeeds
+                    Guest.setGuestUser(false);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     finish();

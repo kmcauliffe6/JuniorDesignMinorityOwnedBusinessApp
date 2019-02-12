@@ -37,6 +37,8 @@ public class WelcomeActivity extends AppCompatActivity {
      *
      */
     public void goToMainActivity (View view) {
+        Guest g = new Guest();
+        g.setGuestUser(true);
         Intent intent = new Intent (this,MainActivity.class);
         startActivity(intent);
     }
