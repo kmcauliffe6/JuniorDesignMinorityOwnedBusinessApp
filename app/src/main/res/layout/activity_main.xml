@@ -5,20 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.MainActivity">
-
-<<<<<<< HEAD
-=======
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="home page here"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
->>>>>>> d3ff8cf4adf65fe9e9e0e55e0d50e06cfcc83ec9
+    
     <Button
         android:id="@+id/SettingsButton"
         android:layout_width="96dp"
@@ -30,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<<<<<<< HEAD
     <ScrollView
         android:id="@+id/scroller"
         android:layout_width="395dp"
