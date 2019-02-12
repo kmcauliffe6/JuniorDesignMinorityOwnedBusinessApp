@@ -24,10 +24,13 @@ public class ProfilePageActivity extends AppCompatActivity {
         ts.setIndicator("Reviews");
         tabhost.addTab(ts);
 
+        DatabaseModel.checkInitialization();
+        DatabaseModel model = DatabaseModel.getInstance();
+
         TextView name = findViewById(R.id.user_first_name);
-        //TODO: get the current users first and last name
-        String firstName = "John";
-        String lastName = "Doe";
+        User current = model.getCurrentUser();
+        String firstName = current.getFirstName();
+        String lastName = current.getLastName();
         name.setText(firstName + " " + lastName);
 
         TextView numFavorites = findViewById(R.id.user_num_favorites);
@@ -35,7 +38,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         numFavorites.setText(Integer.toString(num) + " Favorites");
 
         TextView numReviews = findViewById(R.id.user_num_reviews);
-        num = 6; //TODO: get the current users number of favorites
+        num = 6; //TODO: get the current users number of reviews
         numReviews.setText(Integer.toString(num) + " Reviews");
 
     }
