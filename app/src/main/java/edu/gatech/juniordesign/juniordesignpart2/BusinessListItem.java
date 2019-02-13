@@ -14,6 +14,7 @@ public class BusinessListItem {
         this.id = id;
         this.name = name;
         this.rating = rating;
+        this.subcategories = new ArrayList<>();
 
         for (String subcategory:subcategories)
         {
@@ -35,7 +36,15 @@ public class BusinessListItem {
 
     public ArrayList<String> getSubcategoriesForList() {
         //TODO fix this
-        return this.subcategories;
+        if (this.subcategories.size() < 4) {
+            return this.subcategories;
+        } else {
+            ArrayList<String> top3 = new ArrayList<>();
+            top3.add(this.subcategories.get(0));
+            top3.add(this.subcategories.get(1));
+            top3.add(this.subcategories.get(2));
+            return top3;
+        }
     }
 
     public String getRating() {

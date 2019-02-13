@@ -33,7 +33,7 @@
         android:onClick="goToBusinessListActivity"
         android:text="See Business List Page"
         android:paddingTop="50dp"/>
-    
+
     <Button
         android:id="@+id/SeeBusinessDetailPageButton"
         android:layout_width="wrap_content"
