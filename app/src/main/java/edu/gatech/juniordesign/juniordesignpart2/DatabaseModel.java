@@ -143,6 +143,8 @@ final class DatabaseModel {
         return this.selectedCategory;
     }
 
+    public static ArrayList<BusinessListItem> getBusinessList() { return businessList; }
+
     void setSelectedBusiness(int businessPK)
     {
         this.selectedBusiness = businessPK;
@@ -226,7 +228,7 @@ final class DatabaseModel {
         try {
             PreparedStatement checkStatement = db.getStatement(
                     "UPDATE tb_entity SET is_inactive = now() where email = ?");
-            Log.e("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
+            Log.i("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
             checkStatement.setString(1, email);
             db.update(checkStatement);
             return true;
@@ -236,9 +238,25 @@ final class DatabaseModel {
         }
     }
 
-    boolean getBusinessList(String category)
+    boolean queryBusinessList()
     {
         businessList = new ArrayList<BusinessListItem>();
+        DatabaseModel.checkInitialization();
+        Log.i("BusinessList", "here");
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
+                    " name, avg_rating FROM tb_business b LEFT JOIN tb_business_category bc ON b.business = bc.business " +
+                    "WHERE category = ( SELECT category FROM tb_category WHERE description LIKE ? )");
+            checkStatement.setString(1, selectedCategory);
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), "To Be Added") );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2));
+            }
+        } catch (SQLException e) {
+            Log.e("BusinessList", e.getMessage());
+        }
         return true;
     }
 
