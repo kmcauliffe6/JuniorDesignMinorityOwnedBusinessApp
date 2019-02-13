@@ -204,7 +204,7 @@ final class DatabaseModel {
         }
     }
 
-    ArrayList<String> getCatagories () {
+    ArrayList<String> getCatagories() {
         DatabaseModel.checkInitialization();
         ArrayList<String> catagories = new ArrayList<String>();
         try {
