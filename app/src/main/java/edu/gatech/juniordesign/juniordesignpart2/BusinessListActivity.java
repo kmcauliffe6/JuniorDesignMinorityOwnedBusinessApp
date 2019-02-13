@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BusinessListActivity extends AppCompatActivity {
 
@@ -21,44 +24,37 @@ public class BusinessListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_business_list);
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
+        //TODO: Austin needs the category to be saved on the main page this is for debug
+        model.setSelectedCategory( "Construction" ); //Category is Construction for now
+        mAuthTask = new BusinessListRetrevial();
         try {
             boolean success = mAuthTask.execute((Void) null).get();
             if (success) {
+                RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//                ArrayList<BusinessListItem> business_list_data = new ArrayList<>();
+//                BusinessListItem b1 = new BusinessListItem(12, "Matt LLC", "4.3", "Construction", "Lighting");
+//                business_list_data.add(b1);
+//                BusinessListItem b2 = new BusinessListItem(12, "Da Biznit", "2.7", "Distributor");
+//                business_list_data.add(b2);
+                RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, model.getBusinessList());
+                mRecyclerView.setAdapter(adapter);
             }
         } catch (Exception e)
         {
-
+            Log.e("BusinessList", e.getMessage());
         }
 
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        }
-        List<String[]> businesses = new ArrayList<>();
-        String[] business = {"Business", "Details", "5.0"};
-        businesses.add(0, business);
-        businesses.add(1, business);
-        businesses.add(2, business);
-        businesses.add(3, business);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, /*TODO get list of dummy data*/ businesses);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            mRecyclerView.setAdapter(adapter);
-        }
+
     }
 
     private static class BusinessListRetrevial extends AsyncTask<Void, Void, Boolean> {
-
-        private final String category;
-
-        BusinessListRetrevial(String category) {
-            this.category = category;
-        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             DatabaseModel.checkInitialization();
             DatabaseModel model = DatabaseModel.getInstance();
-            return model.getBusinessList(category);
+            return model.queryBusinessList();
         }
 
         @Override

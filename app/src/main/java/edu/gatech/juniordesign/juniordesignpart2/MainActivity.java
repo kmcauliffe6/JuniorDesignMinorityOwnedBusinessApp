@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO delete this buttons once the home page is finished
-    public void goToBusinessDetailPageActivity (View view){
-        Intent intent = new Intent (this, BusinessDetailPageActivity.class);
+    public void goToBusinessListActivity (View view){
+        Intent intent = new Intent (this, BusinessListActivity.class);
         startActivity(intent);
     }
 }

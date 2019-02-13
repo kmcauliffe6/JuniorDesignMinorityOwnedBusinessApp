@@ -6,17 +6,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>{
-    private List<String[]> itemList;
+    private ArrayList<BusinessListItem> itemList;
     private Context context;
+    private Map<Integer, Integer> id_map;
     private RecyclerView mRecyclerView;
 
-    public RecyclerViewAdapter(Context context, List<String[]> itemList) {
+    public RecyclerViewAdapter(Context context, ArrayList<BusinessListItem> itemList) {
         this.itemList = itemList;
+        this.id_map = new HashMap<>();
+        for (int i = 0; i < itemList.size(); i++) {
+            this.id_map.put(i, itemList.get(i).getId());
+        }
         this.context = context;
     }
 
@@ -35,11 +44,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        String[] item = itemList.get(i);
-        String info = item[0] + item[1];
+        BusinessListItem item = itemList.get(i);
+        String info = item.getName();
         //Setting text view title
         customViewHolder.textTitle.setText(info);
-        customViewHolder.textRating.setText(item[2]);
+        String subcats = item.getSubcategoriesForList().toString();
+        customViewHolder.textSubcats.setText(subcats);
+        String rating_str = item.getRating();
+        float rating_num;
+        customViewHolder.textRating.setText(rating_str);
+        try {
+            rating_num = Float.parseFloat(rating_str);
+        } catch(NumberFormatException ex) {
+            rating_num = (float)0.0;
+        }
+        customViewHolder.stars.setRating(rating_num);
         customViewHolder.itemView.setOnClickListener(new MyOnClickListener());
     }
 
@@ -49,13 +68,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView textTitle;
-        protected TextView textRating;
+        private TextView textTitle;
+        private TextView textSubcats;
+        private TextView textRating;
+        private RatingBar stars;
 
-        public CustomViewHolder(View view) {
+        private CustomViewHolder(View view) {
             super(view);
             this.textTitle = view.findViewById(R.id.title);
+            this.textSubcats = view.findViewById(R.id.subcategories);
             this.textRating = view.findViewById(R.id.rating);
+            this.stars = view.findViewById(R.id.stars);
         }
     }
 
@@ -64,6 +87,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(final View view) {
             int itemPosition = mRecyclerView.getChildLayoutPosition(view);
             //TODO get business data for business selected and go to business detail page
+            int business_id = id_map.get(itemPosition);
+            Intent intent = new Intent (context, BusinessDetailPageActivity.class);
+            intent.putExtra("business_id", business_id);
+            context.startActivity(intent);
         }
 
     }
