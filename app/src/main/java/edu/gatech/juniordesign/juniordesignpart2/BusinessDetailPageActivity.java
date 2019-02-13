@@ -27,6 +27,11 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
 
         businessID = 100; //TODO connect this to selected businessID
 
+        Button reviewsButton = findViewById(R.id.reviewButton);
+        if (Guest.isGuestUser()) {
+            reviewsButton.setEnabled(false); //disable reviews for guest users
+        }
+
         TabHost tabhost = (TabHost) findViewById(android.R.id.tabhost);
         tabhost.setup();
         TabHost.TabSpec ts = tabhost.newTabSpec("Reviews");
@@ -75,7 +80,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                                 Guest g = new Guest();
                                 g.saveGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             } else {
-                                //TODO: save this favorite to the current users favs
+                                //TODO: save this favorite to the current users favorites in the database
                             }
                         }else{
                             //remove this business from favorites
@@ -83,6 +88,8 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                             if (Guest.isGuestUser()) {
                                 Guest g = new Guest();
                                 g.removeGuestFavorite(BusinessDetailPageActivity.this, businessID);
+                            } else {
+                                //TODO: remove this favorite from the current users favorites in the database
                             }
                         }
                     }
