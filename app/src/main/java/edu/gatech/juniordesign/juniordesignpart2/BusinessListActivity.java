@@ -37,8 +37,10 @@ public class BusinessListActivity extends AppCompatActivity {
         //TODO: Get data from database based off filters and category
         // replace new arraylist with call to db method to get list
         ArrayList<BusinessListItem> business_list_data = new ArrayList<>();
-        BusinessListItem b1 = new BusinessListItem(12, "Matt LLC", "4.3", "Construction");
+        BusinessListItem b1 = new BusinessListItem(12, "Matt LLC", "4.3", "Construction", "Lighting");
         business_list_data.add(b1);
+        BusinessListItem b2 = new BusinessListItem(12, "Da Biznit", "2.7", "Distributor");
+        business_list_data.add(b2);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, business_list_data);
         mRecyclerView.setAdapter(adapter);
     }

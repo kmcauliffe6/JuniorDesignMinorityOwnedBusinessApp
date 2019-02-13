@@ -45,9 +45,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
         BusinessListItem item = itemList.get(i);
-        String info = item.getName() + "\n" + item.getSubcategoriesForList();
+        String info = item.getName();
         //Setting text view title
         customViewHolder.textTitle.setText(info);
+        String subcats = item.getSubcategoriesForList().toString();
+        customViewHolder.textSubcats.setText(subcats);
         String rating_str = item.getRating();
         float rating_num;
         customViewHolder.textRating.setText(rating_str);
@@ -67,12 +69,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
         private TextView textTitle;
+        private TextView textSubcats;
         private TextView textRating;
         private RatingBar stars;
 
         private CustomViewHolder(View view) {
             super(view);
             this.textTitle = view.findViewById(R.id.title);
+            this.textSubcats = view.findViewById(R.id.subcategories);
             this.textRating = view.findViewById(R.id.rating);
             this.stars = view.findViewById(R.id.stars);
         }
