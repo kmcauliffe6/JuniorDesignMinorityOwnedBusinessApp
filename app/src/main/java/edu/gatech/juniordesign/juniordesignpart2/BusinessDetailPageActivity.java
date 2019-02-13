@@ -25,7 +25,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_detail_page);
 
-        businessID = 100; //TODO connect this to selected businessID
+        businessID = getIntent().getExtras().getInt("business_id");
 
         Button reviewsButton = findViewById(R.id.reviewButton);
         if (Guest.isGuestUser()) {
