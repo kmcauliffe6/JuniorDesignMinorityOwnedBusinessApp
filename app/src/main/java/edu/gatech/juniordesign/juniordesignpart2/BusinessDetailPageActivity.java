@@ -1,5 +1,7 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,10 @@ import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 
 public class BusinessDetailPageActivity extends AppCompatActivity {
     private int businessID;
@@ -18,6 +24,8 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_detail_page);
+
+        businessID = 100; //TODO connect this to selected businessID
 
         TabHost tabhost = (TabHost) findViewById(android.R.id.tabhost);
         tabhost.setup();
@@ -35,16 +43,33 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         ts.setIndicator("About The Owner");
         tabhost.addTab(ts);
 
-        final ToggleButton tb = findViewById(R.id.favoriteButton);
+        ToggleButton tb = findViewById(R.id.favoriteButton);
+        //check if favorite button should be checked
+        boolean emptyHeart = true;
+        if (Guest.isGuestUser()) {
+            String yourFilePath = BusinessDetailPageActivity.this.getFilesDir() + "/" + "guest_favorites";
+            File favoritesFile = new File(yourFilePath);
+            try {
+                Scanner scanner = new Scanner(favoritesFile);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if(line.trim().compareTo(Integer.toString(businessID)) == 0) {
+                        emptyHeart = false;
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                Log.e("Guest Saves", "File Not Found");
+            }
+        }
+        tb.setChecked(emptyHeart);
+
         tb.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener(){
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-
                         Log.v("*TOGGLE CHECK CHANGED*",String.valueOf(isChecked));
-
                         if(!isChecked){
-                            Log.d("Favorites Button", "buttton is checked");
+                            Log.d("Favorites Button", "button is a full heart");
                             //save this business to favorites
                             if(Guest.isGuestUser()) {
                                 Guest g = new Guest();
@@ -54,18 +79,17 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                             }
                         }else{
                             //remove this business from favorites
+                            Log.d("Favorites Button", "button is empty");
                             if (Guest.isGuestUser()) {
                                 Guest g = new Guest();
                                 g.removeGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             }
-
-
                         }
                     }
                 });
 
 
-        businessID = 100; //TODO connect this to selected businessID
+
     }
     /** info needed:
      * business name
