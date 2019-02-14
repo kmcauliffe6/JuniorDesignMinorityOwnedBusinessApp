@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,14 +29,11 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_detail_page);
 
+        //get the businessID of the selected business
         businessID = getIntent().getExtras().getInt("business_id");
 
-        Button reviewsButton = findViewById(R.id.reviewButton);
-        if (Guest.isGuestUser()) {
-            reviewsButton.setEnabled(false); //disable reviews for guest users
-        }
-
-        TabHost tabhost = (TabHost) findViewById(android.R.id.tabhost);
+        //set up tabs
+        TabHost tabhost = (TabHost) findViewById(R.id.tabhost);
         tabhost.setup();
         TabHost.TabSpec ts = tabhost.newTabSpec("Reviews");
         ts.setContent(R.id.tab1);
@@ -47,6 +48,29 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         ts.setContent(R.id.tab3);
         ts.setIndicator("About The Owner");
         tabhost.addTab(ts);
+
+        //set up business-specific text fields on the page
+        //TODO get business specfic text here
+        /** info needed:
+         * business name
+         * business type
+         * rating
+         * reviews
+         * favorites
+         * photos
+         * about the owners
+         */
+        TextView businessName = findViewById(R.id.BusinessName);
+        TextView businessCategory = findViewById(R.id.BusinessCategory);
+        TextView additionalDetails = findViewById(R.id.BusinessDetails);
+        RatingBar reviewStars = findViewById(R.id.reviewStars);
+        String ratingNum;
+
+        //Set up review and favorite buttons
+        Button reviewsButton = findViewById(R.id.reviewButton);
+        if (Guest.isGuestUser()) {
+            reviewsButton.setEnabled(false); //disable reviews for guest users
+        }
 
         ToggleButton tb = findViewById(R.id.favoriteButton);
         //check if favorite button should be checked
@@ -94,19 +118,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
     }
-    /** info needed:
-     * business name
-     * business type
-     * rating
-     * reviews
-     * favorites
-     * photos
-     * about the owners
-     */
 
 }
 
