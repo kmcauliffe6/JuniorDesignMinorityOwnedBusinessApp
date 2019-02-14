@@ -2,6 +2,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +24,33 @@ import java.util.Scanner;
 
 public class BusinessDetailPageActivity extends AppCompatActivity {
     private int businessID;
+    private static BusinessDetailRetrieval mAuthTask = null;
+    private static DatabaseModel model;
+    private static BusinessObject b_o;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_detail_page);
 
+        // set up database model
+        DatabaseModel.checkInitialization();
+        model = DatabaseModel.getInstance();
+
         //get the businessID of the selected business
         businessID = getIntent().getExtras().getInt("business_id");
+        //set the model businessSelected to businessID
+        model.setSelectedBusiness(businessID);
+        mAuthTask = new BusinessDetailRetrieval();
+
+        try {
+            boolean success = mAuthTask.execute((Void) null).get();
+                if (success) {
+                    b_o = model.getSelectedBusinessObject();
+                }
+        } catch (Exception e) {
+            Log.e("BusinessDetails", e.getMessage());
+        }
 
         //set up tabs
         TabHost tabhost = (TabHost) findViewById(R.id.tabhost);
@@ -65,6 +85,19 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         TextView additionalDetails = findViewById(R.id.BusinessDetails);
         RatingBar reviewStars = findViewById(R.id.reviewStars);
         String ratingNum;
+
+        if (b_o != null) {
+            if (b_o.getName() != null) {
+                businessName.setText(b_o.getName());
+            }
+            if (b_o.getCategory() != null) {
+                businessCategory.setText(b_o.getCategory());
+            }
+            if (b_o.getRating() != null) {
+                ratingNum = b_o.getRating();
+                reviewStars.setRating(Float.valueOf(ratingNum));
+            }
+        }
 
         //Set up review and favorite buttons
         Button reviewsButton = findViewById(R.id.reviewButton);
@@ -118,6 +151,26 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private static class BusinessDetailRetrieval extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.queryBusinessDetails();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 
 }

@@ -21,6 +21,7 @@ final class DatabaseModel {
     private static String selectedCategory;
     private static ArrayList<BusinessListItem> businessList;
     private static int selectedBusiness;
+    private BusinessObject selectedBusinessObject;
 
     private DatabaseModel() {
         try {
@@ -154,6 +155,39 @@ final class DatabaseModel {
     {
         return this.selectedBusiness;
     }
+
+    BusinessObject getSelectedBusinessObject() {
+        return this.selectedBusinessObject;
+    }
+
+    void setSelectedBusinessObject(BusinessObject b) {
+        this.selectedBusinessObject = b;
+    }
+
+    boolean queryBusinessDetails()
+    {
+        DatabaseModel.checkInitialization();
+        Log.i("BusinessDetails", "here");
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
+                    " name, avg_rating FROM tb_business b " +
+                    "WHERE b.business=CAST(? AS int)");
+            checkStatement.setString(1, String.valueOf(selectedBusiness));
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() ) {
+                //TODO : fix to get the remaining arguments
+                BusinessObject b_o = new BusinessObject(checkResults.getInt(1), checkResults.getString(2), "fix category", checkResults.getString(3), null, null, null);
+                setSelectedBusinessObject(b_o);
+                Log.i("BusinessDetails", checkResults.getInt(1) + ": " + checkResults.getString(2));
+            }
+        } catch (SQLException e) {
+            Log.e("BusinessDetails", e.getMessage());
+        }
+        return true;
+    }
+
+
+
 
     /**
      * This method registers a user in the database. After registration they will instantly be able
