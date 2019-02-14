@@ -3,6 +3,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 import java.util.ArrayList;
 
 public class BusinessObject {
+    private int businessID;
     private String name;
     private String category;
     private String rating;

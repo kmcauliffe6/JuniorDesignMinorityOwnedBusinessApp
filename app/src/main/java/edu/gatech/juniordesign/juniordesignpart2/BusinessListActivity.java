@@ -1,12 +1,16 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,26 +29,20 @@ public class BusinessListActivity extends AppCompatActivity {
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         //TODO: Austin needs the category to be saved on the main page this is for debug
-        model.setSelectedCategory( "Construction" ); //Category is Construction for now
+        model.setSelectedCategory("Construction"); //Category is Construction for now
         mAuthTask = new BusinessListRetrevial();
         try {
             boolean success = mAuthTask.execute((Void) null).get();
             if (success) {
                 RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//                ArrayList<BusinessListItem> business_list_data = new ArrayList<>();
-//                BusinessListItem b1 = new BusinessListItem(12, "Matt LLC", "4.3", "Construction", "Lighting");
-//                business_list_data.add(b1);
-//                BusinessListItem b2 = new BusinessListItem(12, "Da Biznit", "2.7", "Distributor");
-//                business_list_data.add(b2);
                 RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, model.getBusinessList());
                 mRecyclerView.setAdapter(adapter);
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e("BusinessList", e.getMessage());
         }
-
+        SearchView sv = findViewById(R.id.businessSearchView);
 
     }
 
