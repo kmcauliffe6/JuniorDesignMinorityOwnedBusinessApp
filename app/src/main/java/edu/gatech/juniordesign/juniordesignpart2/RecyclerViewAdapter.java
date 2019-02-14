@@ -23,8 +23,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context, ArrayList<BusinessListItem> itemList) {
         this.itemList = itemList;
         this.id_map = new HashMap<>();
-        for (int i = 0; i < itemList.size(); i++) {
-            this.id_map.put(i, itemList.get(i).getId());
+        if (itemList != null) {
+            for (int i = 0; i < itemList.size(); i++) {
+                this.id_map.put(i, itemList.get(i).getId());
+            }
         }
         this.context = context;
     }
