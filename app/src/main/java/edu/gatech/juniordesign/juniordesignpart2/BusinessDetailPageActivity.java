@@ -97,6 +97,9 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                 ratingNum = b_o.getRating();
                 reviewStars.setRating(Float.valueOf(ratingNum));
             }
+            if (b_o.getExtraDetails() != null) {
+                additionalDetails.setText(b_o.getExtraDetails());
+            }
         }
 
         //Set up review and favorite buttons

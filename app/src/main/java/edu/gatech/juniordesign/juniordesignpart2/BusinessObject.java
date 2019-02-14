@@ -39,4 +39,17 @@ public class BusinessObject {
         return this.rating;
     }
 
+    public String getExtraDetails() {
+        return this.extraDetails;
+    }
+
+    public String getAboutTheOwner() {
+        return this.aboutTheOwner;
+    }
+
+    //I suggest making a review class and using it in the array list to store strings, ratings and the user
+    public ArrayList<String> getReviews() {
+        return this.reviews;
+    }
+
 }
