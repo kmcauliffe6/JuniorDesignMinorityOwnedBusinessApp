@@ -178,9 +178,14 @@ final class DatabaseModel {
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() ) {
                 //TODO : fix to get the remaining arguments
-                BusinessObject b_o = new BusinessObject(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(4), checkResults.getString(3), null, null, null);
+                BusinessObject b_o = new BusinessObject(checkResults.getInt(1),
+                        checkResults.getString(2), checkResults.getString(4),
+                        checkResults.getString(3), null, null,
+                        null);
                 setSelectedBusinessObject(b_o);
-                Log.i("BusinessDetails", checkResults.getInt(1) + ": " + checkResults.getString(2) + ":" + checkResults.getString(4) + ": " + checkResults.getString(3));
+                Log.i("BusinessDetails", checkResults.getInt(1) + ": "
+                        + checkResults.getString(2) + ":" + checkResults.getString(4)
+                        + ": " + checkResults.getString(3));
             }
         } catch (SQLException e) {
             Log.e("BusinessDetails", e.getMessage());

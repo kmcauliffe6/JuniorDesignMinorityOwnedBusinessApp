@@ -7,16 +7,22 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class BusinessListActivity extends AppCompatActivity {
@@ -25,11 +31,21 @@ public class BusinessListActivity extends AppCompatActivity {
     private static DatabaseModel model;
     private ArrayList<BusinessListItem> businesses = null;
     private PrefixTree b_tree = null;
+    private ArrayList<BusinessListItem> curSubset = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_list);
+
+        Button button = findViewById(R.id.filterBusinessesButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortByAlphabetical();
+            }
+        });
+
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         //TODO: Austin needs the category to be saved on the main page this is for debug
@@ -41,12 +57,15 @@ public class BusinessListActivity extends AppCompatActivity {
                 RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 this.businesses = model.getBusinessList();
-                RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, this.businesses);
-                mRecyclerView.setAdapter(adapter);
+                this.curSubset = this.businesses;
                 this.b_tree = new PrefixTree();
                 for (BusinessListItem b : this.businesses) {
                     b_tree.insertWord(b_tree.getRoot(), b);
                 }
+                this.businesses = sortByRating();
+                RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, this.businesses);
+                mRecyclerView.setAdapter(adapter);
+
                 SearchView sv = findViewById(R.id.businessSearchView);
                 sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -76,7 +95,7 @@ public class BusinessListActivity extends AppCompatActivity {
 
     }
 
-    private class TrieNode {
+    public class TrieNode {
         char letter;
         HashMap<Character, TrieNode> links;
         BusinessListItem business;
@@ -150,7 +169,42 @@ public class BusinessListActivity extends AppCompatActivity {
     }
 
     private ArrayList<BusinessListItem> search(String query) {
-        return this.b_tree.findMatching(this.b_tree.getRoot(), query);
+        ArrayList<BusinessListItem> list = this.b_tree.findMatching(this.b_tree.getRoot(), query);
+        this.curSubset = list;
+        return list;
+    }
+
+    private ArrayList<BusinessListItem> sortByRating() {
+        PriorityQueue<BusinessListItem> pQ = new PriorityQueue<>();
+        pQ.addAll(this.curSubset);
+        ArrayList<BusinessListItem> ordered = new ArrayList<>();
+        while (!pQ.isEmpty()) {
+            ordered.add(pQ.remove());
+        }
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, ordered);
+        mRecyclerView.setAdapter(adapter);
+        return ordered;
+    }
+
+    private ArrayList<BusinessListItem> sortByAlphabetical() {
+        ArrayList<BusinessListItem> sortedAlpha = alphaHelper(this.b_tree.getRoot());
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, sortedAlpha);
+        mRecyclerView.setAdapter(adapter);
+        return sortedAlpha;
+    }
+
+    private ArrayList<BusinessListItem> alphaHelper(TrieNode root) {
+        ArrayList<BusinessListItem> ret = new ArrayList<>();
+        if(root.business != null) {
+            ret.add(root.business);
+        }
+        for (TrieNode n : root.links.values()) {
+            ret.addAll(alphaHelper(n));
+        }
+        return ret;
+
     }
 
     private static class BusinessListRetrevial extends AsyncTask<Void, Void, Boolean> {
