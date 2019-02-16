@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.MainActivity">
-    
+
     <Button
         android:id="@+id/SettingsButton"
         android:layout_width="96dp"
@@ -36,106 +36,163 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/Category1"
+                android:id="@+id/Attorney"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:background="@drawable/bookshelves"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category1"
+                android:text="@string/Attorney"
                 android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/Category2"
+                android:id="@+id/Restaurant"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/restaurant"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category2" />
+                android:text="@string/Restaurant"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category3"
+                android:id="@+id/Accountant"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/accountant"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category3" />
+                android:text="@string/Accountant"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category4"
+                android:id="@+id/Grocery"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/grocery"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category4" />
+                android:text="@string/Grocery"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category5"
+                android:id="@+id/NonProfit"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/nonprofit"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category5" />
+                android:text="@string/NonProfit"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category6"
+                android:id="@+id/Publisher"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/publisher"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category6" />
+                android:text="@string/Publisher"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category7"
+                android:id="@+id/BusinessManagement"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/businessmanagement"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category7" />
+                android:text="@string/BusinessManagement"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category8"
+                android:id="@+id/Bank"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/bank"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category8" />
+                android:text="@string/Bank"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category9"
+                android:id="@+id/FinancialConsulting"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/financialconsulting"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category9" />
+                android:text="@string/FinancialConsulting"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category10"
+                android:id="@+id/Media"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/computers"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category10" />
+                android:text="@string/Media"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category11"
+                android:id="@+id/Marketing"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/marketing"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category11" />
+                android:text="@string/Marketing"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category12"
+                android:id="@+id/Legal"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/lawyer"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category12" />
+                android:text="@string/Legal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category13"
+                android:id="@+id/Printing"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/printing"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category13" />
+                android:text="@string/Printing"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/Category14"
+                android:id="@+id/Shopping"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:background="@drawable/shopping"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Category14" />
+                android:text="@string/Shopping"
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
