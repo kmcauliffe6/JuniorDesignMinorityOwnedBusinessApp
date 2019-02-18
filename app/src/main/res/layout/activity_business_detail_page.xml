@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.047" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/BusinessCategory"
         android:layout_width="190dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -60,7 +60,28 @@
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.102" />
+
+    <RatingBar
+        android:id="@+id/reviewStars"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="end"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.796"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.167" />
 
     <Button
         android:id="@+id/reviewButton"
@@ -76,7 +97,7 @@
         app:layout_constraintHorizontal_bias="0.703"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintVertical_bias="0.249" />
 
     <ToggleButton
         android:id="@+id/favoriteButton"
@@ -87,17 +108,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/favorite_button"
-        android:checked="false"
         android:text=""
         android:textOff=""
         android:textOn=""
-        android:onClick="favoriteButtonPressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.239" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
         android:id="@+id/BusinessDetails"
@@ -113,12 +132,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.468" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TabHost
-        android:id="@android:id/tabhost"
+        android:id="@+id/tabhost"
         android:layout_width="402dp"
-        android:layout_height="300dp"
+        android:layout_height="338dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -186,13 +205,5 @@
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="0dp" />
 
 </android.support.constraint.ConstraintLayout>

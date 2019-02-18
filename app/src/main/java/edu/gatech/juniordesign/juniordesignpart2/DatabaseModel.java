@@ -21,6 +21,7 @@ final class DatabaseModel {
     private static String selectedCategory;
     private static ArrayList<BusinessListItem> businessList;
     private static int selectedBusiness;
+    private BusinessObject selectedBusinessObject;
 
     private DatabaseModel() {
         try {
@@ -143,6 +144,8 @@ final class DatabaseModel {
         return this.selectedCategory;
     }
 
+    public static ArrayList<BusinessListItem> getBusinessList() { return businessList; }
+
     void setSelectedBusiness(int businessPK)
     {
         this.selectedBusiness = businessPK;
@@ -152,6 +155,46 @@ final class DatabaseModel {
     {
         return this.selectedBusiness;
     }
+
+    BusinessObject getSelectedBusinessObject() {
+        return this.selectedBusinessObject;
+    }
+
+    void setSelectedBusinessObject(BusinessObject b) {
+        this.selectedBusinessObject = b;
+    }
+
+    boolean queryBusinessDetails()
+    {
+        DatabaseModel.checkInitialization();
+        Log.i("BusinessDetails", "here");
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
+                    " b.name, b.avg_rating, c.description FROM tb_business b " +
+                    "LEFT JOIN tb_business_category bc ON b.business = bc.business " +
+                    "LEFT JOIN tb_category c ON bc.category = c.category " +
+                    "WHERE b.business=CAST(? AS int)");
+            checkStatement.setString(1, String.valueOf(selectedBusiness));
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() ) {
+                //TODO : fix to get the remaining arguments
+                BusinessObject b_o = new BusinessObject(checkResults.getInt(1),
+                        checkResults.getString(2), checkResults.getString(4),
+                        checkResults.getString(3), null, null,
+                        null);
+                setSelectedBusinessObject(b_o);
+                Log.i("BusinessDetails", checkResults.getInt(1) + ": "
+                        + checkResults.getString(2) + ":" + checkResults.getString(4)
+                        + ": " + checkResults.getString(3));
+            }
+        } catch (SQLException e) {
+            Log.e("BusinessDetails", e.getMessage());
+        }
+        return true;
+    }
+
+
+
 
     /**
      * This method registers a user in the database. After registration they will instantly be able
@@ -204,7 +247,7 @@ final class DatabaseModel {
         }
     }
 
-    ArrayList<String> getCatagories () {
+    ArrayList<String> getCatagories() {
         DatabaseModel.checkInitialization();
         ArrayList<String> catagories = new ArrayList<String>();
         try {
@@ -226,7 +269,7 @@ final class DatabaseModel {
         try {
             PreparedStatement checkStatement = db.getStatement(
                     "UPDATE tb_entity SET is_inactive = now() where email = ?");
-            Log.e("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
+            Log.i("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
             checkStatement.setString(1, email);
             db.update(checkStatement);
             return true;
@@ -236,9 +279,25 @@ final class DatabaseModel {
         }
     }
 
-    boolean getBusinessList(String category)
+    boolean queryBusinessList()
     {
         businessList = new ArrayList<BusinessListItem>();
+        DatabaseModel.checkInitialization();
+        Log.i("BusinessList", "here");
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
+                    " name, avg_rating FROM tb_business b LEFT JOIN tb_business_category bc ON b.business = bc.business " +
+                    "WHERE category = ( SELECT category FROM tb_category WHERE description LIKE ? )");
+            checkStatement.setString(1, selectedCategory);
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), "To Be Added") );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2));
+            }
+        } catch (SQLException e) {
+            Log.e("BusinessList", e.getMessage());
+        }
         return true;
     }
 
