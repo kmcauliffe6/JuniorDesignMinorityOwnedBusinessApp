@@ -2,6 +2,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -15,6 +16,7 @@ import java.util.Scanner;
 
 public class Guest {
     private static boolean isGuestUser;
+
 
 
     public Guest() {
@@ -33,6 +35,7 @@ public class Guest {
     public void saveGuestFavorite(Context context, int businessID) {
         String fileName = context.getFilesDir() + "/" + "guest_favorites";
         String fileContents = Integer.toString(businessID);
+
         try {
             FileWriter fp = new FileWriter(fileName, true);
             fp.write(fileContents + "\n");
@@ -43,6 +46,8 @@ public class Guest {
         }
 
     }
+
+
 
     //remove a business from cached favorites
     public void removeGuestFavorite(Context context, int businessID) {
@@ -72,6 +77,7 @@ public class Guest {
         }
         temp.renameTo(favoritesFile);
     }
+
 
 
 }
