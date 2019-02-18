@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-
     public void goToBusinessListActivity (View view){
         Intent intent = new Intent (this, BusinessListActivity.class);
         Button clicked = (Button) view;
