@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "91462893692",
+    "firebase_url": "https://juniordesignpart-1547416961363.firebaseio.com",
+    "project_id": "juniordesignpart-1547416961363",
+    "storage_bucket": "juniordesignpart-1547416961363.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91462893692:android:1c07e222420d62ae",
+        "android_client_info": {
+          "package_name": "edu.gatech.juniordesign.juniordesignpart2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91462893692-0e97spbrbh95n06b4fth6ahfd0rahf60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD67qsvvKS26LPvY3PP7S6KdFa3blbU8cA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
