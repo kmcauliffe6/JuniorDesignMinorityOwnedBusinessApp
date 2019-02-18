@@ -2,6 +2,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class BusinessListActivity extends AppCompatActivity {
 
@@ -70,6 +77,7 @@ public class BusinessListActivity extends AppCompatActivity {
                 list.add("FILTER");
                 list.add("Top Rated");
                 list.add("See All A-Z");
+                list.add("See On Map");
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                         android.R.layout.simple_spinner_item, list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -82,6 +90,8 @@ public class BusinessListActivity extends AppCompatActivity {
                             sortByRating();
                         } else if (position == 2) {
                             sortByAlphabetical();
+                        } else if (position == 3) {
+                            setUpMapView(businesses);
                         }
                     }
 
@@ -231,8 +241,13 @@ public class BusinessListActivity extends AppCompatActivity {
             ret.addAll(alphaHelper(n));
         }
         return ret;
-
     }
+
+    private void setUpMapView(ArrayList<BusinessListItem> businesses) {
+        Intent intent = new Intent (this, MapsActivity.class);
+        startActivity(intent);
+    }
+
 
     private static class BusinessListRetrevial extends AsyncTask<Void, Void, Boolean> {
 
