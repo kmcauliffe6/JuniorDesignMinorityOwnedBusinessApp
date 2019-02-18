@@ -62,26 +62,25 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/Attorney"
+                android:id="@+id/seeAll"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/bookshelves"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Attorney"
+                android:text="See All"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/Restaurant"
+                android:id="@+id/Construction"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/restaurant"
+                android:background="@drawable/construction"
                 android:onClick="goToBusinessListActivity"
-                android:text="@string/Restaurant"
-                android:textColor="@color/white"
+                android:text="Construction"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
