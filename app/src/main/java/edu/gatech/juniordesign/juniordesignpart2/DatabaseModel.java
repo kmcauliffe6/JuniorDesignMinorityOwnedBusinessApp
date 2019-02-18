@@ -286,14 +286,14 @@ final class DatabaseModel {
         Log.i("BusinessList", "here");
         try {
             PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
-                    " name, avg_rating FROM tb_business b LEFT JOIN tb_business_category bc ON b.business = bc.business " +
+                    " name, avg_rating, b.address_line_one, b.address_line_three FROM tb_business b LEFT JOIN tb_business_category bc ON b.business = bc.business " +
                     "WHERE category = ( SELECT category FROM tb_category WHERE description LIKE ? )");
             checkStatement.setString(1, selectedCategory);
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {
-                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), "To Be Added") );
-                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2));
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), checkResults.getString(4),"To Be Added") );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2)+":"+ checkResults.getString(4));
             }
         } catch (SQLException e) {
             Log.e("BusinessList", e.getMessage());

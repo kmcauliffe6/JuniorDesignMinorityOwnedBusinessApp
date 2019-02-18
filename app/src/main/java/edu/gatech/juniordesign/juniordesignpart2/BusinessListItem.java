@@ -12,13 +12,15 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
     String name;
     ArrayList<String> subcategories;
     String rating;
+    String address;
 
-    public BusinessListItem(int id, String name, String rating, String... subcategories)
+    public BusinessListItem(int id, String name, String rating, String address,String... subcategories)
     {
         this.id = id;
         this.name = name;
         this.rating = rating;
         this.subcategories = new ArrayList<>();
+        this.address = address;
 
         for (String subcategory:subcategories)
         {
@@ -65,5 +67,8 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
 
     public String getRating() {
         return this.rating;
+    }
+    public String getAddress() {
+        return address;
     }
 }

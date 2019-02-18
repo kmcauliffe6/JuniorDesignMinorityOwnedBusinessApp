@@ -244,7 +244,15 @@ public class BusinessListActivity extends AppCompatActivity {
     }
 
     private void setUpMapView(ArrayList<BusinessListItem> businesses) {
+        String[] addresses = new String[businesses.size()];
+        int i = 0;
+        for (BusinessListItem b : businesses){
+            if (b.getAddress() != null) {
+                addresses[i] = b.getAddress();
+            }
+        }
         Intent intent = new Intent (this, MapsActivity.class);
+        intent.putExtra("addresses", addresses);
         startActivity(intent);
     }
 
