@@ -8,14 +8,20 @@
 
     <Button
         android:id="@+id/SettingsButton"
-        android:layout_width="96dp"
-        android:layout_height="49dp"
+        android:layout_width="173dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/settings_button_name"
+        android:layout_marginBottom="8dp"
         android:onClick="goToSettingsPageActivity"
+        android:text="@string/settings_button_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005" />
 
     <ImageButton
         android:id="@+id/profilePicButton"
@@ -45,8 +51,10 @@
         android:layout_marginBottom="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicButton">
+        app:layout_constraintTop_toBottomOf="@+id/profilePicButton"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,11 +78,11 @@
                 android:id="@+id/Attorney"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/bookshelves"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Attorney"
                 android:textColor="@color/white"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -82,148 +90,148 @@
                 android:id="@+id/Restaurant"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/restaurant"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Restaurant"
                 android:textColor="@color/white"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Accountant"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/accountant"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Accountant"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Grocery"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/grocery"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Grocery"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/NonProfit"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/nonprofit"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/NonProfit"
                 android:textColor="@color/white"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Publisher"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/publisher"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Publisher"
                 android:textColor="@color/white"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/BusinessManagement"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/businessmanagement"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/BusinessManagement"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Bank"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/bank"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Bank"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/FinancialConsulting"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/financialconsulting"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/FinancialConsulting"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Media"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/computers"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Media"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Marketing"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/marketing"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Marketing"
-                android:layout_marginBottom="5dp"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Legal"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/lawyer"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Legal"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Printing"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/printing"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Printing"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/Shopping"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/shopping"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Shopping"
-                android:layout_marginBottom="5dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
