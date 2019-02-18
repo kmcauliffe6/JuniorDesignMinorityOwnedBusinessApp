@@ -14,7 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,13 +44,6 @@ public class BusinessListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_list);
 
-        Button button = findViewById(R.id.filterBusinessesButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sortByAlphabetical();
-            }
-        });
 
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
@@ -65,6 +64,33 @@ public class BusinessListActivity extends AppCompatActivity {
                 this.businesses = sortByRating();
                 RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, this.businesses);
                 mRecyclerView.setAdapter(adapter);
+
+                Spinner spinner = findViewById(R.id.filterSpinner);
+                List<String> list = new ArrayList<String>();
+                list.add("FILTER");
+                list.add("Top Rated");
+                list.add("See All A-Z");
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_spinner_item, list);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(dataAdapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                        if (position == 1) {
+                            sortByRating();
+                        } else if (position == 2) {
+                            sortByAlphabetical();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parentView) {
+                        // do nothing
+                    }
+
+                });
 
                 SearchView sv = findViewById(R.id.businessSearchView);
                 sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -92,6 +118,7 @@ public class BusinessListActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("BusinessList", e.getMessage());
         }
+
 
     }
 
