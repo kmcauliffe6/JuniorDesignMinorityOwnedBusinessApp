@@ -285,15 +285,23 @@ final class DatabaseModel {
         DatabaseModel.checkInitialization();
         Log.i("BusinessList", "here");
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
-                    " name, avg_rating FROM tb_business b LEFT JOIN tb_business_category bc ON b.business = bc.business " +
-                    "WHERE category = ( SELECT category FROM tb_category WHERE description LIKE ? )");
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name)" +
+                    "FROM tb_business b " +
+                    "LEFT JOIN tb_business_subcategory bs " +
+                    "ON b.business = bs.business " +
+                    "LEFT JOIN tb_subcategory s " +
+                    "ON bs.subcategory = s.subcategory " +
+                    "LEFT JOIN tb_business_category bc " +
+                    "ON b.business = bc.business " +
+                    "WHERE bc.category = " +
+                    "( SELECT category FROM tb_category WHERE description LIKE ? )" +
+                    "GROUP BY ( b.business, b.name, avg_rating ) ");
             checkStatement.setString(1, selectedCategory);
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {
-                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), "To Be Added") );
-                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2));
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), (String[])checkResults.getArray(4).getArray() ) );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + checkResults.getArray(4));
             }
         } catch (SQLException e) {
             Log.e("BusinessList", e.getMessage());
