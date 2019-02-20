@@ -45,13 +45,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
+    // set up ActionBar with settings and profile icons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.mybutton) {
+        if (id == R.id.settingsButton) {
             goToSettingsPageActivity(getWindow().getDecorView().getRootView());
+        }
+
+        if (id == R.id.profilePicButton) {
+            goToProfilePageActivity(getWindow().getDecorView().getRootView());
         }
         return super.onOptionsItemSelected(item);
     }
