@@ -6,33 +6,17 @@
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.MainActivity">
 
-    <Button
-        android:id="@+id/SettingsButton"
-        android:layout_width="173dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="goToSettingsPageActivity"
-        android:text="@string/settings_button_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005" />
-
     <ImageButton
         android:id="@+id/profilePicButton"
-        android:layout_width="101dp"
-        android:layout_height="86dp"
+        android:layout_width="91dp"
+        android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:background="@color/colorPrimary"
         android:onClick="goToProfilePageActivity"
+        android:src="@mipmap/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,10 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/bookshelves"
                 android:onClick="goToBusinessListActivity"
                 android:text="See All"
-                android:textColor="@color/white"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -114,7 +98,7 @@
                 android:background="@drawable/nonprofit"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/NonProfit"
-                android:textColor="@color/white"
+                android:textColor="@color/colorLight"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -126,7 +110,7 @@
                 android:background="@drawable/publisher"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Publisher"
-                android:textColor="@color/white"
+                android:textColor="@color/colorLight"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -182,7 +166,7 @@
                 android:background="@drawable/marketing"
                 android:onClick="goToBusinessListActivity"
                 android:text="@string/Marketing"
-                android:textColor="@color/white"
+                android:textColor="@color/colorLight"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
