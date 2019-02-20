@@ -58,12 +58,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.e("Maps", e.getMessage());
                     continue;
                 }
-                Address address = list.get(0);
-                double lat = address.getLatitude();
-                double lng = address.getLongitude();
-                LatLng loc = new LatLng(lat, lng);
-                googleMap.addMarker(new MarkerOptions().position(loc));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                if (list.size() > 0) {
+                    Address address = list.get(0);
+                    double lat = address.getLatitude();
+                    double lng = address.getLongitude();
+                    LatLng loc = new LatLng(lat, lng);
+                    googleMap.addMarker(new MarkerOptions().position(loc));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                }
             }
         }
 
