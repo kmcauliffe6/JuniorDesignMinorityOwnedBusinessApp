@@ -48,9 +48,20 @@ public class UserFavoritesTab extends Fragment {
                 Log.e("Guest Saves", "File Not Found");
             }
         } else {
-            //TODO get a list of the current user's favorites here
-            favorites.add("Business 1");
-            favorites.add("Business 2");
+            DatabaseModel.checkInitialization();
+            model = DatabaseModel.getInstance();
+            FavoriteBusinessListGetter getter = new FavoriteBusinessListGetter();
+            try {
+                boolean success = getter.execute((Void) null).get();
+                if (success) {
+                    for ( BusinessListItem curr: model.getBusinessList() ) {
+                        favorites.add(curr.name);
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("BusinessDetails", e.getMessage());
+
+            }
         }
 
 
@@ -101,4 +112,23 @@ public class UserFavoritesTab extends Fragment {
         }
     }
 
+    private static class FavoriteBusinessListGetter extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.queryFavoritesBusinessList();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
 }

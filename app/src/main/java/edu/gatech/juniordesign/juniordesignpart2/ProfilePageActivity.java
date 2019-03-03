@@ -1,5 +1,6 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ProfilePageActivity extends AppCompatActivity {
+    private static DatabaseModel model;
+    private static numFavoritesReviews numTask = null;
+    private static int numFavoritesResults = 0;
+    private static int numReviewsResults = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +65,40 @@ public class ProfilePageActivity extends AppCompatActivity {
             String firstName = current.getFirstName();
             String lastName = current.getLastName();
             name.setText(firstName + " " + lastName);
+            numTask = new numFavoritesReviews();
+            try {
+                numTask.execute((Void) null).get();
+            } catch (Exception e){
+                Log.e("UserFavoritesTab", e.getMessage());
+            }
 
-            int num = 32;   //TODO: get the current users number of favorites
-            numFavorites.setText(Integer.toString(num) + " Favorites");
+            numFavorites.setText(Integer.toString(numFavoritesResults) + " Favorites");
 
-            num = 6; //TODO: get the current users number of reviews
-            numReviews.setText(Integer.toString(num) + " Reviews");
+            numReviews.setText(Integer.toString(numReviewsResults) + " Reviews");
+        }
+    }
+
+    private static class numFavoritesReviews extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            int[] results = model.queryNumFavoritesAndReviews();
+            numFavoritesResults = results[0];
+            numReviewsResults = results[1];
+            Log.i("numFavoritesReviews", results + ": " + numFavoritesResults + ", " + numReviewsResults );
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            numTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            numTask = null;
         }
     }
 }

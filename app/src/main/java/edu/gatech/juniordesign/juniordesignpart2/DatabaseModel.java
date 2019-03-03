@@ -313,19 +313,19 @@ final class DatabaseModel {
    }
 
    public boolean removeUser(String email) {
-        DatabaseModel.checkInitialization();
-        try {
-            PreparedStatement checkStatement = db.getStatement(
-                    "UPDATE tb_entity SET is_inactive = now() where email = ?");
-            Log.i("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = "+email+"'");
-            checkStatement.setString(1, email);
-            db.update(checkStatement);
-            return true;
-        } catch (SQLException e) {
-            Log.e("removeUser", e.getMessage());
-            return false;
-        }
-    }
+       DatabaseModel.checkInitialization();
+       try {
+           PreparedStatement checkStatement = db.getStatement(
+                   "UPDATE tb_entity SET is_inactive = now() where email = ?");
+           Log.i("removeUser", "'UPDATE tb_entity SET is_inactive = now() where email = " + email + "'");
+           checkStatement.setString(1, email);
+           db.update(checkStatement);
+           return true;
+       } catch (SQLException e) {
+           Log.e("removeUser", e.getMessage());
+           return false;
+       }
+   }
 
     boolean queryBusinessList()
     {
@@ -345,6 +345,58 @@ final class DatabaseModel {
                     "( SELECT category FROM tb_category WHERE description LIKE ? )" +
                     "GROUP BY ( b.business, b.name, avg_rating ) ");
             checkStatement.setString(1, selectedCategory);
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), (String[])checkResults.getArray(4).getArray() ) );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + checkResults.getArray(4));
+            }
+        } catch (SQLException e) {
+            Log.e("BusinessList", e.getMessage());
+        }
+        return true;
+    }
+    public int[] queryNumFavoritesAndReviews() {
+        Log.i("queryNumFavoritesAndReviews", "here");
+        int favs = 0;
+        int rev = 0;
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT COUNT(*) FROM tb_entity_favorites WHERE entity = CAST( ? AS int )");
+            checkStatement.setString(1, getCurrentUser().getEntity());
+            ResultSet checkResults = db.query(checkStatement);
+            if (checkResults.next()) {
+                favs = checkResults.getInt(1);
+            }
+            checkStatement = db.getStatement("SELECT COUNT(*) FROM tb_review WHERE entity = CAST( ? AS int )");
+            checkStatement.setString(1, getCurrentUser().getEntity());
+            checkResults = db.query(checkStatement);
+            if (checkResults.next()) {
+                rev = checkResults.getInt(1);
+            }
+        } catch (SQLException e){
+            Log.e("queryNumFavoritesAndReviews", e.getMessage());
+        }
+        return new int[]{favs,rev};
+    }
+
+    boolean queryFavoritesBusinessList()
+    {
+        businessList = new ArrayList<BusinessListItem>();
+        DatabaseModel.checkInitialization();
+        Log.i("queryFavoritesBusinessList", "here");
+        try {
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name)" +
+                    "FROM tb_business b " +
+                    "LEFT JOIN tb_business_subcategory bs " +
+                    "ON b.business = bs.business " +
+                    "LEFT JOIN tb_subcategory s " +
+                    "ON bs.subcategory = s.subcategory " +
+                    "LEFT JOIN tb_business_category bc " +
+                    "ON b.business = bc.business " +
+                    "WHERE b.business in ( SELECT business FROM tb_entity_favorites WHERE entity = CAST( ? AS int ) ) " +
+                    "GROUP BY ( b.business, b.name, avg_rating )");
+            checkStatement.setString(1, getCurrentUser().getEntity());
+            Log.i("queryFavoritesBusinessList", checkStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {
