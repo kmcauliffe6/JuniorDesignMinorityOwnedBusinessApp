@@ -10,6 +10,7 @@ public class BusinessObject {
     private String extraDetails;
     private String aboutTheOwner;
     private ArrayList<String> reviews;
+    private boolean isFavorited;
     //will need to store a profile photo here but I dont think we have any photots yet
 
     public BusinessObject(int iD, String name, String category, String rating, String extraDetails, String
@@ -21,7 +22,12 @@ public class BusinessObject {
         this.extraDetails = extraDetails;
         this.aboutTheOwner = aboutTheOwner;
         this.reviews = reviews;
+        this.isFavorited = false;
+
     }
+    public void setIsFavorited(boolean isFavorited){ this.isFavorited = isFavorited; };
+
+    public boolean getIsFavorited() { return this.isFavorited; };
 
     public int getID() {
         return this.iD;

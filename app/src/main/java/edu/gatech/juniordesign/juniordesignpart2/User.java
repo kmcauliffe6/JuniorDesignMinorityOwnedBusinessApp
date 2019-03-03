@@ -6,13 +6,15 @@ public class User
     private String firstName;
     private String lastName;
     private boolean isAdmin;
+    private String entity;
 
-    public User (String email, String firstName, String lastName, boolean isAdmin)
+    public User (String email, String firstName, String lastName, boolean isAdmin, String entity)
     {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isAdmin = isAdmin;
+        this.entity = entity;
     }
 
     public String getEmail() { return email; }
@@ -22,4 +24,6 @@ public class User
     }
 
     public String getLastName() { return lastName; }
+
+    public String getEntity() { return entity; }
 }

@@ -22,6 +22,7 @@ final class DatabaseModel {
     private static ArrayList<BusinessListItem> businessList;
     private static int selectedBusiness;
     private BusinessObject selectedBusinessObject;
+    private boolean toggle;
 
     private DatabaseModel() {
         try {
@@ -117,10 +118,11 @@ final class DatabaseModel {
                 if (dbPass.equals(hashPass)) {
                     Log.i("login", "auth success");
                     loginStatus = true;
+                    String entity = results.getString("entity");
                     String first_name = results.getString("first_name");
                     String last_name = results.getString("last_name");
                     boolean isAdmin = results.getBoolean("is_admin");
-                    currentUser = new User(email, first_name, last_name, isAdmin);
+                    currentUser = new User(email, first_name, last_name, isAdmin, entity);
                 } else {
                     Log.i("login", "auth failed");
                     loginStatus = false;
@@ -134,48 +136,62 @@ final class DatabaseModel {
         }
     }
 
-    void setSelectedCategory(String category)
+    public void setSelectedCategory(String category)
     {
         this.selectedCategory = category;
     }
 
-    String getSelectedCategory()
+    public String getSelectedCategory()
     {
         return this.selectedCategory;
     }
 
     public static ArrayList<BusinessListItem> getBusinessList() { return businessList; }
 
-    void setSelectedBusiness(int businessPK)
+    public void setSelectedBusiness(int businessPK)
     {
         this.selectedBusiness = businessPK;
     }
 
-    int getSelectedBusiness()
+    public int getSelectedBusiness()
     {
         return this.selectedBusiness;
     }
 
-    BusinessObject getSelectedBusinessObject() {
+    public BusinessObject getSelectedBusinessObject() {
         return this.selectedBusinessObject;
     }
 
-    void setSelectedBusinessObject(BusinessObject b) {
+    public void setSelectedBusinessObject(BusinessObject b) {
         this.selectedBusinessObject = b;
     }
 
-    boolean queryBusinessDetails()
+    public void setToggle(boolean toggle){ this.toggle = toggle; }
+
+    public boolean queryBusinessDetails()
     {
         DatabaseModel.checkInitialization();
         Log.i("BusinessDetails", "here");
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT b.business," +
-                    " b.name, b.avg_rating, c.description FROM tb_business b " +
+            PreparedStatement checkStatement = db.getStatement(
+                    "SELECT b.business," +
+                            " b.name," +
+                            " b.avg_rating," +
+                            " c.description " +
+                            " FROM tb_business b " +
                     "LEFT JOIN tb_business_category bc ON b.business = bc.business " +
                     "LEFT JOIN tb_category c ON bc.category = c.category " +
-                    "WHERE b.business=CAST(? AS int)");
+                    "WHERE b.business = CAST(? AS int)");
             checkStatement.setString(1, String.valueOf(selectedBusiness));
+            PreparedStatement favoritesStatement = db.getStatement(
+                    "SELECT * from tb_entity_favorites " +
+                            "WHERE entity = CAST(? AS int) " +
+                            "AND business = CAST(? AS int) ");
+            favoritesStatement.setString(1, getCurrentUser().getEntity());
+            favoritesStatement.setString(2, String.valueOf(selectedBusiness));
+            Log.i("BusinessDetails", checkStatement.toString() + ", " + favoritesStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
+            ResultSet favoritesResults = db.query(favoritesStatement);
             while ( checkResults.next() ) {
                 //TODO : fix to get the remaining arguments
                 BusinessObject b_o = new BusinessObject(checkResults.getInt(1),
@@ -187,8 +203,38 @@ final class DatabaseModel {
                         + checkResults.getString(2) + ":" + checkResults.getString(4)
                         + ": " + checkResults.getString(3));
             }
+            while ( favoritesResults.next() ) {
+                selectedBusinessObject.setIsFavorited(true);
+            }
         } catch (SQLException e) {
             Log.e("BusinessDetails", e.getMessage());
+        }
+        return true;
+    }
+
+    public boolean toggleFavorited(){
+        DatabaseModel.checkInitialization();
+        Log.i("toggleFavorited", "here");
+        if (toggle) {
+            try {
+                PreparedStatement checkStatement = db.getStatement("INSERT INTO tb_entity_favorites(entity, business) VALUES ( CAST(? AS int), CAST(? AS int) ) ");
+                checkStatement.setString(1, getCurrentUser().getEntity());
+                checkStatement.setString(2, String.valueOf(selectedBusiness));
+                Log.i("toggleFavorited", checkStatement.toString());
+                db.query(checkStatement);
+            } catch (SQLException e) {
+                Log.e("toggleFavorited", e.getMessage());
+            }
+        } else {
+            try {
+                PreparedStatement deleteStatement = db.getStatement("DELETE FROM tb_entity_favorites WHERE entity = CAST(? AS int) AND business = CAST(? AS int) ");
+                deleteStatement.setString(1, getCurrentUser().getEntity());
+                deleteStatement.setString(2, String.valueOf(selectedBusiness));
+                Log.i("toggleFavorited", deleteStatement.toString());
+                db.query(deleteStatement);
+            } catch (SQLException e) {
+                Log.e("toggleFavorited", e.getMessage());
+            }
         }
         return true;
     }
@@ -212,7 +258,7 @@ final class DatabaseModel {
      *         succeeds, 1 if the registration fails because the username is already taken, and
      *         2 if a SQLException occurs during registration;
      */
-    int registerUser(String email, String password, String first_name,
+    public int registerUser(String email, String password, String first_name,
                      String last_name, boolean isAdmin) {
         DatabaseModel.checkInitialization();
         SecureRandom saltShaker = new SecureRandom();
@@ -237,6 +283,9 @@ final class DatabaseModel {
                 registerStatement.setInt(5, salt);
                 registerStatement.setBoolean(6, isAdmin);
                 db.update(registerStatement);
+                checkResults = db.query(checkStatement);
+                String entity = checkResults.getString("entity");
+                setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
                 Log.d("Register User", "Success for email = " + email);
                 return 0;
             }
@@ -247,24 +296,23 @@ final class DatabaseModel {
         }
     }
 
-    ArrayList<String> getCatagories() {
-        DatabaseModel.checkInitialization();
-        ArrayList<String> catagories = new ArrayList<String>();
-        try {
-            ResultSet checkResults = db.query("SELECT description FROM tb_catagory");
-            while ( checkResults.next() )
-            {
-                catagories.add(checkResults.getString(1));
-            }
-            Log.i("getCatagories", "catagories retrieved: "+ catagories);
-            return catagories;
-        } catch(SQLException e) {
-            Log.e("getCatagories", e.getMessage());
-            return null;
-        }
-    }
+   public ArrayList<String> getCatagories() {
+       DatabaseModel.checkInitialization();
+       ArrayList<String> catagories = new ArrayList<String>();
+       try {
+           ResultSet checkResults = db.query("SELECT description FROM tb_catagory");
+           while (checkResults.next()) {
+               catagories.add(checkResults.getString(1));
+           }
+           Log.i("getCatagories", "catagories retrieved: " + catagories);
+           return catagories;
+       } catch (SQLException e) {
+           Log.e("getCatagories", e.getMessage());
+           return null;
+       }
+   }
 
-    boolean removeUser(String email) {
+   public boolean removeUser(String email) {
         DatabaseModel.checkInitialization();
         try {
             PreparedStatement checkStatement = db.getStatement(

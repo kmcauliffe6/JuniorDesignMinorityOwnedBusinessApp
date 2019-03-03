@@ -48,9 +48,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                 if (success) {
                     b_o = model.getSelectedBusinessObject();
                 }
-        } catch (Exception e) {
-            Log.e("BusinessDetails", e.getMessage());
-        }
+
 
         //set up tabs
         TabHost tabhost = (TabHost) findViewById(R.id.tabhost);
@@ -125,6 +123,8 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 Log.e("Guest Saves", "File Not Found");
             }
+        } else {
+            emptyHeart = ! (b_o.getIsFavorited());
         }
         tb.setChecked(emptyHeart);
 
@@ -140,7 +140,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                                 Guest g = new Guest();
                                 g.saveGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             } else {
-                                //TODO: save this favorite to the current users favorites in the database
+                                model.setToggle(true);
                             }
                         }else{
                             //remove this business from favorites
@@ -149,11 +149,20 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                                 Guest g = new Guest();
                                 g.removeGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             } else {
-                                //TODO: remove this favorite from the current users favorites in the database
+                                model.setToggle(false);
                             }
+                    }
+                        ToggleFavorited toggleTask = new ToggleFavorited();
+                        try {
+                            toggleTask.execute((Void) null).get();
+                        } catch (Exception e) {
+                            Log.e("ToggleTask", e.getMessage());
                         }
                     }
                 });
+        } catch (Exception e) {
+            Log.e("BusinessDetails", e.getMessage());
+        }
     }
 
     private static class BusinessDetailRetrieval extends AsyncTask<Void, Void, Boolean> {
@@ -163,6 +172,26 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
             DatabaseModel.checkInitialization();
             DatabaseModel model = DatabaseModel.getInstance();
             return model.queryBusinessDetails();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
+
+    private static class ToggleFavorited extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.toggleFavorited();
         }
 
         @Override
