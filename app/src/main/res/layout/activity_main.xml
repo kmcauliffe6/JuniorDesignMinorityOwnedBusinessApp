@@ -6,183 +6,22 @@
     android:layout_height="match_parent"
     tools:context="edu.gatech.juniordesign.juniordesignpart2.MainActivity">
 
-    <ScrollView
-        android:id="@+id/scroller"
-        android:layout_width="395dp"
-        android:layout_height="717dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_categories"
+        android:layout_width="match_parent"
+        android:layout_height="671dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/seeAll"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimary"
-                android:onClick="goToBusinessListActivity"
-                android:text="See All"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Construction"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/construction"
-                android:onClick="goToBusinessListActivity"
-                android:text="Construction"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Accountant"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/accountant"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Accountant"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Grocery"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/grocery"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Grocery"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/NonProfit"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/nonprofit"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/NonProfit"
-                android:textColor="@color/colorLight"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Publisher"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/publisher"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Publisher"
-                android:textColor="@color/colorLight"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/BusinessManagement"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/businessmanagement"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/BusinessManagement"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Bank"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/bank"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Bank"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/FinancialConsulting"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/financialconsulting"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/FinancialConsulting"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Media"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/computers"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Media"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Marketing"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/marketing"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Marketing"
-                android:textColor="@color/colorLight"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Legal"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/lawyer"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Legal"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Printing"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/printing"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Printing"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Shopping"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/shopping"
-                android:onClick="goToBusinessListActivity"
-                android:text="@string/Shopping"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -34,7 +34,7 @@ import java.util.Queue;
 
 public class BusinessListActivity extends AppCompatActivity {
 
-    private static BusinessListRetrevial mAuthTask = null;
+    private static BusinessListRetrieval mAuthTask = null;
     private static DatabaseModel model;
     private ArrayList<BusinessListItem> businesses = null;
     private PrefixTree b_tree = null;
@@ -50,7 +50,7 @@ public class BusinessListActivity extends AppCompatActivity {
         model = DatabaseModel.getInstance();
         //TODO: Austin needs the category to be saved on the main page this is for debug
         model.setSelectedCategory("Construction"); //Category is Construction for now
-        mAuthTask = new BusinessListRetrevial();
+        mAuthTask = new BusinessListRetrieval();
         try {
             boolean success = mAuthTask.execute((Void) null).get();
             if (success) {
@@ -250,7 +250,9 @@ public class BusinessListActivity extends AppCompatActivity {
     }
 
 
-    private static class BusinessListRetrevial extends AsyncTask<Void, Void, Boolean> {
+
+
+    private static class BusinessListRetrieval extends AsyncTask<Void, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
