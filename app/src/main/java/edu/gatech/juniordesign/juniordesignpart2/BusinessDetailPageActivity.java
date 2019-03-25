@@ -38,7 +38,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         model = DatabaseModel.getInstance();
 
         //get the businessID of the selected business
-        businessID = getIntent().getExtras().getInt("business_id");
+        businessID = model.getBusiness_id();
         //set the model businessSelected to businessID
         model.setSelectedBusiness(businessID);
         mAuthTask = new BusinessDetailRetrieval();

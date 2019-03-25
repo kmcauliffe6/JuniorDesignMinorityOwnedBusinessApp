@@ -24,6 +24,7 @@ final class DatabaseModel {
     private BusinessObject selectedBusinessObject;
     private boolean toggle;
     private String[] addresses;
+    private int business_id;
 
     private DatabaseModel() {
         try {
@@ -75,6 +76,8 @@ final class DatabaseModel {
      */
     @Nullable
     User getCurrentUser() {return currentUser;}
+
+    int getBusiness_id() {return this.business_id;}
 
     String[] getAddresses() {return this.addresses;}
 
@@ -172,6 +175,8 @@ final class DatabaseModel {
     public void setToggle(boolean toggle){ this.toggle = toggle; }
 
     public void setAddresses(String[] addresses) { this.addresses = addresses; }
+
+    public void setBusiness_id(int id) { this.business_id = id; }
 
     public boolean queryBusinessDetails()
     {
