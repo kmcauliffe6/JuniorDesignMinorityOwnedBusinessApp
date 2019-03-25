@@ -1,6 +1,7 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -105,6 +106,13 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         if (Guest.isGuestUser()) {
             reviewsButton.setEnabled(false); //disable reviews for guest users
         }
+        reviewsButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (this, ReviewActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ToggleButton tb = findViewById(R.id.favoriteButton);
         //check if favorite button should be checked
