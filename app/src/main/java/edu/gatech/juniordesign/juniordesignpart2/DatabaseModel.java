@@ -425,6 +425,14 @@ final class DatabaseModel {
         return true;
     }
 
+    boolean submitReview(int rating) {
+        return false;
+    }
+
+    boolean submitReview(int rating, String review) {
+        return false;
+    }
+
     /**
      * This method will change the user's password if they pass in the correct homeLocation for
      * that particular user.

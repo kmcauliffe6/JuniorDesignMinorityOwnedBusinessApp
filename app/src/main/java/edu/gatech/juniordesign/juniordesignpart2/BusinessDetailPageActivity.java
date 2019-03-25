@@ -44,6 +44,8 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         model.setSelectedBusiness(businessID);
         mAuthTask = new BusinessDetailRetrieval();
 
+        BusinessDetailPageActivity cur = this;
+
         try {
             boolean success = mAuthTask.execute((Void) null).get();
                 if (success) {
@@ -109,7 +111,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         reviewsButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (this, ReviewActivity.class);
+                Intent intent = new Intent (cur, ReviewActivity.class);
                 startActivity(intent);
             }
         });
