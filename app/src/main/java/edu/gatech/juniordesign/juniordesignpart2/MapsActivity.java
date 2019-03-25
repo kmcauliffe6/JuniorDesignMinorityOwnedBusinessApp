@@ -47,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        String[] addresses = this.getIntent().getStringArrayExtra("addresses");
+        String[] addresses = DatabaseModel.getInstance().getAddresses();
         for (String add : addresses) {
             Geocoder gc = new Geocoder(this);
             if(gc.isPresent()){

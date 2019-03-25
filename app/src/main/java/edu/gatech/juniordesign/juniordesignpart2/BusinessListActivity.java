@@ -239,13 +239,20 @@ public class BusinessListActivity extends AppCompatActivity {
 
     private void setUpMapView(ArrayList<BusinessListItem> businesses) {
         String[] addresses = new String[businesses.size()];
+        int i = 0;
         for (BusinessListItem b : businesses){
-            if (b.getAddress() != null) {
-                addresses = b.getAddress();
+            if (b.getAddress() != null && b.getAddress()[0] != null) {
+                String[] address = b.getAddress();
+                String addr = "";
+                for (String s : address) {
+                    addr = addr + " " + s;
+                }
+                addresses[i] = addr;
             }
+            i++;
         }
         Intent intent = new Intent (this, MapsActivity.class);
-        intent.putExtra("addresses", addresses);
+        model.setAddresses(addresses);
         startActivity(intent);
     }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".BusinessListActivity">
+
+    <item
+        android:id="@+id/dropdown_menu1"
+        android:showAsAction="ifRoom"
+        android:title="Filter by Name (A-Z)"
+        android:visible="true" />
+    <item
+        android:id="@+id/dropdown_menu2"
+        android:showAsAction="ifRoom|withText"
+        android:title="Filter by rating (5-0)"
+        android:visible="true" />
+
+</menu>
