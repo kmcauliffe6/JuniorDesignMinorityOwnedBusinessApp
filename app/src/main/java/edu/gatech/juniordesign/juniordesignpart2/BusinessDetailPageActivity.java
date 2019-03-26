@@ -1,6 +1,7 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -38,10 +39,12 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         model = DatabaseModel.getInstance();
 
         //get the businessID of the selected business
-        businessID = getIntent().getExtras().getInt("business_id");
+        businessID = model.getBusiness_id();
         //set the model businessSelected to businessID
         model.setSelectedBusiness(businessID);
         mAuthTask = new BusinessDetailRetrieval();
+
+        BusinessDetailPageActivity cur = this;
 
         try {
             boolean success = mAuthTask.execute((Void) null).get();
@@ -105,6 +108,13 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         if (Guest.isGuestUser()) {
             reviewsButton.setEnabled(false); //disable reviews for guest users
         }
+        reviewsButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (cur, ReviewActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ToggleButton tb = findViewById(R.id.favoriteButton);
         //check if favorite button should be checked

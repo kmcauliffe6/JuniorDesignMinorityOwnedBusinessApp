@@ -91,7 +91,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             //TODO get business data for business selected and go to business detail page
             int business_id = id_map.get(itemPosition);
             Intent intent = new Intent (context, BusinessDetailPageActivity.class);
-            intent.putExtra("business_id", business_id);
+            DatabaseModel.getInstance().setBusiness_id(business_id);
             context.startActivity(intent);
         }
 

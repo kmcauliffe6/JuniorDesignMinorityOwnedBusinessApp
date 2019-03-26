@@ -24,6 +24,8 @@ final class DatabaseModel {
     private BusinessObject selectedBusinessObject;
     private boolean toggle;
     private static ArrayList<String> categories;
+    private String[] addresses;
+    private int business_id;
 
     private DatabaseModel() {
         try {
@@ -75,6 +77,10 @@ final class DatabaseModel {
      */
     @Nullable
     User getCurrentUser() {return currentUser;}
+
+    int getBusiness_id() {return this.business_id;}
+
+    String[] getAddresses() {return this.addresses;}
 
     /**
      * This method clears the current user
@@ -173,7 +179,11 @@ final class DatabaseModel {
 
     public void setToggle(boolean toggle){ this.toggle = toggle; }
 
-    boolean queryBusinessDetails()
+    public void setAddresses(String[] addresses) { this.addresses = addresses; }
+
+    public void setBusiness_id(int id) { this.business_id = id; }
+
+    public boolean queryBusinessDetails()
     {
         DatabaseModel.checkInitialization();
         Log.i("BusinessDetails", "here");
@@ -192,7 +202,8 @@ final class DatabaseModel {
                     "SELECT * from tb_entity_favorites " +
                             "WHERE entity = CAST(? AS int) " +
                             "AND business = CAST(? AS int) ");
-            favoritesStatement.setString(1, getCurrentUser().getEntity());
+            if (!Guest.isGuestUser()) { favoritesStatement.setString(1, getCurrentUser().getEntity()); }
+            else {favoritesStatement.setString(1, "");}
             favoritesStatement.setString(2, String.valueOf(selectedBusiness));
             Log.i("BusinessDetails", checkStatement.toString() + ", " + favoritesStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
@@ -343,7 +354,7 @@ final class DatabaseModel {
         DatabaseModel.checkInitialization();
         Log.i("BusinessList", "here");
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name)" +
+            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name), b.address_line_one, b.zip_code, b.city " +
                     "FROM tb_business b " +
                     "LEFT JOIN tb_business_subcategory bs " +
                     "ON b.business = bs.business " +
@@ -358,8 +369,13 @@ final class DatabaseModel {
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {
-                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), (String[])checkResults.getArray(4).getArray() ) );
-                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + checkResults.getArray(4));
+                String[] address = new String[3];
+                address[0] = checkResults.getString(5);
+                address[1] = checkResults.getString(6);
+                address[2] = checkResults.getString(7);
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), address, (String[])checkResults.getArray(4).getArray() ) );
+                Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + (String[])checkResults.getArray(4).getArray());
+                Log.i("BusinessAddress", address[0] + " " + address[1] + " " + address[2]);
             }
         } catch (SQLException e) {
             Log.e("BusinessList", e.getMessage());
@@ -417,6 +433,14 @@ final class DatabaseModel {
             Log.e("BusinessList", e.getMessage());
         }
         return true;
+    }
+
+    boolean submitReview(int rating) {
+        return false;
+    }
+
+    boolean submitReview(int rating, String review) {
+        return false;
     }
 
     /**
