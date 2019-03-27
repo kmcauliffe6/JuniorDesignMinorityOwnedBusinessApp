@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 public class ReviewActivity extends AppCompatActivity {
     Button leave_review_button = null;
     Button cancel = null;
+    EditText review_title = null;
     EditText review_comments = null;
     RatingBar stars_bar = null;
     DatabaseModel model = null;
@@ -25,6 +26,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
         leave_review_button = findViewById(R.id.reviewSubmitButton);
         cancel = findViewById(R.id.reviewCancelButton);
+        review_title = findViewById(R.id.reviewSubmitTitle);
         review_comments = findViewById(R.id.reviewSubmitEditText);
         stars_bar = findViewById(R.id.reviewSubmitRatingBar);
         DatabaseModel.checkInitialization();
@@ -37,6 +39,7 @@ public class ReviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int rating = stars_bar.getNumStars();
                 String review = review_comments.getText().toString();
+                String title = review_title.getText().toString();
                 if (rating == 0) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
                     builder1.setMessage("The rating must be between 1 and 5 stars.");
@@ -54,7 +57,7 @@ public class ReviewActivity extends AppCompatActivity {
                     alert11.show();
                 } else {
                     if (!review.equals("")) {
-                        model.submitReview(rating, review);
+                        model.submitReview(rating, title, review);
                     } else {
                         model.submitReview(rating);
                     }

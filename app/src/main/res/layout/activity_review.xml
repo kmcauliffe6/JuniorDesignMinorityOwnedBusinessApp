@@ -26,6 +26,12 @@
             android:text="Leave additional comments:"/>
 
         <EditText
+            android:id="@+id/reviewSubmitTitle"
+            android:layout_width="324dp"
+            android:layout_height="wrap_content"
+            android:hint="Title..." />
+
+        <EditText
             android:id="@+id/reviewSubmitEditText"
             android:layout_width="322dp"
             android:layout_height="181dp"
