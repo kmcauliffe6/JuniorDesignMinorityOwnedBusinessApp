@@ -85,6 +85,9 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         } else if (item.equals("Media")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.media, null));
+        } else if (item.equals("SEE ALL")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.bread, null));
         }
         customViewHolder.itemView.setOnClickListener(new CategoryRecyclerViewAdapter.MyOnClickListener());
     }

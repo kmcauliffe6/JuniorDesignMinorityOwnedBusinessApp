@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static DatabaseModel model;
-    private ArrayList<String> categories;
+    private ArrayList<String> categories = new ArrayList<>();
     private static MainActivity.CategoriesRetrieval mAuthTask = null;
 
 
@@ -39,7 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView mRecyclerView = findViewById(R.id.recycler_view_categories);
                 mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
-                this.categories = model.getCategoryList();
+
+                this.categories.add("SEE ALL");
+                for (int x = 0; x < model.getCategoryList().size(); x++) {
+                    this.categories.add(model.getCategoryList().get(x));
+                }
 
                 if (this.categories == null) {
                     throw new Exception("returned categories were null");
