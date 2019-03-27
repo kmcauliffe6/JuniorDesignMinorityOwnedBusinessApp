@@ -198,16 +198,7 @@ final class DatabaseModel {
                     "LEFT JOIN tb_category c ON bc.category = c.category " +
                     "WHERE b.business = CAST(? AS int)");
             checkStatement.setString(1, String.valueOf(selectedBusiness));
-            PreparedStatement favoritesStatement = db.getStatement(
-                    "SELECT * from tb_entity_favorites " +
-                            "WHERE entity = CAST(? AS int) " +
-                            "AND business = CAST(? AS int) ");
-            if (!Guest.isGuestUser()) { favoritesStatement.setString(1, getCurrentUser().getEntity()); }
-            else {favoritesStatement.setString(1, "");}
-            favoritesStatement.setString(2, String.valueOf(selectedBusiness));
-            Log.i("BusinessDetails", checkStatement.toString() + ", " + favoritesStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
-            ResultSet favoritesResults = db.query(favoritesStatement);
             while ( checkResults.next() ) {
                 //TODO : fix to get the remaining arguments
                 BusinessObject b_o = new BusinessObject(checkResults.getInt(1),
@@ -219,8 +210,22 @@ final class DatabaseModel {
                         + checkResults.getString(2) + ":" + checkResults.getString(4)
                         + ": " + checkResults.getString(3));
             }
-            while ( favoritesResults.next() ) {
-                selectedBusinessObject.setIsFavorited(true);
+            Log.i("BusinessDetails", "below ");
+            if (!Guest.isGuestUser()) {
+                PreparedStatement favoritesStatement = db.getStatement(
+                        "SELECT * from tb_entity_favorites " +
+                                "WHERE entity = CAST(? AS int) " +
+                                "AND business = CAST(? AS int) ");
+                Log.i("BusinessDetails", "is not guest ");
+                favoritesStatement.setString(1, getCurrentUser().getEntity());
+                favoritesStatement.setString(2, String.valueOf(selectedBusiness));
+                Log.i("BusinessDetails", checkStatement.toString() + ", " + favoritesStatement.toString());
+                ResultSet favoritesResults = db.query(favoritesStatement);
+                while (favoritesResults.next()) {
+                    selectedBusinessObject.setIsFavorited(true);
+                }
+            } else {
+                Log.i("BusinessDetails", "is guest " );
             }
         } catch (SQLException e) {
             Log.e("BusinessDetails", e.getMessage());
