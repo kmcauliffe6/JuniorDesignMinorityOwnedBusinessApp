@@ -430,12 +430,16 @@ final class DatabaseModel {
         return true;
     }
 
-    boolean submitReview(int rating) {
-        return false;
+    void submitReview(int rating) {
+        try {
+            PreparedStatement checkStatement = db.getStatement("");
+        } catch (SQLException e) {
+            Log.e("ReviewRating", e.getMessage());
+        }
     }
 
-    boolean submitReview(int rating, String review) {
-        return false;
+    void submitReview(int rating, String title, String review) {
+
     }
 
     /**
