@@ -142,6 +142,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                 new CompoundButton.OnCheckedChangeListener(){
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                        ToggleFavorited toggleTask = new ToggleFavorited();
                         Log.v("*TOGGLE CHECK CHANGED*",String.valueOf(isChecked));
                         if(!isChecked){
                             Log.d("Favorites Button", "button is a full heart");
@@ -151,6 +152,11 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                                 g.saveGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             } else {
                                 model.setToggle(true);
+                                try {
+                                    toggleTask.execute((Void) null).get();
+                                } catch (Exception e) {
+                                    Log.e("ToggleTask", e.getMessage());
+                                }
                             }
                         }else{
                             //remove this business from favorites
@@ -160,13 +166,12 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
                                 g.removeGuestFavorite(BusinessDetailPageActivity.this, businessID);
                             } else {
                                 model.setToggle(false);
+                                try {
+                                    toggleTask.execute((Void) null).get();
+                                } catch (Exception e) {
+                                    Log.e("ToggleTask", e.getMessage());
+                                }
                             }
-                    }
-                        ToggleFavorited toggleTask = new ToggleFavorited();
-                        try {
-                            toggleTask.execute((Void) null).get();
-                        } catch (Exception e) {
-                            Log.e("ToggleTask", e.getMessage());
                         }
                     }
                 });

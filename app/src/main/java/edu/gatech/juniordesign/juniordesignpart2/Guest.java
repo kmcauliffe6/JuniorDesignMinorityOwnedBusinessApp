@@ -24,6 +24,7 @@ public class Guest {
     }
 
     public static void setGuestUser(boolean isGuest) {
+        Log.i("guest", "guest set");
         isGuestUser = isGuest;
     }
 
