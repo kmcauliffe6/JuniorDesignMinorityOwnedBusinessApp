@@ -246,9 +246,24 @@ public class LoginActivity extends AppCompatActivity {
         if (account != null) {
             Log.w(TAG, "successful login");
             Guest.setGuestUser(false);
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            Log.w(TAG, "Given name = " + account.getGivenName());
+            Log.w(TAG, "Family name = " + account.getFamilyName());
+            model.setCurrentUser(new User(account.getEmail(), account.getGivenName(), account.getFamilyName(), false, "entity"));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+            Context context = getApplicationContext();
+            CharSequence text = "Login with Google Failed. Please try again";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
     }
 
