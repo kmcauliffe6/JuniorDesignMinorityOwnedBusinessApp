@@ -28,6 +28,7 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
     private static BusinessDetailRetrieval mAuthTask = null;
     private static DatabaseModel model;
     private static BusinessObject b_o;
+    SharedPreferences shared;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,17 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         // set up database model
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
+
+        shared = getSharedPreferences("login",MODE_PRIVATE);
+
+        User currentUser = new User(
+                shared.getString("email", ""),
+                shared.getString("firstName", ""),
+                shared.getString("lastName", ""),
+                shared.getBoolean("admin", false),
+                shared.getString("entity", ""));
+
+        model.setCurrentUser(currentUser);
 
         //get the businessID of the selected business
         businessID = model.getBusiness_id();

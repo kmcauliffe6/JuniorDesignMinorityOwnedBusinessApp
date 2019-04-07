@@ -15,17 +15,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        shared = getSharedPreferences("login",MODE_PRIVATE);
-
-        if (shared.getBoolean("logged",false)) {
-            Log.i("LoginActivity", "onPostExecute Success");
-            //got to main activity if login succeeds
-            Guest.setGuestUser(false);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
         setContentView(R.layout.activity_welcome);
     }
 

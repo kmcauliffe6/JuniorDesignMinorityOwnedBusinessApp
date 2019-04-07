@@ -81,6 +81,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        shared = getSharedPreferences("login",MODE_PRIVATE);
+
+        if (shared.getBoolean("logged",false)) {
+            Log.i("LoginActivity", "onPostExecute Success");
+            //got to main activity if login succeeds
+
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+
+            User currentUser = new User(
+                    shared.getString("email", ""),
+                    shared.getString("firstName", ""),
+                    shared.getString("lastName", ""),
+                    shared.getBoolean("admin", false),
+                    shared.getString("entity", ""));
+
+            model.setCurrentUser(currentUser);
+
+            Guest.setGuestUser(false);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -158,6 +182,18 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     shared.edit().putBoolean("logged",true).apply();
+
+                    //Get current instance of the database
+                    DatabaseModel.checkInitialization();
+                    DatabaseModel model = DatabaseModel.getInstance();
+                    User currentUser = model.getCurrentUser();
+
+                    shared.edit().putString("firstName", currentUser.getFirstName()).apply();
+                    shared.edit().putString("lastName", currentUser.getLastName()).apply();
+                    shared.edit().putString("email", currentUser.getEmail()).apply();
+                    shared.edit().putBoolean("admin", currentUser.getAdmin()).apply();
+                    shared.edit().putString("entity", currentUser.getEntity()).apply();
+
                     finish();
                 } else {
                     Context context = getApplicationContext();
