@@ -25,5 +25,7 @@ public class User
 
     public String getLastName() { return lastName; }
 
+    public Boolean getAdmin() { return  isAdmin; }
+
     public String getEntity() { return entity; }
 }
