@@ -42,8 +42,6 @@ public class ReviewActivity extends AppCompatActivity {
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         ReviewActivity cur = this;
-        String p = "Please leave a review for " + model.getSelectedBusinessObject().getName();
-        prompt.setText(p);
 
 
         leave_review_button.setOnClickListener(new Button.OnClickListener() {
