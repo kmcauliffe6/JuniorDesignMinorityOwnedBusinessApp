@@ -38,6 +38,7 @@ public class BusinessListActivity extends AppCompatActivity {
     private static DatabaseModel model;
     private ArrayList<BusinessListItem> businesses = null;
     private PrefixTree b_tree = null;
+    private PrefixTree sub_tree = null;
     private ArrayList<BusinessListItem> curSubset = null;
 
     @Override
@@ -48,7 +49,6 @@ public class BusinessListActivity extends AppCompatActivity {
 
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
-        //TODO: Austin needs the category to be saved on the main page this is for debug
         model.setSelectedCategory("Construction"); //Category is Construction for now
         mAuthTask = new BusinessListRetrieval();
         try {
@@ -102,6 +102,7 @@ public class BusinessListActivity extends AppCompatActivity {
                     public boolean onQueryTextSubmit(String query) {
                         query = query.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(query);
+                        //ArrayList<BusinessListItem> new_b = subsearch(query);
                         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                         RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, new_b);
                         mRecyclerView.setAdapter(adapter);
@@ -112,6 +113,7 @@ public class BusinessListActivity extends AppCompatActivity {
                     public boolean onQueryTextChange(String newText) {
                         newText = newText.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(newText);
+                        //ArrayList<BusinessListItem> new_b = subsearch(newText);
                         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                         RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, new_b);
                         mRecyclerView.setAdapter(adapter);
@@ -160,6 +162,7 @@ public class BusinessListActivity extends AppCompatActivity {
         char letter;
         HashMap<Character, TrieNode> links;
         BusinessListItem business;
+
 
         private TrieNode(char letter) {
             this.letter = letter;
@@ -213,6 +216,56 @@ public class BusinessListActivity extends AppCompatActivity {
             return getLeaves(curNode);
         }
 
+        /**
+         * Creating a tree and inserting the subcategory's for the business into the tree
+         *
+         * @param root Root of the prefix tree being used
+         * @param business Name of the business being added
+         */
+        public void insertSubCat(TrieNode root, BusinessListItem business) {
+            ArrayList<String> subcats = business.subcategories;
+            int first = 0;
+
+            while (!subcats.isEmpty()) {
+                int length = subcats.get(first).length();
+                char[] letters = subcats.get(first).toCharArray();
+                TrieNode curNode = root;
+
+                for(int i = 0; i < length; i++) {
+                    if (curNode.links.get(letters[i]) == null) {
+                        curNode.links.put(letters[i], new TrieNode(letters[i]));
+                    }
+                    curNode = curNode.links.get(letters[i]);
+                }
+                curNode.business = business;
+
+                subcats.remove(first);
+            }
+        }
+
+        /**
+         * Searching through the tree for teh subcategories
+         *
+         * @param root Root of the tree being searched
+         * @param word String being used as the search criteria
+         * @return BusinessListItems that match the search criteria
+         */
+        public ArrayList<BusinessListItem> findSubs(TrieNode root, String word) {
+            int l = word.length();
+            char[] letters = word.toCharArray();
+            TrieNode curNode = root;
+
+            for(int i = 0; i < l; i++) {
+                if (curNode.links.get(letters[i]) == null) {
+                    return null;
+                }
+                curNode = curNode.links.get(letters[i]);
+            }
+            if (curNode == null)
+                return null;
+            return getLeaves(curNode);
+        }
+
         private ArrayList<BusinessListItem> getLeaves(TrieNode root) {
             LinkedList<TrieNode> q = new LinkedList<>();
             ArrayList<BusinessListItem> b = new ArrayList<>();
@@ -231,6 +284,12 @@ public class BusinessListActivity extends AppCompatActivity {
 
     private ArrayList<BusinessListItem> search(String query) {
         ArrayList<BusinessListItem> list = this.b_tree.findMatching(this.b_tree.getRoot(), query);
+        this.curSubset = list;
+        return list;
+    }
+
+    private ArrayList<BusinessListItem> subsearch(String query) {
+        ArrayList<BusinessListItem> list = this.sub_tree.findMatching(this.sub_tree.getRoot(), query);
         this.curSubset = list;
         return list;
     }
