@@ -379,7 +379,13 @@ final class DatabaseModel {
                 address[0] = checkResults.getString(5);
                 address[1] = checkResults.getString(6);
                 address[2] = checkResults.getString(7);
-                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), address, (String[])checkResults.getArray(4).getArray() ) );
+                String rating = checkResults.getString(3);
+                if (rating.length() > 4) {
+                    rating = rating.substring(0, 4);
+                } else {
+                    rating = rating.concat(".00");
+                }
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), rating, address, (String[])checkResults.getArray(4).getArray() ) );
                 Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + (String[])checkResults.getArray(4).getArray());
                 Log.i("BusinessAddress", address[0] + " " + address[1] + " " + address[2]);
             }
@@ -441,14 +447,14 @@ final class DatabaseModel {
         return true;
     }
 
-    boolean submitReview(int rating) {
+    boolean submitReview(float rating) {
         try {
             PreparedStatement updateStatement = db.getStatement("" +
                     "UPDATE tb_business\n" +
                     "SET avg_rating = (SELECT (avg_rating * num_rating + ?) / (num_rating + 1) FROM tb_business WHERE business = ?),\n" +
                     "num_rating = (SELECT num_rating + 1 FROM tb_business WHERE business = ?)\n" +
                     "WHERE business = ?");
-            updateStatement.setInt(1, rating);
+            updateStatement.setFloat(1, rating);
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
@@ -460,7 +466,7 @@ final class DatabaseModel {
         }
     }
 
-    boolean submitReview(int rating, String title, String review) {
+    boolean submitReview(float rating, String title, String review) {
         try {
             PreparedStatement updateStatement = db.getStatement("" +
                     "UPDATE tb_business\n" +
@@ -469,13 +475,13 @@ final class DatabaseModel {
                     "WHERE business = ?;" +
                     "INSERT INTO tb_review (entity, business, rating, title, description) " +
                     "VALUES (?,?,?,?,?) ");
-            updateStatement.setInt(1, rating);
+            updateStatement.setFloat(1, rating);
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
             updateStatement.setInt(5, Integer.valueOf(getCurrentUser().getEntity()));
             updateStatement.setInt(6, getBusiness_id());
-            updateStatement.setInt(7, rating);
+            updateStatement.setFloat(7, rating);
             updateStatement.setString(8, title);
             updateStatement.setString(9, review);
             ResultSet checkResults = db.query(updateStatement);

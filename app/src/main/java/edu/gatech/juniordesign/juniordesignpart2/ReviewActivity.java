@@ -8,11 +8,13 @@ import android.media.Rating;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReviewActivity extends AppCompatActivity {
     Button leave_review_button = null;
@@ -23,50 +25,56 @@ public class ReviewActivity extends AppCompatActivity {
     RatingBar stars_bar = null;
     DatabaseModel model = null;
 
+    private static ReviewActivity.ReviewSubmitter mAuthTask = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         prompt = findViewById(R.id.reviewSubmitPrompt);
-        String p = "Please leave a review for " + model.getSelectedBusinessObject().getName();
 
         leave_review_button = findViewById(R.id.reviewSubmitButton);
         cancel = findViewById(R.id.reviewCancelButton);
         review_title = findViewById(R.id.reviewSubmitTitle);
         review_comments = findViewById(R.id.reviewSubmitEditText);
         stars_bar = findViewById(R.id.reviewSubmitRatingBar);
+        stars_bar.setRating((float)5.0);
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         ReviewActivity cur = this;
+        String p = "Please leave a review for " + model.getSelectedBusinessObject().getName();
+        prompt.setText(p);
 
 
         leave_review_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int rating = stars_bar.getNumStars();
+                float rating = stars_bar.getRating();
                 String review = review_comments.getText().toString();
                 String title = review_title.getText().toString();
-                if (rating == 0) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
-                    builder1.setMessage("The rating must be between 1 and 5 stars.");
-                    builder1.setCancelable(false);
+                Log.i("leaveReviewButton", Float.toString(rating));
+                mAuthTask = new ReviewSubmitter(rating, title, review);
+                try {
+                    boolean success = mAuthTask.execute((Void) null).get();
 
-                    builder1.setPositiveButton(
-                            "Ok",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                } else {
-                    if (!review.equals("")) {
-                        model.submitReview(rating, title, review);
+                    Log.i("ReviewSubmitter", "sucess: " + success);
+                    Log.i("ReviewSubmitter", "sucess: " + success);
+                    if (success) {
+                        Log.i("ReviewActivity", "onPostExecute Success");
+                        //after registration the user is taken to the home page
+                        Intent intent = new Intent(cur, BusinessDetailPageActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        model.submitReview(rating);
+                        Context context = getApplicationContext();
+                        CharSequence text = "  Error Occurred.\n Please Try Again.";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
+                } catch (Exception e) {
+                    Log.e("attemptReview", e.getMessage(), e);
                 }
             }
         });
@@ -81,20 +89,37 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private static class ReviewSubmitter extends AsyncTask<Void, Void, Boolean> {
+        private final String review;
+        private final String title;
+        private final float rating;
+        ReviewSubmitter(float rating, String title, String review) {
+            this.review = review;
+            this.rating = rating;
+            this.title = title;
+        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             DatabaseModel.checkInitialization();
             DatabaseModel model = DatabaseModel.getInstance();
-            return model.getCategories();
+            boolean ret;
+            if (!review.equals("")) {
+                ret = model.submitReview(rating, title, review);
+            } else {
+                ret = model.submitReview(rating);
+            }
+            Log.i("ReviewSubmitter", "result: " + ret);
+            return ret;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
         }
 
         @Override
         protected void onCancelled() {
+            mAuthTask = null;
         }
     }
 }
