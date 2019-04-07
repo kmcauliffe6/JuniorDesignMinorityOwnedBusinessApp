@@ -32,11 +32,11 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
     public int compareTo(@NonNull BusinessListItem businessListItem) {
         float dif = Float.parseFloat(this.rating) - Float.parseFloat(businessListItem.rating);
         if (dif < 0) {
-            return -1;
+            return 1;
         } else if (dif == 0) {
             return 0;
         } else {
-            return 1;
+            return -1;
         }
     }
 
