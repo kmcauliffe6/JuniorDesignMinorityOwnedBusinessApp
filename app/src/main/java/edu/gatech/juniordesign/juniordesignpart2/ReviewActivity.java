@@ -20,6 +20,7 @@ public class ReviewActivity extends AppCompatActivity {
     Button leave_review_button = null;
     Button cancel = null;
     TextView prompt = null;
+    TextView name = null;
     EditText review_title = null;
     EditText review_comments = null;
     RatingBar stars_bar = null;
@@ -32,16 +33,22 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         prompt = findViewById(R.id.reviewSubmitPrompt);
-
-
+        name = findViewById(R.id.reviewSubmitName);
         leave_review_button = findViewById(R.id.reviewSubmitButton);
         cancel = findViewById(R.id.reviewCancelButton);
         review_title = findViewById(R.id.reviewSubmitTitle);
         review_comments = findViewById(R.id.reviewSubmitEditText);
         stars_bar = findViewById(R.id.reviewSubmitRatingBar);
+        stars_bar.setRating((float)5.0);
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         ReviewActivity cur = this;
+
+        String p = "Please leave a review for ";
+        String n = model.getSelectedBusinessObject().getName();
+        prompt.setText(p);
+        name.setText(n);
+
 
 
         leave_review_button.setOnClickListener(new Button.OnClickListener() {
