@@ -49,4 +49,10 @@
     <string name="Shopping">Shopping</string>
     <string name="Grocery">Grocery</string>
     <string name="title_activity_maps">Map</string>
+
+
+    <string name="facebook_app_id">619516765161591</string>
+    <string name="fb_login_protocol_scheme">fb619516765161591</string>
+
+
 </resources>

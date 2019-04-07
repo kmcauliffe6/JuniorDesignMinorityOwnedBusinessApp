@@ -126,6 +126,38 @@ public class BusinessListActivity extends AppCompatActivity {
 
     }
 
+    public void goToSettingsPageActivity(View view) {
+        Intent intent = new Intent(this, SettingsPageActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToProfilePageActivity(View view) {
+        Intent intent = new Intent(this, ProfilePageActivity.class);
+        startActivity(intent);
+    }
+
+    // create an action bar button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // set up ActionBar with settings and profile icons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.settingsButton) {
+            goToSettingsPageActivity(getWindow().getDecorView().getRootView());
+        }
+
+        if (id == R.id.profilePicButton) {
+            goToProfilePageActivity(getWindow().getDecorView().getRootView());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public class TrieNode {
         char letter;
         HashMap<Character, TrieNode> links;

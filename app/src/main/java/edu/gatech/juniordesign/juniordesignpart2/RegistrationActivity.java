@@ -17,12 +17,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+
+import java.util.concurrent.ExecutionException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import java.util.Arrays;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
@@ -37,6 +49,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mLastNameView; private static final int RC_SIGN_IN = 9001;
     private String TAG = "Google Log In";
     private GoogleSignInClient mGoogleSignInClient;
+    private static final String EMAIL = "email";
+    CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,37 @@ public class RegistrationActivity extends AppCompatActivity {
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+
+
+
+
+
+
+        LoginButton loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+        loginButton.setReadPermissions(Arrays.asList(EMAIL));
+        // If you are using in a fragment, call loginButton.setFragment(this);
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
 
         //sign in user through Google
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
@@ -143,7 +188,7 @@ public class RegistrationActivity extends AppCompatActivity {
             String firstName = firstName1;
             String lastName = lastName1;
 
-            mAuthTask = new UserRegistrationTask(email, password, firstName, lastName, false);
+            mAuthTask = new UserRegistrationTask(email.toLowerCase(), password, firstName, lastName, false);
             try {
                 boolean success = mAuthTask.execute((Void) null).get();
                 if (success) {
@@ -160,8 +205,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
-            } catch (Exception e) {
-                Log.e("attemptRegistration", e.getMessage(), e);
+            } catch (ExecutionException e){
+                Log.e("UserRegistrationTask", e.getMessage());
+            } catch (InterruptedException e){
+                Log.e("UserRegistrationTask", e.getMessage());
             }
 
         }
@@ -209,8 +256,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     return true;
                 case 1:
                     // Username taken
-                    Log.e("attemptRegistration", "username =" + mEmail);
-
                     Log.e("attemptRegistration", "username was taken");
                     return false;
                 case 2:
@@ -254,7 +299,12 @@ public class RegistrationActivity extends AppCompatActivity {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+            super.onActivityResult(requestCode, resultCode, data);
         }
+
+
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
