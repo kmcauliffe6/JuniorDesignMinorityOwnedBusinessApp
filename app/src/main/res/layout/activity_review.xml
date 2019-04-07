@@ -19,7 +19,16 @@
         <TextView
             android:id="@+id/reviewSubmitPrompt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/reviewSubmitName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"/>
 
         <RatingBar
             android:id="@+id/reviewSubmitRatingBar"
@@ -41,7 +50,7 @@
             android:layout_width="322dp"
             android:layout_height="181dp"
             android:hint="Tell us what you thought..."
-            android:textAlignment="textStart"/>
+            android:gravity="top"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
