@@ -40,10 +40,18 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
         }
     }
 
+    /**
+     * getter for businessId
+     * @return id for the selected business
+     */
     public int getId() {
         return this.id;
     }
 
+    /**
+     * getter for business name
+     * @return name for the selected business
+     */
     public String getName() {
         return this.name;
     }
@@ -65,9 +73,18 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
         }
     }
 
+    /**
+     * getter for business rating
+     * @return rating for the selected business
+     */
     public String getRating() {
         return this.rating;
     }
+    
+    /**
+     * getter for business address
+     * @return address for the selected business
+     */
     public String[] getAddress() {
         return address;
     }

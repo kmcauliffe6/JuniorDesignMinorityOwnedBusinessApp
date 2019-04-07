@@ -346,9 +346,6 @@ public class BusinessListActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private static class BusinessListRetrieval extends AsyncTask<Void, Void, Boolean> {
 
         @Override

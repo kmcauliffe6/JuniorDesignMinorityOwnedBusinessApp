@@ -17,26 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 
 
 import java.util.concurrent.ExecutionException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
-import java.util.Arrays;
-
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -47,11 +30,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private EditText mFirstNameView;
     private EditText mLastNameView;
-    private static final int RC_SIGN_IN = 9001;
-    private String TAG = "Google Log In";
-    private GoogleSignInClient mGoogleSignInClient;
-    private static final String EMAIL = "email";
-    CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

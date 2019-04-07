@@ -23,6 +23,10 @@ public class Guest {
 
     }
 
+    /**
+     * Setter for isGuestUser
+     * @param isGuest boolean for whether an user is a guest (not logged in)
+     */
     public static void setGuestUser(boolean isGuest) {
         Log.i("guest", "guest set");
         isGuestUser = isGuest;
@@ -32,7 +36,13 @@ public class Guest {
         return isGuestUser;
     }
 
-    //cache guest favorites on their device
+
+    /**
+     * This method adds a guest favorite to internal storage
+     * on the user's phone when the heart button is pressed
+     * @param context Activity Context
+     * @param businessID the id of the business to be removed
+     */
     public void saveGuestFavorite(Context context, int businessID) {
         String fileName = context.getFilesDir() + "/" + "guest_favorites";
         String fileContents = Integer.toString(businessID);
@@ -49,8 +59,11 @@ public class Guest {
     }
 
 
-
-    //remove a business from cached favorites
+    /**
+     * This method removes a guest favorite when the heart button is unpressed
+     * @param context Activity Context
+     * @param businessID the id of the business to be removed
+     */
     public void removeGuestFavorite(Context context, int businessID) {
         String yourFilePath = context.getFilesDir() + "/" + "guest_favorites";
         File temp = new File(context.getFilesDir() + "/" + "temp.txt");
