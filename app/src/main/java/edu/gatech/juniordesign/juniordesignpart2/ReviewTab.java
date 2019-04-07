@@ -21,9 +21,6 @@ public class ReviewTab extends Fragment {
 
         //TODO get a list of the user's reviews here
         ArrayList<String> reviews = new ArrayList<String>();
-        reviews.add("5 stars!! Great business");
-        reviews.add("I would 100% recommend this place");
-        reviews.add("Awesome! This app is changing my life");
 
         ArrayAdapter<String> allItemsAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1,reviews);
 
