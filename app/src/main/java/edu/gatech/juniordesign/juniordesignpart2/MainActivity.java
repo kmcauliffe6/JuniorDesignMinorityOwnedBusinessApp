@@ -58,15 +58,17 @@ public class MainActivity extends AppCompatActivity {
             Log.e("CategoryList", "error setting up categories list");
         }
     }
-
+/*
     public void goToBusinessListActivity(View view) {
         Intent intent = new Intent(this, BusinessListActivity.class);
         Button clicked = (Button) view;
         String category = clicked.getText().toString();
+        Log.i("Main", "set category: " + category);
+        model.setSelectedCategory(category);
         intent.putExtra("category", category);
         startActivity(intent);
     }
-
+*/
     public void goToSettingsPageActivity(View view) {
         Intent intent = new Intent(this, SettingsPageActivity.class);
         startActivity(intent);

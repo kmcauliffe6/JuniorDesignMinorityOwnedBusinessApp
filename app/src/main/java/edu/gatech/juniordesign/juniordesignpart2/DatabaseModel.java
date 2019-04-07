@@ -372,6 +372,7 @@ final class DatabaseModel {
                     "( SELECT category FROM tb_category WHERE description LIKE ? )" +
                     "GROUP BY ( b.business, b.name, avg_rating ) ");
             checkStatement.setString(1, selectedCategory);
+            Log.i("BusinessList", checkStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {

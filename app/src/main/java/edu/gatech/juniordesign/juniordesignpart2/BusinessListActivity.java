@@ -44,12 +44,8 @@ public class BusinessListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_list);
-
-
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
-        //TODO: Austin needs the category to be saved on the main page this is for debug
-        model.setSelectedCategory("Construction"); //Category is Construction for now
         mAuthTask = new BusinessListRetrieval();
         try {
             boolean success = mAuthTask.execute((Void) null).get();

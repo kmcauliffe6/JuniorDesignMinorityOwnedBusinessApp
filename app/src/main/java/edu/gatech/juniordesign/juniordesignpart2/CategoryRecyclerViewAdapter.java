@@ -111,6 +111,10 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         public void onClick(final View view) {
             int itemPosition = mRecyclerView.getChildLayoutPosition(view);
             String categoryName = id_map.get(itemPosition);
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            model.setSelectedCategory(categoryName);
+            Log.i("Main", categoryName);
             Intent intent = new Intent (context, BusinessListActivity.class);
             intent.putExtra("category", categoryName);
             context.startActivity(intent);
