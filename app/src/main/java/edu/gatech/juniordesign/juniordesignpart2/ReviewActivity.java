@@ -91,12 +91,10 @@ public class ReviewActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
         }
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
         }
     }
 }
