@@ -31,6 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/logout_button"
+            android:textColor="@color/colorPrimaryDark"
+            android:backgroundTint="@color/buttonColor"
             android:onClick="logoutUser" />
 
         <Button
@@ -38,6 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="goToTermsActivity"
+            android:textColor="@color/colorPrimaryDark"
+            android:backgroundTint="@color/buttonColor"
             android:text="@string/terms_of_service_button_name" />
 
         <Button
@@ -45,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/delete_account_button"
+            android:textColor="@color/colorPrimaryDark"
+            android:backgroundTint="@color/buttonColor"
             android:onClick="confirmDeleteAccount"/>
 
     </LinearLayout>
