@@ -56,9 +56,15 @@ public class BusinessListActivity extends AppCompatActivity {
                 this.businesses = model.getBusinessList();
                 this.curSubset = this.businesses;
                 this.b_tree = new PrefixTree();
+                this.sub_tree = new PrefixTree();
                 for (BusinessListItem b : this.businesses) {
                     b_tree.insertWord(b_tree.getRoot(), b);
                 }
+                /*
+                for (BusinessListItem b : this.businesses) {
+                    sub_tree.insertSubCat(sub_tree.getRoot(), b);
+                }
+                */
                 this.businesses = sortByRating();
                 RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, this.businesses);
                 mRecyclerView.setAdapter(adapter);
@@ -99,7 +105,8 @@ public class BusinessListActivity extends AppCompatActivity {
                     public boolean onQueryTextSubmit(String query) {
                         query = query.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(query);
-                        //ArrayList<BusinessListItem> new_b = subsearch(query);
+                        //ArrayList<BusinessListItem> sub_b = subSearch(query);
+                        //new_b.addAll(sub_b);
                         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                         RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, new_b);
                         mRecyclerView.setAdapter(adapter);
@@ -110,7 +117,8 @@ public class BusinessListActivity extends AppCompatActivity {
                     public boolean onQueryTextChange(String newText) {
                         newText = newText.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(newText);
-                        //ArrayList<BusinessListItem> new_b = subsearch(newText);
+                        //ArrayList<BusinessListItem> sub_b = subSearch(newText);
+                        //new_b.addAll(sub_b);
                         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
                         RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, new_b);
                         mRecyclerView.setAdapter(adapter);
@@ -221,11 +229,10 @@ public class BusinessListActivity extends AppCompatActivity {
          */
         public void insertSubCat(TrieNode root, BusinessListItem business) {
             ArrayList<String> subcats = business.subcategories;
-            int first = 0;
 
             while (!subcats.isEmpty()) {
-                int length = subcats.get(first).length();
-                char[] letters = subcats.get(first).toCharArray();
+                int length = subcats.get(0).length();
+                char[] letters = subcats.get(0).toCharArray();
                 TrieNode curNode = root;
 
                 for(int i = 0; i < length; i++) {
@@ -236,12 +243,12 @@ public class BusinessListActivity extends AppCompatActivity {
                 }
                 curNode.business = business;
 
-                subcats.remove(first);
+                subcats.remove(0);
             }
         }
 
         /**
-         * Searching through the tree for teh subcategories
+         * Searching through the tree for the subcategories
          *
          * @param root Root of the tree being searched
          * @param word String being used as the search criteria
@@ -285,8 +292,8 @@ public class BusinessListActivity extends AppCompatActivity {
         return list;
     }
 
-    private ArrayList<BusinessListItem> subsearch(String query) {
-        ArrayList<BusinessListItem> list = this.sub_tree.findMatching(this.sub_tree.getRoot(), query);
+    private ArrayList<BusinessListItem> subSearch(String query) {
+        ArrayList<BusinessListItem> list = this.sub_tree.findSubs(this.sub_tree.getRoot(), query);
         this.curSubset = list;
         return list;
     }
