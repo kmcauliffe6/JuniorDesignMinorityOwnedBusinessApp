@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Black Business App</string>
+    <string name="app_name">Bread</string>
     <string name="settings_button_name">Settings</string>
     <string name="terms_of_service_button_name">Terms of Service</string>
     <string name="title_activity_login">"Login "</string>
@@ -57,6 +57,9 @@
     <!-- Strings related to facebook sign in -->
     <string name="facebook_app_id">619516765161591</string>
     <string name="fb_login_protocol_scheme">fb619516765161591</string>
+
+    <string name="slogan">Let\'s help minority owned businesses get this bread!</string>
+
 
 
 </resources>
