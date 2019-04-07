@@ -244,17 +244,12 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(GoogleSignInAccount account) {
         //update UI depending on result of login
         if (account != null) {
-            Log.w(TAG, "successful login");
-            Guest.setGuestUser(false);
-            DatabaseModel.checkInitialization();
-            DatabaseModel model = DatabaseModel.getInstance();
-            Log.w(TAG, "Given name = " + account.getGivenName());
-            Log.w(TAG, "Family name = " + account.getFamilyName());
-            model.setCurrentUser(new User(account.getEmail(), account.getGivenName(), account.getFamilyName(), false, "entity"));
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            Log.w(TAG, "successful google login");
+            String userEmail = account.getEmail();
+            String userID = account.getId();
+            //login user here
         } else {
+            //google authentication failed
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
@@ -264,6 +259,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+            finish();
         }
     }
 
