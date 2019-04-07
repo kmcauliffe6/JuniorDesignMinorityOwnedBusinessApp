@@ -3,16 +3,22 @@ package edu.gatech.juniordesign.juniordesignpart2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -23,30 +29,26 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URL;
 import java.util.Arrays;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     SharedPreferences shared;
-    private static final int RC_SIGN_IN = 9001;
-    private String TAG = "Google Log In";
-    private GoogleSignInClient mGoogleSignInClient;
     private static final String EMAIL = "email";
     CallbackManager callbackManager = CallbackManager.Factory.create();
+    private String fbuserid;
+    private String fbemail;
+    private String fbname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_welcome);
-
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -61,33 +63,60 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+                AccessToken accessToken = loginResult.getAccessToken();
+                Profile profile = Profile.getCurrentProfile();
+
+
+                // Facebook Email address
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                Log.v("LoginActivity Response ", response.toString());
+                                if (response != null) {
+                                    try {
+                                        String name = object.getString("name");
+                                        String email = object.getString("email");
+                                        String id = object.getString("id");
+                                        setupProfileInfo(id, name, email);
+                                        Log.v("Email = ", " " + email);
+                                        Toast.makeText(getApplicationContext(), "Name " + name, Toast.LENGTH_LONG).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+                //register or login user here and then go to home page
             }
 
             @Override
             public void onCancel() {
                 // App code
+                Toast.makeText(getApplicationContext(), "Facebook Login Cancelled", Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                Toast.makeText(getApplicationContext(), "Error logging into Facebook", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
-        //sign in user through Google
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //google sign in here
-                switch (view.getId()) {
-                    case R.id.sign_in_button:
-                        Log.w(TAG, "sign in button clicked");
-                        googleSignIn();
-                        break;
-                    // ...
-                }
-            }
-        });
+    private void setupProfileInfo(String id, String name, String email) {
+        this.fbuserid = id;
+        this.fbname = name;
+        this.fbemail = email;
     }
 
     /**
@@ -121,74 +150,13 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Google and Facebook Sign In Helper Methods Below:
+     * Facebook Sign In Helper Methods Below:
      */
-    private void googleSignIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-
-
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            updateUI(account);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
-        }
-    }
-
-    private void updateUI(GoogleSignInAccount account) {
-        //update UI depending on result of login
-        if (account != null) {
-            Log.w(TAG, "successful login");
-            Guest.setGuestUser(false);
-            DatabaseModel.checkInitialization();
-            DatabaseModel model = DatabaseModel.getInstance();
-            String userEmail = account.getEmail();
-            String firstName = account.getGivenName();
-            String lastName = account.getFamilyName();
-            //register user here
-            Context context = getApplicationContext();
-            CharSequence text = "Login With Google Worked!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            finish();
-        } else {
-            //google authentication failed
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            startActivity(intent);
-
-            Context context = getApplicationContext();
-            CharSequence text = "Login with Google Failed. Please try again";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            finish();
-        }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
