@@ -378,7 +378,13 @@ final class DatabaseModel {
                 address[0] = checkResults.getString(5);
                 address[1] = checkResults.getString(6);
                 address[2] = checkResults.getString(7);
-                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), checkResults.getString(3), address, (String[])checkResults.getArray(4).getArray() ) );
+                String rating = checkResults.getString(3);
+                if (rating.length() > 4) {
+                    rating = rating.substring(0, 4);
+                } else {
+                    rating = rating.concat(".00");
+                }
+                businessList.add( new BusinessListItem(checkResults.getInt(1), checkResults.getString(2), rating, address, (String[])checkResults.getArray(4).getArray() ) );
                 Log.i("BusinessList", checkResults.getInt(1)+ ": " + checkResults.getString(2) + ", " + (String[])checkResults.getArray(4).getArray());
                 Log.i("BusinessAddress", address[0] + " " + address[1] + " " + address[2]);
             }
