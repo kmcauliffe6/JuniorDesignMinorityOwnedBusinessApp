@@ -33,23 +33,21 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
         prompt = findViewById(R.id.reviewSubmitPrompt);
 
+
         leave_review_button = findViewById(R.id.reviewSubmitButton);
         cancel = findViewById(R.id.reviewCancelButton);
         review_title = findViewById(R.id.reviewSubmitTitle);
         review_comments = findViewById(R.id.reviewSubmitEditText);
         stars_bar = findViewById(R.id.reviewSubmitRatingBar);
-        stars_bar.setRating((float)5.0);
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
         ReviewActivity cur = this;
-        String p = "Please leave a review for " + model.getSelectedBusinessObject().getName();
-        prompt.setText(p);
 
 
         leave_review_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float rating = stars_bar.getRating();
+                int rating = stars_bar.getNumStars();
                 String review = review_comments.getText().toString();
                 String title = review_title.getText().toString();
                 Log.i("leaveReviewButton", Float.toString(rating));
@@ -89,9 +87,11 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private static class ReviewSubmitter extends AsyncTask<Void, Void, Boolean> {
+
         private final String review;
         private final String title;
         private final float rating;
+
         ReviewSubmitter(float rating, String title, String review) {
             this.review = review;
             this.rating = rating;
@@ -114,12 +114,10 @@ public class ReviewActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
         }
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
         }
     }
 }

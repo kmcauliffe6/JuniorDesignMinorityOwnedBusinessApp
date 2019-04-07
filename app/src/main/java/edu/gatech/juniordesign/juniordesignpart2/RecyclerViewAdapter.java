@@ -56,6 +56,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         customViewHolder.textSubcats.setText(subcats);
         String rating_str = item.getRating();
+        int len = rating_str.length();
+        if (len > 4) {
+            len = 4;
+            rating_str = rating_str.substring(0, len);
+        } else if (len == 3) {
+            rating_str = rating_str.concat("0");
+        } else if (len == 2) {
+            rating_str = rating_str.concat("00");
+        } else {
+            rating_str = rating_str.concat(".00");
+        }
+
         float rating_num;
         customViewHolder.textRating.setText(rating_str);
         try {
