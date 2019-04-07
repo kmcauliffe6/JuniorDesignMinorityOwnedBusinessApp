@@ -2,6 +2,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,14 @@ public class SettingsPageActivity extends AppCompatActivity {
 
     private static UserDeleteTask mAuthTask = null;
     private static DatabaseModel model;
+    SharedPreferences shared;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settingspage);
+
+        shared = getSharedPreferences("login", MODE_PRIVATE);
 
         //disable logout and delete account buttons if guest is checked in
         if (Guest.isGuestUser()) {
@@ -47,6 +51,7 @@ public class SettingsPageActivity extends AppCompatActivity {
         model.clearCurrentUser();
         Intent intent = new Intent (this, WelcomeActivity.class);
         startActivity(intent);
+        shared.edit().putBoolean("logged", false).apply();
     }
 
     public void confirmDeleteAccount(View view) {

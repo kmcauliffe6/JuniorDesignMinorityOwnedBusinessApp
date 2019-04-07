@@ -2,6 +2,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private GoogleSignInClient mGoogleSignInClient;
 
+    // Setting up variables to have user login only need to happen once
+    SharedPreferences shared;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -62,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        shared = getSharedPreferences("login", MODE_PRIVATE);
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -149,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                     Guest.setGuestUser(false);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
+                    shared.edit().putBoolean("logged",true).apply();
                     finish();
                 } else {
                     Context context = getApplicationContext();
