@@ -1,15 +1,31 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    SharedPreferences shared;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        shared = getSharedPreferences("login",MODE_PRIVATE);
+
+        if (shared.getBoolean("logged",false)) {
+            Log.i("LoginActivity", "onPostExecute Success");
+            //got to main activity if login succeeds
+            Guest.setGuestUser(false);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_welcome);
     }
 
