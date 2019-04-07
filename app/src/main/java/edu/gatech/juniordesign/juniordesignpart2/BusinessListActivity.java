@@ -122,8 +122,6 @@ public class BusinessListActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("BusinessList", e.getMessage());
         }
-
-
     }
 
     public void goToSettingsPageActivity(View view) {

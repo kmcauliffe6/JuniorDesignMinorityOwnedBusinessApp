@@ -8,5 +8,5 @@
         android:layout_width="wrap_content"
         android:layout_height="717dp"
         android:layout_weight="1"
-        android:text="PHOTOS HERE" />
+        android:text="@string/NoBusinessPhotosMessage" />
 </LinearLayout>

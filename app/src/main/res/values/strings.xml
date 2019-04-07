@@ -50,7 +50,11 @@
     <string name="Grocery">Grocery</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- Strings related to business detail tabs -->
+    <string name='AboutTheOwnerNoInfoMessage'>No information available about this businesses owner.</string>
+    <string name='NoBusinessPhotosMessage'>There are no photos for this business yet.</string>
 
+    <!-- Strings related to facebook sign in -->
     <string name="facebook_app_id">619516765161591</string>
     <string name="fb_login_protocol_scheme">fb619516765161591</string>
 
