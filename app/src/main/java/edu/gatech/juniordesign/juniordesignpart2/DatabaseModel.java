@@ -23,6 +23,7 @@ final class DatabaseModel {
     private static int selectedBusiness;
     private BusinessObject selectedBusinessObject;
     private boolean toggle;
+    private static ArrayList<String> categories;
     private String[] addresses;
     private int business_id;
 
@@ -172,6 +173,10 @@ final class DatabaseModel {
         this.selectedBusinessObject = b;
     }
 
+    ArrayList<String> getCategoryList() {
+        return this.categories;
+    }
+
     public void setToggle(boolean toggle){ this.toggle = toggle; }
 
     public void setAddresses(String[] addresses) { this.addresses = addresses; }
@@ -312,21 +317,26 @@ final class DatabaseModel {
         }
     }
 
-   public ArrayList<String> getCatagories() {
-       DatabaseModel.checkInitialization();
-       ArrayList<String> catagories = new ArrayList<String>();
-       try {
-           ResultSet checkResults = db.query("SELECT description FROM tb_catagory");
-           while (checkResults.next()) {
-               catagories.add(checkResults.getString(1));
-           }
-           Log.i("getCatagories", "catagories retrieved: " + catagories);
-           return catagories;
-       } catch (SQLException e) {
-           Log.e("getCatagories", e.getMessage());
-           return null;
-       }
-   }
+    boolean getCategories() {
+        DatabaseModel.checkInitialization();
+        ArrayList<String> categories = new ArrayList<String>();
+        try {
+            Log.i("getCategories", "category: made it inside try statement");
+            ResultSet checkResults = db.query("SELECT description FROM tb_category");
+            while ( checkResults.next() )
+            {
+                Log.i("getCategories", "category: "+ checkResults.getString(1));
+                categories.add(checkResults.getString(1));
+            }
+            Log.i("getCategories", "categories retrieved: "+ categories);
+            this.categories = categories;
+            Log.i("getCategories", Integer.toString(this.categories.size()));
+            return true;
+        } catch(SQLException e) {
+            Log.e("getCategories", e.getMessage());
+            return false;
+        }
+    }
 
    public boolean removeUser(String email) {
        DatabaseModel.checkInitialization();
