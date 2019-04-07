@@ -50,7 +50,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String info = item.getName();
         //Setting text view title
         customViewHolder.textTitle.setText(info);
-        String subcats = item.getSubcategoriesForList().toString();
+        String subcats = item.getSubcategoriesForList().get(0);
+        for (int x = 1; x < item.getSubcategoriesForList().size(); x++) {
+            subcats += ", " + item.getSubcategoriesForList().get(x);
+        }
         customViewHolder.textSubcats.setText(subcats);
         String rating_str = item.getRating();
         float rating_num;

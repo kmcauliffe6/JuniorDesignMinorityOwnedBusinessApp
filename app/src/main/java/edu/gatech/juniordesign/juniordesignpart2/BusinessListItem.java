@@ -24,7 +24,7 @@ public class BusinessListItem implements Comparable<BusinessListItem> {
 
         for (String subcategory:subcategories)
         {
-          this.subcategories.add(subcategory);
+            this.subcategories.add(subcategory);
         }
     }
 
