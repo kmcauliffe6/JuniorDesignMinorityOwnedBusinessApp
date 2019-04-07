@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
@@ -105,14 +106,20 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
 
         //Set up review and favorite buttons
         Button reviewsButton = findViewById(R.id.reviewButton);
-        if (Guest.isGuestUser()) {
-            reviewsButton.setEnabled(false); //disable reviews for guest users
-        }
+
         reviewsButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (cur, ReviewActivity.class);
-                startActivity(intent);
+                if (Guest.isGuestUser()) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Please Login To Leave A Review";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                    Intent intent = new Intent (cur, ReviewActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
