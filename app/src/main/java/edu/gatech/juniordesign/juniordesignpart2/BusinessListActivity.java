@@ -337,9 +337,13 @@ public class BusinessListActivity extends AppCompatActivity {
             }
             i++;
         }
-        Intent intent = new Intent (this, MapsActivity.class);
-        model.setAddresses(addresses);
-        startActivity(intent);
+        if (addresses.length == 0) {
+            Toast.makeText(getApplicationContext(), "Not Enough Businesses To View On A Map", Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent (this, MapsActivity.class);
+            model.setAddresses(addresses);
+            startActivity(intent);
+        }
     }
 
 
