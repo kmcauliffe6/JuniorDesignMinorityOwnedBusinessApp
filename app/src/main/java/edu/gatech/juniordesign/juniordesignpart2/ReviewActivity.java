@@ -56,6 +56,9 @@ public class ReviewActivity extends AppCompatActivity {
                 mAuthTask = new ReviewSubmitter(rating, title, review);
                 try {
                     boolean success = mAuthTask.execute((Void) null).get();
+
+                    Log.i("ReviewSubmitter", "sucess: " + success);
+                    Log.i("ReviewSubmitter", "sucess: " + success);
                     if (success) {
                         Log.i("ReviewActivity", "onPostExecute Success");
                         //after registration the user is taken to the home page
@@ -99,12 +102,13 @@ public class ReviewActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             DatabaseModel.checkInitialization();
             DatabaseModel model = DatabaseModel.getInstance();
-            boolean ret = false;
+            boolean ret;
             if (!review.equals("")) {
                 ret = model.submitReview(rating, title, review);
             } else {
                 ret = model.submitReview(rating);
             }
+            Log.i("ReviewSubmitter", "result: " + ret);
             return ret;
         }
 
