@@ -443,14 +443,14 @@ final class DatabaseModel {
         return true;
     }
 
-    boolean submitReview(int rating) {
+    boolean submitReview(float rating) {
         try {
             PreparedStatement updateStatement = db.getStatement("" +
                     "UPDATE tb_business\n" +
                     "SET avg_rating = (SELECT (avg_rating * num_rating + ?) / (num_rating + 1) FROM tb_business WHERE business = ?),\n" +
                     "num_rating = (SELECT num_rating + 1 FROM tb_business WHERE business = ?)\n" +
                     "WHERE business = ?");
-            updateStatement.setInt(1, rating);
+            updateStatement.setFloat(1, rating);
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
@@ -462,7 +462,7 @@ final class DatabaseModel {
         }
     }
 
-    boolean submitReview(int rating, String title, String review) {
+    boolean submitReview(float rating, String title, String review) {
         try {
             PreparedStatement updateStatement = db.getStatement("" +
                     "UPDATE tb_business\n" +
@@ -471,13 +471,13 @@ final class DatabaseModel {
                     "WHERE business = ?;" +
                     "INSERT INTO tb_review (entity, business, rating, title, description) " +
                     "VALUES (?,?,?,?,?) ");
-            updateStatement.setInt(1, rating);
+            updateStatement.setFloat(1, rating);
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
             updateStatement.setInt(5, Integer.valueOf(getCurrentUser().getEntity()));
             updateStatement.setInt(6, getBusiness_id());
-            updateStatement.setInt(7, rating);
+            updateStatement.setFloat(7, rating);
             updateStatement.setString(8, title);
             updateStatement.setString(9, review);
             ResultSet checkResults = db.query(updateStatement);
