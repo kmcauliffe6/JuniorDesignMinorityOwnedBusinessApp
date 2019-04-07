@@ -24,6 +24,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.concurrent.ExecutionException;
+
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -143,7 +145,7 @@ public class RegistrationActivity extends AppCompatActivity {
             String firstName = firstName1;
             String lastName = lastName1;
 
-            mAuthTask = new UserRegistrationTask(email, password, firstName, lastName, false);
+            mAuthTask = new UserRegistrationTask(email.toLowerCase(), password, firstName, lastName, false);
             try {
                 boolean success = mAuthTask.execute((Void) null).get();
                 if (success) {
@@ -160,8 +162,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
-            } catch (Exception e) {
-                Log.e("attemptRegistration", e.getMessage(), e);
+            } catch (ExecutionException e){
+                Log.e("UserRegistrationTask", e.getMessage());
+            } catch (InterruptedException e){
+                Log.e("UserRegistrationTask", e.getMessage());
             }
 
         }

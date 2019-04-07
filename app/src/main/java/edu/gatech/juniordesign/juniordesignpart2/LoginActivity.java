@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email.toLowerCase(), password);
             try {
                 boolean success = mAuthTask.execute((Void) null).get();
                 if (success) {

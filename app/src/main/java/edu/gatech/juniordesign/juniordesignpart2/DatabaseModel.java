@@ -305,6 +305,7 @@ final class DatabaseModel {
                 registerStatement.setBoolean(6, isAdmin);
                 db.update(registerStatement);
                 checkResults = db.query(checkStatement);
+                checkResults.next();
                 String entity = checkResults.getString("entity");
                 setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
                 Log.d("Register User", "Success for email = " + email);
