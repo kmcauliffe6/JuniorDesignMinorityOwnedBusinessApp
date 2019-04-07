@@ -7,12 +7,14 @@
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="true"
     tools:context=".BusinessListActivity">
+
     <LinearLayout
+        android:id="@+id/filter_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:id="@+id/filter_bar">
+        >
 
         <Spinner
             android:id="@+id/filterSpinner"

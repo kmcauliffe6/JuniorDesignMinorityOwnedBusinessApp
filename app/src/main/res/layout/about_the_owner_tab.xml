@@ -7,5 +7,5 @@
         android:layout_width="wrap_content"
         android:layout_height="717dp"
         android:layout_weight="1"
-        android:text="ABOUT THE OWNER INFO HERE" />
+        android:text="@string/AboutTheOwnerNoInfoMessage" />
 </LinearLayout>
