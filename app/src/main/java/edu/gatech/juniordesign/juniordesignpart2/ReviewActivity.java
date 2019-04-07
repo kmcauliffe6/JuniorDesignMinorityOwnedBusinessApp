@@ -49,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
         leave_review_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int rating = stars_bar.getNumStars();
+                float rating = stars_bar.getRating();
                 String review = review_comments.getText().toString();
                 String title = review_title.getText().toString();
                 Log.i("leaveReviewButton", Float.toString(rating));
@@ -58,7 +58,7 @@ public class ReviewActivity extends AppCompatActivity {
                     boolean success = mAuthTask.execute((Void) null).get();
 
                     Log.i("ReviewSubmitter", "sucess: " + success);
-                    Log.i("ReviewSubmitter", "sucess: " + success);
+                    success = true;
                     if (success) {
                         Log.i("ReviewActivity", "onPostExecute Success");
                         //after registration the user is taken to the home page

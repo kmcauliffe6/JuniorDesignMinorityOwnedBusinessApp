@@ -480,7 +480,7 @@ final class DatabaseModel {
             updateStatement.setFloat(7, rating);
             updateStatement.setString(8, title);
             updateStatement.setString(9, review);
-            ResultSet checkResults = db.query(updateStatement);
+            db.query(updateStatement);
             return true;
         } catch (SQLException e) {
             Log.e("ReviewRating", e.getMessage());
