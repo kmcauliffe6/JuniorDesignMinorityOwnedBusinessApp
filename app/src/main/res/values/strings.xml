@@ -9,8 +9,8 @@
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Register</string>
-    <string name="action_sign_in_short">Login</string>
+    <string name="action_sign_in">Register with Email</string>
+    <string name="action_sign_in_short">Login with Email</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -19,8 +19,8 @@
         completions."
     </string>
     <string name="continue_as_guest_button">Continue as guest</string>
-    <string name="login_button">Login</string>
-    <string name="register_button">Register</string>
+    <string name="login_button">Login with Email</string>
+    <string name="register_button">Register with Email</string>
     <string name="logout_button">Logout</string>
     <string name="delete_account_button">Delete Account</string>
     <string name="latin_filler_text">Lorem ipsum dolor sit amet, graeco offendit no per. Mel mutat oratio alterum ne, nam et modus facete senserit. Cu modus delectus duo, nusquam argumentum conclusionemque qui ex, ne aliquip nostrud labores his. Veri recusabo pri an, an per autem ipsum, laudem aperiri oblique at eam. Ne novum labore platonem nam, vel eu numquam nusquam consectetuer. Nibh repudiandae delicatissimi ne qui, perfecto efficiantur eum te, id mel sale dolores. Sea elitr decore ceteros et, nec ut scripta dolorum constituam. His similique conclusionemque in, eum id iriure dignissim. Offendit sadipscing ad eum. Dicam appareat cotidieque ea eos. Nec ne nisl comprehensam, paulo melius insolens cum ea, nec cu eleifend corrumpit. Mea in numquam noluisse, nec cu iisque impedit, tota repudiandae ne sed. Clita disputationi voluptatibus ut eos, posse tempor sententiae pro ne. Qui timeam platonem et, sit dolore perpetua ad, ut oratio essent molestie eum. No cum probatus mediocritatem, eu possit virtute appareat sea. Mel an option recteque neglegentur. Sed id aliquid apeirian comprehensam. Vel ad ferri disputationi. Id his commodo definiebas interpretaris, percipit adversarium et per. Ex animal option vix, eius copiosae indoctum mel in. Legere aperiri ex eum, illum facilisi duo an, ut ancillae disputando has.</string>

@@ -90,20 +90,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebook_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp" />
-
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
