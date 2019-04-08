@@ -496,17 +496,19 @@ final class DatabaseModel {
 
     boolean queryReviewList() {
         ArrayList<Review> revs = new ArrayList<>();
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
-        revs.add(new Review("Review", "It was OK", (float)4.2));
+        try {
+            PreparedStatement checkStatement = db.getStatement("" +
+                    "SELECT rating, title, description FROM tb_review WHERE business = ?");
+            checkStatement.setInt(1, getBusiness_id());
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                revs.add(new Review(checkResults.getString(2), checkResults.getString(3), checkResults.getFloat(1)));
+                Log.i("QueryReviewList", checkResults.getString(3));
+            }
+        } catch (SQLException e) {
+            Log.e("QueryReviewList", e.getMessage());
+        }
         this.reviews = revs;
         return true;
     }

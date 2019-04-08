@@ -45,7 +45,7 @@ public class ReviewTab extends Fragment {
 
         ReviewRecyclerAdapter adapter = new ReviewRecyclerAdapter(getContext(), reviews);
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;

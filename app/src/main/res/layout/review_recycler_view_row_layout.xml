@@ -7,7 +7,7 @@
     android:paddingTop="15dp"
     android:paddingBottom="15dp">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rev_title"/>
     <RatingBar
@@ -17,11 +17,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/rev_rating" />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rev_rating_text"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rev_review"/>
 
