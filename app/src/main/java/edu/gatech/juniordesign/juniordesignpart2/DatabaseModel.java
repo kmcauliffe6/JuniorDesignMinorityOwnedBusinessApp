@@ -497,6 +497,16 @@ final class DatabaseModel {
     boolean queryReviewList() {
         ArrayList<Review> revs = new ArrayList<>();
         revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        revs.add(new Review("Review", "It was OK", (float)4.2));
         this.reviews = revs;
         return false;
     }
