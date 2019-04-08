@@ -48,25 +48,34 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     public void onBindViewHolder(CategoryRecyclerViewAdapter.CustomViewHolder customViewHolder, int i) {
         String item = itemList.get(i);
         //Setting text view title
-        customViewHolder.textTitle.setText(item);
+        //customViewHolder.textTitle.setText(item);
         if (item.equals("Construction")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.construction, null));
         } else if (item.equals("Grocery")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.grocery, null));
-        } else if (item.equals("Bank") || item.equals("Accounting") || item.equals("Financial Consulting")) {
+        } else if (item.equals("Bank")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.bank, null));
+        } else if (item.equals("Accounting")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.accountant, null));
+        } else if (item.equals("Financial Consulting")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.financial_consulting, null));
         } else if (item.equals("Legal")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.legal, null));
+        } else if (item.equals("Marketing")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.marketing, null));
         } else if (item.equals("Shopping")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.shopping, null));
         } else if (item.equals("Restaurant")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
-                    R.drawable.restaurant, null));
+                    R.drawable.restaurants, null));
         } else if (item.equals("Printing")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.printing, null));
@@ -81,13 +90,13 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
                     R.drawable.attorney, null));
         } else if (item.toLowerCase().equals("non-profit")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
-                    R.drawable.nonprofit, null));
+                    R.drawable.non_profit, null));
         } else if (item.equals("Media")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.media, null));
         } else if (item.equals("SEE ALL")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
-                    R.drawable.bread, null));
+                    R.drawable.see_all, null));
         }
         customViewHolder.itemView.setOnClickListener(new CategoryRecyclerViewAdapter.MyOnClickListener());
     }
