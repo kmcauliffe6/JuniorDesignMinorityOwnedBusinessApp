@@ -26,6 +26,7 @@ final class DatabaseModel {
     private static ArrayList<String> categories;
     private String[] addresses;
     private int business_id;
+    private ArrayList<Review> reviews;
 
     private DatabaseModel() {
         try {
@@ -58,6 +59,10 @@ final class DatabaseModel {
      * @return DatabaseModel currently being maintained.
      */
     static DatabaseModel getInstance() {return model;}
+
+    ArrayList<Review> getReviewsForSelected() {
+        return this.reviews;
+    }
 
     /**
      * This method returns whether the Database connection has been initialized.
@@ -487,6 +492,13 @@ final class DatabaseModel {
             Log.e("ReviewRating", e.getMessage());
             return false;
         }
+    }
+
+    boolean queryReviewList() {
+        ArrayList<Review> revs = new ArrayList<>();
+        revs.add(new Review("Review", "It was OK", (float)4.2));
+        this.reviews = revs;
+        return false;
     }
 
     /**
