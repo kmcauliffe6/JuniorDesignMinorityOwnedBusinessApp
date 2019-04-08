@@ -30,7 +30,7 @@ public class UserReviewsTab extends Fragment {
         RecyclerView mRecyclerView = view.findViewById(R.id.review_recycler_view);
         DatabaseModel.checkInitialization();
         model = DatabaseModel.getInstance();
-        if (model.getCurrentUser() == null) {
+        if (model.getCurrentUser() == null && !Guest.isGuestUser()) {
             SharedPreferences shared = getContext().getSharedPreferences("login", MODE_PRIVATE);
             User currentUser = new User(
                     shared.getString("email", ""),
@@ -44,12 +44,12 @@ public class UserReviewsTab extends Fragment {
         try {
             boolean success = mAuthTask.execute((Void) null).get();
             if (success) {
-                Log.i("ReviewListRetrieval", "Yay");
+                Log.i("UserReviewListRetrieval", "Yay");
             } else {
-                Log.i("ReviewListRetrieval", "Boo");
+                Log.i("UserReviewListRetrieval", "Boo");
             }
         } catch (Exception e) {
-            Log.e("ReviewListRetrieval", e.getMessage());
+            Log.e("UserReviewListRetrieval", e.getMessage());
         }
 
         //TODO get a list of the business's reviews here
