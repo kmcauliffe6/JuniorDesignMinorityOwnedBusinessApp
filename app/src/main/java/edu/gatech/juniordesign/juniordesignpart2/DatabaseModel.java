@@ -106,7 +106,7 @@ final class DatabaseModel {
      */
     boolean login(String email, String password) {
         DatabaseModel.checkInitialization();
-        String getUsersText = "SELECT * FROM tb_entity WHERE email=? AND is_inactive is NULL";
+        String getUsersText = "SELECT * FROM tb_entity WHERE email=? AND is_inactive is NULL ";
         ResultSet results;
         boolean loginStatus;
         try {
@@ -137,6 +137,51 @@ final class DatabaseModel {
                 results.close();
             }
             return loginStatus;
+        } catch (SQLException e) {
+            Log.e("login", e.getMessage());
+            return false;
+        }
+    }
+    boolean facebookLogin( String firstName, String lastName, String email, String facebookID ) {
+        DatabaseModel.checkInitialization();
+        String getUsersText = "SELECT * FROM tb_entity WHERE email = ? AND is_inactive is NULL";
+        ResultSet results;
+        boolean loginStatus;
+        try {
+            PreparedStatement statement = db.getStatement(getUsersText);
+            statement.setString(1, email);
+            results = db.query(statement);
+            if (!results.next()) {
+                // No entries in DB for passed in username
+                //TODO:Register User
+                String registrationText = "INSERT INTO tb_entity(email, password, first_name, "
+                        + "last_name, salt, password, is_admin) VALUES(?, facebook, ?, ?, 0, ?, false)";
+                PreparedStatement registerStatement = db.getStatement(registrationText);
+                registerStatement.setString(1, email);
+                registerStatement.setString(2, firstName);
+                registerStatement.setString(3, lastName);
+                registerStatement.setString(4, facebookID);
+                db.update(registerStatement);
+                ResultSet registerResults = db.query(registerStatement);
+                registerResults.next();
+                String entity = registerResults.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
+                Log.d("Register User", "Success for email = " + email);
+                return true;
+            } else {
+                Log.i("login", "auth success");
+                String entity = results.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                currentUser = new User(email, first_name, last_name, isAdmin, entity);
+                results.close();
+            }
+
+            return true;
         } catch (SQLException e) {
             Log.e("login", e.getMessage());
             return false;
@@ -360,18 +405,24 @@ final class DatabaseModel {
         DatabaseModel.checkInitialization();
         Log.i("BusinessList", "here");
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name), b.address_line_one, b.zip_code, b.city " +
+            String query = "SELECT b.business, b.name, avg_rating, array_agg(s.name), b.address_line_one, b.zip_code, b.city " +
                     "FROM tb_business b " +
                     "LEFT JOIN tb_business_subcategory bs " +
                     "ON b.business = bs.business " +
                     "LEFT JOIN tb_subcategory s " +
                     "ON bs.subcategory = s.subcategory " +
                     "LEFT JOIN tb_business_category bc " +
-                    "ON b.business = bc.business " +
-                    "WHERE bc.category = " +
-                    "( SELECT category FROM tb_category WHERE description LIKE ? )" +
-                    "GROUP BY ( b.business, b.name, avg_rating ) ");
-            checkStatement.setString(1, selectedCategory);
+                    "ON b.business = bc.business ";
+            if (!selectedCategory.equals("SEE ALL")){
+                query = query + "WHERE bc.category = " +
+                        "( SELECT category FROM tb_category WHERE description LIKE ? )";
+            }
+            query = query + "GROUP BY ( b.business, b.name, avg_rating ) ";
+
+            PreparedStatement checkStatement = db.getStatement(query);
+            if (!selectedCategory.equals("SEE ALL")){
+                checkStatement.setString(1, selectedCategory);
+            }
             Log.i("BusinessList", checkStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
