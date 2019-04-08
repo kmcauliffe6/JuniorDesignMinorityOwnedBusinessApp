@@ -1,5 +1,6 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,6 +63,17 @@ public class ProfilePageActivity extends AppCompatActivity {
             DatabaseModel.checkInitialization();
             DatabaseModel model = DatabaseModel.getInstance();
             User current = model.getCurrentUser();
+            if (current == null) {
+                SharedPreferences shared = getSharedPreferences("login", MODE_PRIVATE);
+                User currentUser = new User(
+                        shared.getString("email", ""),
+                        shared.getString("firstName", ""),
+                        shared.getString("lastName", ""),
+                        shared.getBoolean("admin", false),
+                        shared.getString("entity", ""));
+                current = currentUser;
+                model.setCurrentUser(currentUser);
+            }
             String firstName = current.getFirstName();
             String lastName = current.getLastName();
             name.setText(firstName + " " + lastName);
