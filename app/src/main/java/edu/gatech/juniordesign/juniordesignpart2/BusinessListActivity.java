@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -60,11 +61,27 @@ public class BusinessListActivity extends AppCompatActivity {
                 for (BusinessListItem b : this.businesses) {
                     b_tree.insertWord(b_tree.getRoot(), b);
                 }
-                /*
+                HashMap<String, ArrayList<BusinessListItem>> cat_subsections = new HashMap<>();
                 for (BusinessListItem b : this.businesses) {
-                    sub_tree.insertSubCat(sub_tree.getRoot(), b);
+                    for (String s : b.subcategories) {
+                        if (s == null) continue;
+                        s = s.toUpperCase();
+                        ArrayList<BusinessListItem> temp = cat_subsections.get(s);
+                        if (temp == null) {
+                            ArrayList<BusinessListItem> arrlst = new ArrayList<>();
+                            arrlst.add(b);
+                            cat_subsections.put(s, arrlst);
+                        } else {
+                            temp.add(b);
+                            cat_subsections.put(s,temp);
+                        }
+                    }
                 }
-                */
+                for (String s : cat_subsections.keySet()) {
+                    Log.d("Trying to search by subcat", s + " : " + cat_subsections.get(s).toString());
+                    b_tree.insertWord(b_tree.getRoot(), s, b_tree.makeSubcatTree(cat_subsections.get(s)));
+                }
+
                 this.businesses = sortByRating();
                 RecyclerViewAdapter adapter = new RecyclerViewAdapter(BusinessListActivity.this, this.businesses);
                 mRecyclerView.setAdapter(adapter);
@@ -103,6 +120,9 @@ public class BusinessListActivity extends AppCompatActivity {
                 sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        if (query == null) {
+                            query = "";
+                        }
                         query = query.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(query);
                         //ArrayList<BusinessListItem> sub_b = subSearch(query);
@@ -115,6 +135,9 @@ public class BusinessListActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
+                        if (newText == null) {
+                            newText = "";
+                        }
                         newText = newText.toUpperCase();
                         ArrayList<BusinessListItem> new_b = search(newText);
                         //ArrayList<BusinessListItem> sub_b = subSearch(newText);
@@ -203,6 +226,32 @@ public class BusinessListActivity extends AppCompatActivity {
                 curNode = curNode.links.get(letters[i]);
             }
             curNode.business = business;
+        }
+
+        public void insertWord(TrieNode root, String business, TrieNode subtree) {
+            int l = business.length();
+            char[] letters = business.toCharArray();
+            TrieNode curNode = root;
+
+            for(int i = 0; i < l; i++) {
+                if (curNode.links.get(letters[i]) == null) {
+                    curNode.links.put(letters[i], new TrieNode(letters[i]));
+                }
+                curNode = curNode.links.get(letters[i]);
+            }
+            curNode.links.put('a', subtree);
+        }
+
+        public TrieNode makeSubcatTree(ArrayList<BusinessListItem> businesses) {
+            TrieNode r = new TrieNode('\0');
+            char index = 'a';
+            for (BusinessListItem b : businesses) {
+                TrieNode n = new TrieNode(index);
+                n.business = b;
+                r.links.put(index, n);
+                index++;
+            }
+            return r;
         }
 
         public ArrayList<BusinessListItem> findMatching(TrieNode root, String word) {
