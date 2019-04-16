@@ -80,8 +80,9 @@ public class WelcomeActivity extends AppCompatActivity {
                                 Log.v("LoginActivity Response ", response.toString());
                                 if (response != null) {
                                     try {
-                                        String firstName = object.getString("Name").split(" ")[0];
-                                        String lastName = object.getString("Name").split(" ")[1];
+                                        Log.i("Facebook", object.toString());
+                                        String firstName = object.getString("name").split(" ")[0];
+                                        String lastName = object.getString("name").split(" ")[1];
                                         String email = object.getString("email");
                                         String id = object.getString("id");
                                         Toast.makeText(getApplicationContext(), "Name " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
@@ -181,7 +182,7 @@ public class WelcomeActivity extends AppCompatActivity {
         private final String facebookID;
 
 
-        FacebookLogInTask( String firstName, String lastName,  String email, String facebookID) {
+        FacebookLogInTask( String firstName, String lastName,  String facebookID, String email) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;

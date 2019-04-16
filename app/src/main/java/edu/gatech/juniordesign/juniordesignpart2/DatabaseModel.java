@@ -157,15 +157,20 @@ final class DatabaseModel {
             statement.setString(1, email);
             results = db.query(statement);
             if (!results.next()) {
+                Log.i("Facebook", "No entry in DB for "+ email);
                 // No entries in DB for passed in username
-                //TODO:Register User
-                String registrationText = "INSERT INTO tb_entity(email, password, first_name, "
-                        + "last_name, salt, password, is_admin) VALUES(?, facebook, ?, ?, 0, ?, false)";
+                int fbsalt = new SecureRandom().nextInt(SALT_SIZE);
+                String hashPass = hasher.getSecurePassword(Integer.toString(fbsalt),
+                        facebookID);
+                String registrationText = "INSERT INTO tb_entity(email, facebook_id, first_name, "
+                        + "last_name, fb_salt, is_admin) VALUES(?, ?, ?, ?, ?, false)";
                 PreparedStatement registerStatement = db.getStatement(registrationText);
                 registerStatement.setString(1, email);
-                registerStatement.setString(2, firstName);
-                registerStatement.setString(3, lastName);
-                registerStatement.setString(4, facebookID);
+                registerStatement.setString(2, hashPass);
+                registerStatement.setString(3, firstName);
+                registerStatement.setString(4, lastName);
+                registerStatement.setInt(5, fbsalt);
+
                 db.update(registerStatement);
                 ResultSet registerResults = db.query(registerStatement);
                 registerResults.next();
@@ -174,21 +179,50 @@ final class DatabaseModel {
                 String last_name = results.getString("last_name");
                 boolean isAdmin = results.getBoolean("is_admin");
                 setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
-                Log.d("Register User", "Success for email = " + email);
+                Log.d("Facebook", "Registered email = " + email + "with FB");
                 return true;
-            } else {
-                Log.i("login", "auth success");
+            } else if (results.getString("facebook_id") == null) {
+                Log.i("Facebook", "entry in DB for "+ email +"but no FBID");
+                int fbsalt = new SecureRandom().nextInt(SALT_SIZE);
+                String hashfb_id = hasher.getSecurePassword(Integer.toString(fbsalt),
+                        facebookID);
+                String add_fb_text = "" +
+                        "UPDATE tb_entity" +
+                        "SET fb_salt = ?" +
+                        "SET facebook_id = ?" +
+                        "WHERE entity = ?";
+                PreparedStatement add_fb_statement = db.getStatement(add_fb_text);
+                add_fb_statement.setInt(1, fbsalt);
+                add_fb_statement.setString(2, hashfb_id);
+                add_fb_statement.setInt(3, results.getInt("entity"));
+                db.update(add_fb_statement);
+                ResultSet add_fb_results = db.query(add_fb_statement);
+                add_fb_results.next();
+                String entity = results.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
+                Log.d("Facebook", "Added FBID to " + email);
+                return true;
+            }
+            else if(results.getString("facebook_id").equals(hasher.getSecurePassword(Integer.toString(results.getInt("fb_salt")),
+                    facebookID))){
+                Log.i("Facebook", "FBID for "+ email);
                 String entity = results.getString("entity");
                 String first_name = results.getString("first_name");
                 String last_name = results.getString("last_name");
                 boolean isAdmin = results.getBoolean("is_admin");
                 currentUser = new User(email, first_name, last_name, isAdmin, entity);
                 results.close();
+            } else {
+                Log.i("Facebook", "Authentication Failure");
+                return false;
             }
 
             return true;
         } catch (SQLException e) {
-            Log.e("login", e.getMessage());
+            Log.e("Facebook", e.getMessage());
             return false;
         }
     }
