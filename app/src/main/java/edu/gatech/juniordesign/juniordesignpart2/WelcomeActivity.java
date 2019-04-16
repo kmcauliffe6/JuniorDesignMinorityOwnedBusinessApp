@@ -127,6 +127,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 Guest.setGuestUser(false);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                finish();
+            } else {
             }
         } catch (Exception e){
             Log.e("Facebook Login", "Facebook error: " + e.getMessage() );

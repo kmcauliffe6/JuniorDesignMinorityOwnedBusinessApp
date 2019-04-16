@@ -170,34 +170,30 @@ final class DatabaseModel {
                 registerStatement.setString(3, firstName);
                 registerStatement.setString(4, lastName);
                 registerStatement.setInt(5, fbsalt);
-
                 db.update(registerStatement);
-                ResultSet registerResults = db.query(registerStatement);
-                registerResults.next();
-                String entity = registerResults.getString("entity");
+                results = db.query(statement);
+                String entity = results.getString("entity");
                 String first_name = results.getString("first_name");
                 String last_name = results.getString("last_name");
                 boolean isAdmin = results.getBoolean("is_admin");
                 setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
-                Log.d("Facebook", "Registered email = " + email + "with FB");
+                Log.d("Facebook", "Registered email = " + email + " with FB");
                 return true;
             } else if (results.getString("facebook_id") == null) {
-                Log.i("Facebook", "entry in DB for "+ email +"but no FBID");
+                Log.i("Facebook", "entry in DB for "+ email +" but no FBID");
                 int fbsalt = new SecureRandom().nextInt(SALT_SIZE);
                 String hashfb_id = hasher.getSecurePassword(Integer.toString(fbsalt),
                         facebookID);
                 String add_fb_text = "" +
-                        "UPDATE tb_entity" +
-                        "SET fb_salt = ?" +
-                        "SET facebook_id = ?" +
-                        "WHERE entity = ?";
+                        "UPDATE tb_entity " +
+                        "SET fb_salt = ?, " +
+                        "facebook_id = ? " +
+                        "WHERE entity = ? ";
                 PreparedStatement add_fb_statement = db.getStatement(add_fb_text);
                 add_fb_statement.setInt(1, fbsalt);
                 add_fb_statement.setString(2, hashfb_id);
                 add_fb_statement.setInt(3, results.getInt("entity"));
                 db.update(add_fb_statement);
-                ResultSet add_fb_results = db.query(add_fb_statement);
-                add_fb_results.next();
                 String entity = results.getString("entity");
                 String first_name = results.getString("first_name");
                 String last_name = results.getString("last_name");
@@ -387,7 +383,6 @@ final class DatabaseModel {
                 registerStatement.setString(4, last_name);
                 registerStatement.setInt(5, salt);
                 registerStatement.setBoolean(6, isAdmin);
-                db.update(registerStatement);
                 checkResults = db.query(checkStatement);
                 checkResults.next();
                 String entity = checkResults.getString("entity");
@@ -547,7 +542,7 @@ final class DatabaseModel {
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
-            ResultSet checkResults = db.query(updateStatement);
+            db.update(updateStatement);
             return true;
         } catch (SQLException e) {
             Log.e("ReviewRating", e.getMessage());
@@ -573,7 +568,7 @@ final class DatabaseModel {
             updateStatement.setFloat(7, rating);
             updateStatement.setString(8, title);
             updateStatement.setString(9, review);
-            db.query(updateStatement);
+            db.update(updateStatement);
             return true;
         } catch (SQLException e) {
             Log.e("ReviewRating", e.getMessage());
