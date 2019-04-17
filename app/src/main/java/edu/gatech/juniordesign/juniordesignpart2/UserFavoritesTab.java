@@ -1,5 +1,6 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class UserFavoritesTab extends Fragment {
 
@@ -50,6 +53,16 @@ public class UserFavoritesTab extends Fragment {
         } else {
             DatabaseModel.checkInitialization();
             model = DatabaseModel.getInstance();
+            if (model.getCurrentUser() == null) {
+                SharedPreferences shared = getContext().getSharedPreferences("login", MODE_PRIVATE);
+                User currentUser = new User(
+                        shared.getString("email", ""),
+                        shared.getString("firstName", ""),
+                        shared.getString("lastName", ""),
+                        shared.getBoolean("admin", false),
+                        shared.getString("entity", ""));
+                model.setCurrentUser(currentUser);
+            }
             FavoriteBusinessListGetter getter = new FavoriteBusinessListGetter();
             try {
                 boolean success = getter.execute((Void) null).get();

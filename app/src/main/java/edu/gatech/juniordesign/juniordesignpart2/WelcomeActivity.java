@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     SharedPreferences shared;
     private static final String EMAIL = "email";
+    private static FacebookLogInTask mAuthTask = null;
     CallbackManager callbackManager = CallbackManager.Factory.create();
     private String fbuserid;
     private String fbemail;
@@ -78,14 +80,16 @@ public class WelcomeActivity extends AppCompatActivity {
                                 Log.v("LoginActivity Response ", response.toString());
                                 if (response != null) {
                                     try {
-                                        String name = object.getString("name");
+                                        Log.i("Facebook", object.toString());
+                                        String firstName = object.getString("name").split(" ")[0];
+                                        String lastName = object.getString("name").split(" ")[1];
                                         String email = object.getString("email");
                                         String id = object.getString("id");
-                                        setupProfileInfo(id, name, email);
-                                        Log.v("Email = ", " " + email);
-                                        Toast.makeText(getApplicationContext(), "Name " + name, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Name " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
+                                        setupProfileInfo(id, firstName, lastName, email);
+                                        Log.v("LoginActivity","Email = "+ " " + email);
                                     } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        Log.e("Login Activity", e.getMessage());
                                     }
                                 }
                             }
@@ -113,10 +117,22 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setupProfileInfo(String id, String name, String email) {
-        this.fbuserid = id;
-        this.fbname = name;
-        this.fbemail = email;
+    private void setupProfileInfo(String id, String firstName, String lastName, String email) {
+        Log.i("setupProfileInfo", "here with: " + firstName + " " + lastName + " " + email + " " + id);
+        mAuthTask = new FacebookLogInTask(firstName, lastName, id, email.toLowerCase());
+        try {
+            boolean success = mAuthTask.execute((Void) null).get();
+            if (success) {
+                Log.i("Facebook Login", "success" );
+                Guest.setGuestUser(false);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+            }
+        } catch (Exception e){
+            Log.e("Facebook Login", "Facebook error: " + e.getMessage() );
+        }
     }
 
     /**
@@ -158,5 +174,38 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private static class FacebookLogInTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String firstName;
+        private final String lastName;
+        private final String email;
+        private final String facebookID;
+
+
+        FacebookLogInTask( String firstName, String lastName,  String facebookID, String email) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.facebookID = facebookID;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.facebookLogin(firstName, lastName, email, facebookID);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 }

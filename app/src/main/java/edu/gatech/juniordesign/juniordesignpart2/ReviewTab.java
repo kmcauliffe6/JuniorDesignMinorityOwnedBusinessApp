@@ -1,9 +1,13 @@
 package edu.gatech.juniordesign.juniordesignpart2;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +17,59 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class ReviewTab extends Fragment {
+
+    private static DatabaseModel model;
+    private static ReviewListRetrieval mAuthTask = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.review_tab, container, false);
-        ListView lstItems = (ListView)view.findViewById(R.id.business_reviews);
+        RecyclerView mRecyclerView = view.findViewById(R.id.review_recycler_view);
+        DatabaseModel.checkInitialization();
+        model = DatabaseModel.getInstance();
+        mAuthTask = new ReviewListRetrieval();
+        try {
+            boolean success = mAuthTask.execute((Void) null).get();
+            if (success) {
+                Log.i("ReviewListRetrieval", "Yay");
+            } else {
+                Log.i("ReviewListRetrieval", "Boo");
+            }
+        } catch (Exception e) {
+            Log.e("ReviewListRetrieval", e.getMessage());
+        }
 
-        //TODO get a list of the user's reviews here
-        ArrayList<String> reviews = new ArrayList<String>();
+        //TODO get a list of the business's reviews here
+        ArrayList<Review> reviews = model.getReviewsForSelected();
 
-        ArrayAdapter<String> allItemsAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1,reviews);
+        ReviewRecyclerAdapter adapter = new ReviewRecyclerAdapter(getContext(), reviews);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        lstItems.setAdapter(allItemsAdapter);
         return view;
     }
+
+    private static class ReviewListRetrieval extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.queryReviewList();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
+
 }
+

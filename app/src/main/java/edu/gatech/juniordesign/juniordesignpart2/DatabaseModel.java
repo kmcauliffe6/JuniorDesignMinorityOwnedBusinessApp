@@ -26,6 +26,7 @@ final class DatabaseModel {
     private static ArrayList<String> categories;
     private String[] addresses;
     private int business_id;
+    private ArrayList<Review> reviews;
 
     private DatabaseModel() {
         try {
@@ -58,6 +59,10 @@ final class DatabaseModel {
      * @return DatabaseModel currently being maintained.
      */
     static DatabaseModel getInstance() {return model;}
+
+    ArrayList<Review> getReviewsForSelected() {
+        return this.reviews;
+    }
 
     /**
      * This method returns whether the Database connection has been initialized.
@@ -106,7 +111,7 @@ final class DatabaseModel {
      */
     boolean login(String email, String password) {
         DatabaseModel.checkInitialization();
-        String getUsersText = "SELECT * FROM tb_entity WHERE email=? AND is_inactive is NULL";
+        String getUsersText = "SELECT * FROM tb_entity WHERE email=? AND is_inactive is NULL ";
         ResultSet results;
         boolean loginStatus;
         try {
@@ -139,6 +144,81 @@ final class DatabaseModel {
             return loginStatus;
         } catch (SQLException e) {
             Log.e("login", e.getMessage());
+            return false;
+        }
+    }
+    boolean facebookLogin( String firstName, String lastName, String email, String facebookID ) {
+        DatabaseModel.checkInitialization();
+        String getUsersText = "SELECT * FROM tb_entity WHERE email = ? AND is_inactive is NULL";
+        ResultSet results;
+        boolean loginStatus;
+        try {
+            PreparedStatement statement = db.getStatement(getUsersText);
+            statement.setString(1, email);
+            results = db.query(statement);
+            if (!results.next()) {
+                Log.i("Facebook", "No entry in DB for "+ email);
+                // No entries in DB for passed in username
+                int fbsalt = new SecureRandom().nextInt(SALT_SIZE);
+                String hashPass = hasher.getSecurePassword(Integer.toString(fbsalt),
+                        facebookID);
+                String registrationText = "INSERT INTO tb_entity(email, facebook_id, first_name, "
+                        + "last_name, fb_salt, is_admin) VALUES(?, ?, ?, ?, ?, false)";
+                PreparedStatement registerStatement = db.getStatement(registrationText);
+                registerStatement.setString(1, email);
+                registerStatement.setString(2, hashPass);
+                registerStatement.setString(3, firstName);
+                registerStatement.setString(4, lastName);
+                registerStatement.setInt(5, fbsalt);
+                db.update(registerStatement);
+                results = db.query(statement);
+                String entity = results.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
+                Log.d("Facebook", "Registered email = " + email + " with FB");
+                return true;
+            } else if (results.getString("facebook_id") == null) {
+                Log.i("Facebook", "entry in DB for "+ email +" but no FBID");
+                int fbsalt = new SecureRandom().nextInt(SALT_SIZE);
+                String hashfb_id = hasher.getSecurePassword(Integer.toString(fbsalt),
+                        facebookID);
+                String add_fb_text = "" +
+                        "UPDATE tb_entity " +
+                        "SET fb_salt = ?, " +
+                        "facebook_id = ? " +
+                        "WHERE entity = ? ";
+                PreparedStatement add_fb_statement = db.getStatement(add_fb_text);
+                add_fb_statement.setInt(1, fbsalt);
+                add_fb_statement.setString(2, hashfb_id);
+                add_fb_statement.setInt(3, results.getInt("entity"));
+                db.update(add_fb_statement);
+                String entity = results.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                setCurrentUser(new User(email, first_name, last_name, isAdmin, entity));
+                Log.d("Facebook", "Added FBID to " + email);
+                return true;
+            }
+            else if(results.getString("facebook_id").equals(hasher.getSecurePassword(Integer.toString(results.getInt("fb_salt")),
+                    facebookID))){
+                Log.i("Facebook", "FBID for "+ email);
+                String entity = results.getString("entity");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                boolean isAdmin = results.getBoolean("is_admin");
+                currentUser = new User(email, first_name, last_name, isAdmin, entity);
+                results.close();
+            } else {
+                Log.i("Facebook", "Authentication Failure");
+                return false;
+            }
+
+            return true;
+        } catch (SQLException e) {
+            Log.e("Facebook", e.getMessage());
             return false;
         }
     }
@@ -303,7 +383,6 @@ final class DatabaseModel {
                 registerStatement.setString(4, last_name);
                 registerStatement.setInt(5, salt);
                 registerStatement.setBoolean(6, isAdmin);
-                db.update(registerStatement);
                 checkResults = db.query(checkStatement);
                 checkResults.next();
                 String entity = checkResults.getString("entity");
@@ -360,18 +439,24 @@ final class DatabaseModel {
         DatabaseModel.checkInitialization();
         Log.i("BusinessList", "here");
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT b.business, b.name, avg_rating, array_agg(s.name), b.address_line_one, b.zip_code, b.city " +
+            String query = "SELECT b.business, b.name, avg_rating, array_agg(s.name), b.address_line_one, b.zip_code, b.city " +
                     "FROM tb_business b " +
                     "LEFT JOIN tb_business_subcategory bs " +
                     "ON b.business = bs.business " +
                     "LEFT JOIN tb_subcategory s " +
                     "ON bs.subcategory = s.subcategory " +
                     "LEFT JOIN tb_business_category bc " +
-                    "ON b.business = bc.business " +
-                    "WHERE bc.category = " +
-                    "( SELECT category FROM tb_category WHERE description LIKE ? )" +
-                    "GROUP BY ( b.business, b.name, avg_rating ) ");
-            checkStatement.setString(1, selectedCategory);
+                    "ON b.business = bc.business ";
+            if (!selectedCategory.equals("SEE ALL")){
+                query = query + "WHERE bc.category = " +
+                        "( SELECT category FROM tb_category WHERE description LIKE ? )";
+            }
+            query = query + "GROUP BY ( b.business, b.name, avg_rating ) ";
+
+            PreparedStatement checkStatement = db.getStatement(query);
+            if (!selectedCategory.equals("SEE ALL")){
+                checkStatement.setString(1, selectedCategory);
+            }
             Log.i("BusinessList", checkStatement.toString());
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
@@ -440,6 +525,8 @@ final class DatabaseModel {
             }
         } catch (SQLException e) {
             Log.e("BusinessList", e.getMessage());
+        } catch (Exception e) {
+            Log.e("QueryReviewList", e.getMessage());
         }
         return true;
     }
@@ -455,7 +542,7 @@ final class DatabaseModel {
             updateStatement.setInt(2, getBusiness_id());
             updateStatement.setInt(3, getBusiness_id());
             updateStatement.setInt(4, getBusiness_id());
-            ResultSet checkResults = db.query(updateStatement);
+            db.update(updateStatement);
             return true;
         } catch (SQLException e) {
             Log.e("ReviewRating", e.getMessage());
@@ -481,12 +568,51 @@ final class DatabaseModel {
             updateStatement.setFloat(7, rating);
             updateStatement.setString(8, title);
             updateStatement.setString(9, review);
-            db.query(updateStatement);
+            db.update(updateStatement);
             return true;
         } catch (SQLException e) {
             Log.e("ReviewRating", e.getMessage());
             return false;
         }
+    }
+
+    boolean queryReviewList() {
+        ArrayList<Review> revs = new ArrayList<>();
+        try {
+            PreparedStatement checkStatement = db.getStatement("" +
+                    "SELECT rating, title, description FROM tb_review WHERE business = ?");
+            checkStatement.setInt(1, getBusiness_id());
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                revs.add(new Review(checkResults.getString(2), checkResults.getString(3), checkResults.getFloat(1)));
+                Log.i("QueryReviewList", checkResults.getString(3));
+            }
+        } catch (SQLException e) {
+            Log.e("QueryReviewList", e.getMessage());
+        }
+        this.reviews = revs;
+        return true;
+    }
+
+    boolean queryReviewListUser() {
+        ArrayList<Review> revs = new ArrayList<>();
+        try {
+            PreparedStatement checkStatement = db.getStatement("" +
+                    "SELECT rating, title, description, business FROM tb_review WHERE entity = ?");
+            checkStatement.setInt(1, Integer.valueOf(getCurrentUser().getEntity()));
+            ResultSet checkResults = db.query(checkStatement);
+            while ( checkResults.next() )
+            {
+                revs.add(new Review(checkResults.getString(2), checkResults.getString(3), checkResults.getFloat(1), checkResults.getString(4)));
+            }
+        } catch (SQLException e) {
+            Log.e("QueryReviewList", e.getMessage());
+        } catch (Exception e) {
+            Log.e("QueryReviewList", e.getMessage());
+        }
+        this.reviews = revs;
+        return true;
     }
 
     /**
