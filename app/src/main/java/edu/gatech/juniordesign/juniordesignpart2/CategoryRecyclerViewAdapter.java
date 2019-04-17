@@ -99,7 +99,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
                     R.drawable.insurance, null));
         } else if (item.equals("Service")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
-                    R.drawable.service, null));
+                    R.drawable.services, null));
         } else if (item.equals("SEE ALL")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.see_all, null));
