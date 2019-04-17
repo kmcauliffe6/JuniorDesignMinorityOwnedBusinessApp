@@ -94,6 +94,12 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         } else if (item.equals("Media")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.media, null));
+        } else if (item.equals("Insurance")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.insurance, null));
+        } else if (item.equals("Service")) {
+            customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                    R.drawable.service, null));
         } else if (item.equals("SEE ALL")) {
             customViewHolder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(),
                     R.drawable.see_all, null));
