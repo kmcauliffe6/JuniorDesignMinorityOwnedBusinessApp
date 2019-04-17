@@ -3,6 +3,7 @@ package edu.gatech.juniordesign.juniordesignpart2;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,17 @@ public class SettingsPageActivity extends AppCompatActivity {
             Button deleteAccount = findViewById(R.id.DeleteAccountButton);
             deleteAccount.setEnabled(false);
         }
+
+        Button termsofservice = findViewById(R.id.TermsOfServiceButton);
+        termsofservice.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.termsfeed.com/privacy-policy/d4e3f325688e5bf4409d4a30df52e276"));
+                startActivity(intent);
+            }
+        });
     }
 
     public void goToTermsActivity (View view){
