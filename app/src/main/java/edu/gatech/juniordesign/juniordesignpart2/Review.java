@@ -5,6 +5,7 @@ public class Review {
     private String review;
     private float rating;
     private String business;
+    private int rev_id;
 
     public Review(String title, String review, float rating) {
         this.title = title;
@@ -17,6 +18,14 @@ public class Review {
         this.review = review;
         this.rating = rating;
         this.business = business;
+    }
+
+    public Review(String title, String review, float rating, String business, int id) {
+        this.title = title;
+        this.review = review;
+        this.rating = rating;
+        this.business = business;
+        this.rev_id = id;
     }
 
     public String getTitle() {

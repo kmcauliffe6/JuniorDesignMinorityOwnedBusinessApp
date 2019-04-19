@@ -599,12 +599,12 @@ final class DatabaseModel {
         ArrayList<Review> revs = new ArrayList<>();
         try {
             PreparedStatement checkStatement = db.getStatement("" +
-                    "SELECT rating, title, description, business FROM tb_review WHERE entity = ?");
+                    "SELECT rating, title, description, business, review FROM tb_review WHERE entity = ?");
             checkStatement.setInt(1, Integer.valueOf(getCurrentUser().getEntity()));
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() )
             {
-                revs.add(new Review(checkResults.getString(2), checkResults.getString(3), checkResults.getFloat(1), checkResults.getString(4)));
+                revs.add(new Review(checkResults.getString(2), checkResults.getString(3), checkResults.getFloat(1), checkResults.getString(4), checkResults.getInt(5)));
             }
         } catch (SQLException e) {
             Log.e("QueryReviewList", e.getMessage());
