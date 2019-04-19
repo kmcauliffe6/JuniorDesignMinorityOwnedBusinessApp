@@ -4,14 +4,14 @@ Project for Second Semester of Junior Design
 Find Current Schedule/Backlog @ https://trello.com/b/74fKj9ei/team-8346
 
 # Release Notes Version 1.0
-Features:
+    Features:
     - In app User Login/Registration through both a personal account and Facebook
     - Ability to add move businesses to the database with a script
     - Allows users to see reviews they have left on any business within their profile page
     - Refined searching to include searching for subcategories in addition to business name
-Bugs Fixes:
+    Bugs Fixes:
     - UI Fixes in the Main Page where the User selects business catagories
-Known Bugs:
+    Known Bugs:
     - "See All" button provides multiple copies of the same business 
 
 # Install Guide
