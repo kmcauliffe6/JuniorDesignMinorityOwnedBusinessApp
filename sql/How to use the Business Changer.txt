@@ -1,0 +1,55 @@
+How to update the companies on the app:
+
+1. First make sure that Postgres 10.7 is installed on your computer. If it is you can skip to instruction 2
+	a. You can download Postgres 10.7 from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads and selecting your operating system on the v10.7 line.
+	b. Open the downloaded file to bring up the install wizard
+	c. Point the wizard to where you want Postgres to install (Please notice where on your computer you install this). When prompted enter the super user password as "iAmRoot!". The port number should remain 5432.
+	d. At the end of the install the wizard will ask if you want to "Launch stack builder". Uncheck the box on the screen and click next.
+	e. If you are not on windows skip to instruction f.
+		I. Find where you installed Postgres. (If you search for postgres in the search bar you will see where the documentation is stored). It should have an address along the lines of "X:\Program Files\Postgres". Navigate to this directory and open the folder labeled "bin".
+		II. On the address bar at the top, right click and select copy address.
+		III. In the search bar of your computer type "Path" an select "Edit the System Enviroment Variables".
+		IV. Click the button in the bottom right that reads "Enviroment Variables".
+		V. There are at least 2 scroll menus. Look at the one labeled "System variables." Scroll until you see "Path" in the variable column.
+		VI. Highlight the "Path" line and click edit.
+		VII. On the edit screen that pops up click the new button and paste the address you copied in step II.
+	f. To confirm everything is installed correctly open command prompt (Windows) or terminal (Mac, Linux) and enter "psql --version". If it returns "psql (PostgreSQL) 10.7" then everything is working proceed to step 2. Otherwise retry the steps above or search google for steps to install postgres.
+
+2. Make sure the following files are in the same directory: 
+	a. businesses_to_be_added.csv
+	b. business_data_importer.sql
+	c. businesses_to_be_removed.csv
+	d. business_data_remover.sql
+	e. business_adder_remover.sh
+
+3. Make sure that the file businesses_to_be_added.csv contains only business that you want added to the database and that the headers follow the format:
+	Business Name
+	Address
+	City
+	State
+	zip
+	PO-box
+	Contact
+	Phone Number
+	Email
+	Websites
+	Certifications
+	Category
+	Subcategory
+	Tags/Keywords
+	Description
+	Image URL
+
+	See the provided example spreadsheet if you are unsure about any category. If you do not want to add any businesses make sure this file is present and has the necessary headers but otherwise leave it blank. Any dublicated businesses will be skipped.
+
+4. Make sure that the file businesses_to_be_removed.csv contains only business that you want removed from the database and that the headers follow the format:
+	Business Name
+
+	See the provided example spreadsheet if you are unsure about how to set this file up. If you do not want to remove any businesses make sure this file is present and has the nessesary headers but otherwise leave it blank. Any businesses that have already been removed or where not found will be skipped.
+
+5. Double click on business_adder_remover.sh. This program will go ahead and read from the csv files and add or remove the listed businesses.
+
+
+
+
+
