@@ -9,13 +9,22 @@ Find Current Schedule/Backlog @ https://trello.com/b/74fKj9ei/team-8346
     - Ability to add move businesses to the database with a script
     - Allows users to see reviews they have left on any business within their profile page
     - Refined searching to include searching for subcategories in addition to business name
+    - Reviews can be deleted by the User from their profile page
     Bugs Fixes:
     - UI Fixes in the Main Page where the User selects business catagories
     Known Bugs:
     - "See All" button provides multiple copies of the same business 
 
 # Install Guide
-
+    Pre-Requisites:
+    -A device running Android Oreo (API 27) or later, and a way to download from the Google Play Store
+    Dependent Libraries:
+    -None
+    Download Instructions:
+    -Search for "Bread" on the Google Play Store and download the application
+    Run Instructions:
+    -Select the app on your device
+    
 
 # Git Command Tutorial:
 
