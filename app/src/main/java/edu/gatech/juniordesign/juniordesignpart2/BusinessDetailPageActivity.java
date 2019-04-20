@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -89,6 +90,8 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         TextView additionalDetails = findViewById(R.id.BusinessDetails);
         RatingBar reviewStars = findViewById(R.id.reviewStars);
         String ratingNum;
+        ImageView businessPhoto = findViewById(R.id.imageView2);
+
 
         if (b_o != null) {
             if (b_o.getName() != null) {

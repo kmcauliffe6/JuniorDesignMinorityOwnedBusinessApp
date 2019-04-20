@@ -38,14 +38,16 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ProfilePageActivity" />
+        <activity android:name=".ProfilePageActivity"
+            android:noHistory="true"/>
         <activity android:name=".BusinessListActivity" />
         <activity android:name=".BusinessDetailPageActivity" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".WelcomeActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
