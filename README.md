@@ -12,8 +12,6 @@ Find Current Schedule/Backlog @ https://trello.com/b/74fKj9ei/team-8346
     - Reviews can be deleted by the User from their profile page
     Bugs Fixes:
     - UI Fixes in the Main Page where the User selects business catagories
-    Known Bugs:
-    - "See All" button provides multiple copies of the same business 
 
 # Install Guide
     Pre-Requisites:
