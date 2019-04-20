@@ -34,7 +34,7 @@ How to update the companies on the app:
 	Email
 	Websites
 	Certifications
-	Category
+	Catagory
 	Subcategory
 	Tags/Keywords
 	Description
@@ -44,6 +44,25 @@ How to update the companies on the app:
 	See the provided example spreadsheet if you are unsure about any category. If you do not want to add any businesses make sure this file is present and has the necessary headers but otherwise leave it blank. Any dublicated businesses will be skipped.
 
 	Every business must have a name, zip_code, city, state, and contact, all other fields are optional.
+
+	The catagory must be one of the following:
+	Attorney
+    Restaurant
+    Non-Profit
+    Publisher
+    Bank
+    Financial Consulting
+    Media
+    Marketing
+    Legal
+    Printing
+    Shopping
+    Grocery
+    Construction
+    Manufacturing
+    Insurance
+    Service
+    Accounting
 
 4. Make sure that the file businesses_to_be_removed.csv contains only business that you want removed from the database and that the headers follow the format:
 	Business Name

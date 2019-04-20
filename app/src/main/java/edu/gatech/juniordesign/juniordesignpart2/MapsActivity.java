@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double lng = address.getLongitude();
                     LatLng loc = new LatLng(lat, lng);
                     googleMap.addMarker(new MarkerOptions().position(loc));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 7));
                 }
             }
         }

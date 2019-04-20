@@ -74,7 +74,8 @@ FROM tt_business_importer tt
 LEFT JOIN tb_business b
     ON  b.name = tt.business_name
 LEFT JOIN tb_category c
-    ON  c.description like tt.category;
+    ON  c.description like tt.category
+ON CONFLICT DO NOTHING;
 
 INSERT INTO tt_subcategories ( business_name, subcategory, category )
 SELECT business_name, LOWER( unnest( regexp_split_to_array( subcategories, ', ' ) ) ), category
