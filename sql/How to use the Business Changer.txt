@@ -38,18 +38,16 @@ How to update the companies on the app:
 	Subcategory
 	Tags/Keywords
 	Description
+	About
 	Image URL
 
 	See the provided example spreadsheet if you are unsure about any category. If you do not want to add any businesses make sure this file is present and has the necessary headers but otherwise leave it blank. Any dublicated businesses will be skipped.
+
+	Every business must have a name, zip_code, city, state, and contact, all other fields are optional.
 
 4. Make sure that the file businesses_to_be_removed.csv contains only business that you want removed from the database and that the headers follow the format:
 	Business Name
 
 	See the provided example spreadsheet if you are unsure about how to set this file up. If you do not want to remove any businesses make sure this file is present and has the nessesary headers but otherwise leave it blank. Any businesses that have already been removed or where not found will be skipped.
 
-5. Double click on business_adder_remover.sh. This program will go ahead and read from the csv files and add or remove the listed businesses.
-
-
-
-
-
+5. Double click on business_adder_remover.sh. When prompted the password for the benjaminYarmowich account it "iAmRoot!". This program will go ahead and read from the csv files and add or remove the listed businesses.

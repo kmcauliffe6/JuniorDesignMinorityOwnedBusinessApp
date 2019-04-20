@@ -272,7 +272,9 @@ final class DatabaseModel {
                     "SELECT b.business," +
                             " b.name," +
                             " b.avg_rating," +
-                            " c.description " +
+                            " c.description, " +
+                            " b.description, " +
+                            " b.image_url " +
                             " FROM tb_business b " +
                     "LEFT JOIN tb_business_category bc ON b.business = bc.business " +
                     "LEFT JOIN tb_category c ON bc.category = c.category " +
@@ -281,9 +283,10 @@ final class DatabaseModel {
             ResultSet checkResults = db.query(checkStatement);
             while ( checkResults.next() ) {
                 //TODO : fix to get the remaining arguments
-                BusinessObject b_o = new BusinessObject(checkResults.getInt(1),
-                        checkResults.getString(2), checkResults.getString(4),
-                        checkResults.getString(3), null, null,
+                BusinessObject b_o = new BusinessObject(checkResults.getInt("business"),
+                        checkResults.getString("name"), checkResults.getString(4),
+                        checkResults.getString("avg_rating"), null, null,
+                        checkResults.getString(5), checkResults.getString("image_url"),
                         null);
                 setSelectedBusinessObject(b_o);
                 Log.i("BusinessDetails", checkResults.getInt(1) + ": "

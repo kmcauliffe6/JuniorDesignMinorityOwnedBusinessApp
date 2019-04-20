@@ -67,8 +67,6 @@ public class ReviewActivity extends AppCompatActivity {
                     if (success) {
                         Log.i("ReviewActivity", "onPostExecute Success");
                         //after registration the user is taken to the home page
-                        Intent intent = new Intent(cur, BusinessDetailPageActivity.class);
-                        startActivity(intent);
                         finish();
                     } else {
                         Context context = getApplicationContext();
@@ -87,8 +85,7 @@ public class ReviewActivity extends AppCompatActivity {
         cancel.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(cur, BusinessDetailPageActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
