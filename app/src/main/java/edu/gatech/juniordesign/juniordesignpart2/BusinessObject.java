@@ -11,10 +11,13 @@ public class BusinessObject {
     private String aboutTheOwner;
     private ArrayList<String> reviews;
     private boolean isFavorited;
+    private String description;
+    private String image_url;
+
     //will need to store a profile photo here but I dont think we have any photots yet
 
     public BusinessObject(int iD, String name, String category, String rating, String extraDetails, String
-                          aboutTheOwner, ArrayList<String> reviews) {
+                          aboutTheOwner, String description, String image_url, ArrayList<String> reviews) {
         this.iD = iD;
         this.name = name;
         this.category = category;
@@ -22,6 +25,8 @@ public class BusinessObject {
         this.extraDetails = extraDetails;
         this.aboutTheOwner = aboutTheOwner;
         this.reviews = reviews;
+        this.description = description;
+        this.image_url = image_url;
         this.isFavorited = false;
 
     }

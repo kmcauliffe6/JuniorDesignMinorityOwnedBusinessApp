@@ -26,7 +26,7 @@ CREATE TEMP TABLE tt_subcategories
     category              VARCHAR
 );
 
-\copy tt_business_importer from '~/Desktop/junior_design/sql/business_data.csv' delimiter ',' csv header;
+\copy tt_business_importer from 'businesses_to_be_added.csv' delimiter ',' csv header;
 
 INSERT INTO tb_business 
     ( 

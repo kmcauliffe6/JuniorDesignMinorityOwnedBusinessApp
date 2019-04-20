@@ -84,17 +84,6 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         ts.setIndicator("About The Owner");
         tabhost.addTab(ts);
 
-        //set up business-specific text fields on the page
-        //TODO get business specfic text here
-        /** info needed:
-         * business name
-         * business type
-         * rating
-         * reviews
-         * favorites
-         * photos
-         * about the owners
-         */
         TextView businessName = findViewById(R.id.BusinessName);
         TextView businessCategory = findViewById(R.id.BusinessCategory);
         TextView additionalDetails = findViewById(R.id.BusinessDetails);
