@@ -50,6 +50,14 @@ public class BusinessObject {
         return this.rating;
     }
 
+    public String getImage_url() {
+        return this.image_url;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
     public String getExtraDetails() {
         return this.extraDetails;
     }

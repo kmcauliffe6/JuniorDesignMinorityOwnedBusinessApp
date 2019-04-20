@@ -3,11 +3,14 @@ package edu.gatech.juniordesign.juniordesignpart2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,6 +26,9 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Scanner;
 
 
@@ -106,6 +112,12 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
             }
             if (b_o.getExtraDetails() != null) {
                 additionalDetails.setText(b_o.getExtraDetails());
+            }
+            if (b_o.getImage_url() != null) {
+                new ImageLoadTask(b_o.getImage_url(), businessPhoto).execute();
+            }
+            if (b_o.getDescription() != null) {
+                additionalDetails.setText(b_o.getDescription());
             }
         }
 
@@ -232,11 +244,72 @@ public class BusinessDetailPageActivity extends AppCompatActivity {
         }
     }
 
+    public void goToSettingsPageActivity(View view) {
+        Intent intent = new Intent(this, SettingsPageActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToProfilePageActivity(View view) {
+        Intent intent = new Intent(this, ProfilePageActivity.class);
+        startActivity(intent);
+    }
+
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    // set up ActionBar with settings and profile icons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.settingsButton) {
+            goToSettingsPageActivity(getWindow().getDecorView().getRootView());
+        }
+
+        if (id == R.id.profilePicButton) {
+            goToProfilePageActivity(getWindow().getDecorView().getRootView());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
+        }
+
     }
 
 }
