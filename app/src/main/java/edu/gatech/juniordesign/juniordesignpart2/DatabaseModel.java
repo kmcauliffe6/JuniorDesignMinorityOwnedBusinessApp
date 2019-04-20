@@ -615,6 +615,36 @@ final class DatabaseModel {
         return true;
     }
 
+    boolean deleteUserReview(int rev_id, float rating, String business) {
+        DatabaseModel.checkInitialization();
+        try {
+            PreparedStatement checkStatement = db.getStatement(
+                    "DELETE FROM tb_review WHERE review = ?");
+            Log.i("removeReview", "'DELETE FROM tb_review WHERE review = " + rev_id + "'");
+            checkStatement.setInt(1, rev_id);
+            db.update(checkStatement);
+
+            PreparedStatement updateStatement = db.getStatement("" +
+                    "UPDATE tb_business\n" +
+                    "SET avg_rating = (SELECT (avg_rating * num_rating - ?) / (num_rating - 1) FROM tb_business WHERE business = ?),\n" +
+                    "num_rating = (SELECT num_rating - 1 FROM tb_business WHERE business = ?)\n" +
+                    "WHERE business = ?");
+            Log.i("removeReview", "'UPDATE tb_business SET avg_rating = " +
+                    "(SELECT (avg_rating * num_rating - ?) / (num_rating - 1) FROM tb_business " +
+                    "WHERE business = ?), num_rating = (SELECT num_rating - 1 FROM tb_business "+
+                    "WHERE business = ?) WHERE business = ?'");
+            updateStatement.setFloat(1, rating);
+            updateStatement.setInt(2, Integer.valueOf(business));
+            updateStatement.setInt(3, Integer.valueOf(business));
+            updateStatement.setInt(4, Integer.valueOf(business));
+            db.update(updateStatement);
+            return true;
+        } catch (SQLException e) {
+            Log.e("removeReview", e.getMessage());
+            return false;
+        }
+    }
+
     /**
      * This method will change the user's password if they pass in the correct homeLocation for
      * that particular user.

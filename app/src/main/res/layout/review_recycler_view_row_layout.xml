@@ -24,6 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rev_review"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Review"
+        android:enabled="false"
+        android:visibility="gone"
+        android:id="@+id/user_review_delete"/>
 
 
 </LinearLayout>

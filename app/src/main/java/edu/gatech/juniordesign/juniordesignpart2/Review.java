@@ -41,4 +41,6 @@ public class Review {
     }
 
     public String getBusiness() { return this.business; }
+
+    public int getRev_id() { return this.rev_id; }
 }

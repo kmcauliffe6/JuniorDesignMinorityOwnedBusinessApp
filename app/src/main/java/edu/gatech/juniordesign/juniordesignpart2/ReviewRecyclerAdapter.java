@@ -2,10 +2,13 @@ package edu.gatech.juniordesign.juniordesignpart2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -15,6 +18,10 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     private ArrayList<Review> itemList;
     private Context context;
     private RecyclerView mRecyclerView;
+    private static int rev_id;
+    private static float rev_rating;
+    private static String rev_business;
+    private static UserReviewDeletion mAuthTask = null;
 
     public ReviewRecyclerAdapter(Context context, ArrayList<Review> itemList) {
         this.itemList = itemList;
@@ -38,9 +45,13 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     public void onBindViewHolder(ReviewViewHolder customViewHolder, int i) {
         Review item = itemList.get(i);
         String title = item.getTitle();
-        //Setting text view title
+        int id = item.getRev_id();
+        rev_id = id;
         customViewHolder.textTitle.setText(title);
         float rating = item.getRating();
+        rev_rating = rating;
+        String business = item.getBusiness();
+        rev_business = business;
         customViewHolder.stars.setRating(rating);
         String rating_str = Float.toString(rating);
         int len = rating_str.length();
@@ -58,6 +69,12 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         customViewHolder.textRating.setText(rating_text);
         String review = item.getReview();
         customViewHolder.textReview.setText(review);
+        if (id != 0) {
+            customViewHolder.delete.setVisibility(View.VISIBLE);
+            customViewHolder.delete.setEnabled(true);
+            customViewHolder.delete.setOnClickListener(new MyOnClickListener());
+        }
+
     }
 
     @Override
@@ -70,6 +87,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         private TextView textReview;
         private TextView textRating;
         private RatingBar stars;
+        private Button delete;
 
         private ReviewViewHolder(View view) {
             super(view);
@@ -77,13 +95,46 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             this.textReview = view.findViewById(R.id.rev_review);
             this.textRating = view.findViewById(R.id.rev_rating_text);
             this.stars = view.findViewById(R.id.rev_rating);
+            this.delete = view.findViewById(R.id.user_review_delete);
         }
+    }
+
+    private void doDeletion() {
+        mAuthTask = new UserReviewDeletion();
+        try {
+            boolean success = mAuthTask.execute((Void) null).get();
+        } catch (Exception e) {
+            Log.e("RemoveUserReview", e.getMessage());
+        }
+        Intent intent = new Intent(context, ProfilePageActivity.class);
+        context.startActivity(intent);
     }
 
     private class MyOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(final View view) {
+            doDeletion();
         }
 
+    }
+
+    private static class UserReviewDeletion extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseModel.checkInitialization();
+            DatabaseModel model = DatabaseModel.getInstance();
+            return model.deleteUserReview(rev_id, rev_rating, rev_business);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 }
