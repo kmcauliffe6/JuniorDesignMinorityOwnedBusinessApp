@@ -16,7 +16,8 @@ CREATE TEMP TABLE tt_business_importer
     subcategories         VARCHAR,
     tags                  VARCHAR,
     description           VARCHAR,
-    about                 VARCHAR
+    about                 VARCHAR,
+    image_url             VARCHAR
 );
 
 CREATE TEMP TABLE tt_subcategories
@@ -41,6 +42,7 @@ INSERT INTO tb_business
         website,
         zip_code,
         city,
+        image_url,
         state
     )
 SELECT  tt.contact,
@@ -54,6 +56,7 @@ SELECT  tt.contact,
         tt.website,
         tt.zip,
         tt.city,
+        tt.image_url,
         s.state
 FROM tt_business_importer tt
 LEFT JOIN tb_state s
